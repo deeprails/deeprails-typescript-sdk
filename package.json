@@ -1,6 +1,6 @@
 {
   "name": "deeprails",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "The official TypeScript library for the Deeprails API",
   "author": "Deeprails <support@deeprails.ai>",
   "types": "dist/index.d.ts",
