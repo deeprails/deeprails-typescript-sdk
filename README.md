@@ -6,16 +6,11 @@ This library provides convenient access to the Deeprails REST API from server-si
 
 The full API of this library can be found in [api.md](api.md).
 
-It is generated with [Stainless](https://www.stainless.com/).
-
 ## Installation
 
 ```sh
-npm install git+ssh://git@github.com:stainless-sdks/deeprails-typescript.git
+npm install deeprails
 ```
-
-> [!NOTE]
-> Once this package is [published to npm](https://www.stainless.com/docs/guides/publish), this will become: `npm install deeprails`
 
 ## Usage
 
@@ -367,7 +362,7 @@ This package generally follows [SemVer](https://semver.org/spec/v2.0.0.html) con
 
 We take backwards-compatibility seriously and work hard to ensure you can rely on a smooth upgrade experience.
 
-We are keen for your feedback; please open an [issue](https://www.github.com/stainless-sdks/deeprails-typescript/issues) with questions, bugs, or suggestions.
+We are keen for your feedback; please open an [issue](https://www.github.com/deeprails/deeprails-typescript-sdk/issues) with questions, bugs, or suggestions.
 
 ## Requirements
 
@@ -385,9 +380,3 @@ The following runtimes are supported:
 - Nitro v2.6 or greater.
 
 Note that React Native is not supported at this time.
-
-If you are interested in other runtime environments, please open or upvote an issue on GitHub.
-
-## Contributing
-
-See [the contributing documentation](./CONTRIBUTING.md).

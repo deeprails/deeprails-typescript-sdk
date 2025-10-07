@@ -1,12 +1,17 @@
 {
   "name": "deeprails",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "The official TypeScript library for the Deeprails API",
-  "author": "Deeprails <support@deeprails.ai>",
+  "author": {
+    "name": "DeepRails",
+    "email": "support@deeprails.ai",
+    "url": "https://deeprails.com"
+  },
   "types": "dist/index.d.ts",
+  "homepage": "https://docs.deeprails.com",
   "main": "dist/index.js",
   "type": "commonjs",
-  "repository": "github:stainless-sdks/deeprails-typescript",
+  "repository": "github:deeprails/deeprails-typescript-sdk",
   "license": "Apache-2.0",
   "packageManager": "yarn@1.22.22",
   "files": [
