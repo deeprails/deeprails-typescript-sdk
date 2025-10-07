@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0 (2025-10-07)
+
+Full Changelog: [v1.0.0...v1.1.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.0.0...v1.1.0)
+
+### Features
+
+* **api:** manual updates ([8a5bb06](https://github.com/deeprails/deeprails-typescript-sdk/commit/8a5bb0669951aa87771073158032e029fd78c332))
+
 ## 1.0.0 (2025-10-07)
 
 Full Changelog: [v0.0.1...v1.0.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v0.0.1...v1.0.0)
