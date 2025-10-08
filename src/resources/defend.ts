@@ -7,15 +7,15 @@ import { path } from '../internal/utils/path';
 
 export class Defend extends APIResource {
   /**
-   * Create a new guardrail workflow with optional guardrail thresholds and
-   * improvement actions.
+   * Use this endpoint to create a new guardrail workflow with optional guardrail
+   * thresholds and improvement actions
    */
   createWorkflow(body: DefendCreateWorkflowParams, options?: RequestOptions): APIPromise<DefendResponse> {
     return this._client.post('/defend', { body, ...options });
   }
 
   /**
-   * Retrieve a specific event of a guardrail workflow.
+   * Use this endpoint to retrieve a specific event of a guardrail workflow
    */
   retrieveEvent(
     eventID: string,
@@ -27,14 +27,15 @@ export class Defend extends APIResource {
   }
 
   /**
-   * Retrieve the details for a specific guardrail workflow.
+   * Use this endpoint to retrieve the details for a specific defend workflow
    */
   retrieveWorkflow(workflowID: string, options?: RequestOptions): APIPromise<DefendResponse> {
     return this._client.get(path`/defend/${workflowID}`, options);
   }
 
   /**
-   * Submit a model input and output pair to a workflow for evaluation.
+   * Use this endpoint to submit a model input and output pair to a workflow for
+   * evaluation
    */
   submitEvent(
     workflowID: string,
@@ -45,7 +46,7 @@ export class Defend extends APIResource {
   }
 
   /**
-   * Update an existing guardrail workflow.
+   * Use this endpoint to update an existing guardrail workflow
    */
   updateWorkflow(
     workflowID: string,
@@ -56,9 +57,6 @@ export class Defend extends APIResource {
   }
 }
 
-/**
- * Response payload for guardrail workflow operations.
- */
 export interface DefendResponse {
   /**
    * Name of the workflow.
@@ -83,7 +81,7 @@ export interface DefendResponse {
   /**
    * The action used to improve outputs that fail one or more guardrail metrics for
    * the workflow events. May be `regenerate`, `fixit`, or null which represents “do
-   * nothing”. ReGen runs the user's exact input prompt with minor induced variance.
+   * nothing”. Regenerate runs the user's input prompt with minor induced variance.
    * Fixit attempts to directly address the shortcomings of the output using the
    * guardrail failure rationale. Do nothing does not attempt any improvement.
    */
@@ -112,9 +110,6 @@ export interface DefendResponse {
   success_rate?: number;
 }
 
-/**
- * Response payload for workflow event operations.
- */
 export interface WorkflowEventResponse {
   /**
    * A unique workflow event ID.
@@ -149,7 +144,7 @@ export interface DefendCreateWorkflowParams {
   /**
    * The action used to improve outputs that fail one or guardrail metrics for the
    * workflow events. May be `regenerate`, `fixit`, or null which represents “do
-   * nothing”. ReGen runs the user's exact input prompt with minor induced variance.
+   * nothing”. Regenerate runs the user's input prompt with minor induced variance.
    * Fixit attempts to directly address the shortcomings of the output using the
    * guardrail failure rationale. Do nothing does not attempt any improvement.
    */
@@ -260,11 +255,6 @@ export interface DefendUpdateWorkflowParams {
    * Name of the workflow.
    */
   name?: string;
-
-  /**
-   * Type of thresholds to use for the workflow, either `automatic` or `custom`.
-   */
-  type?: 'automatic' | 'custom';
 }
 
 export declare namespace Defend {

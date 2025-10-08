@@ -4,7 +4,7 @@
 
 This library provides convenient access to the Deeprails REST API from server-side TypeScript or JavaScript.
 
-The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.deeprails.com](https://docs.deeprails.com). The full API of this library can be found in [api.md](api.md).
 
 ## Installation
 
@@ -26,7 +26,7 @@ const client = new Deeprails({
 
 const defendResponse = await client.defend.createWorkflow({
   improvement_action: 'fixit',
-  metrics: { completeness: 0.85, instruction_adherence: 0.75 },
+  metrics: { completeness: 0.8, instruction_adherence: 0.75 },
   name: 'Push Alert Workflow',
   type: 'custom',
 });
@@ -48,7 +48,7 @@ const client = new Deeprails({
 
 const params: Deeprails.DefendCreateWorkflowParams = {
   improvement_action: 'fixit',
-  metrics: { completeness: 0.85, instruction_adherence: 0.75 },
+  metrics: { completeness: 0.8, instruction_adherence: 0.75 },
   name: 'Push Alert Workflow',
   type: 'custom',
 };
@@ -68,7 +68,7 @@ a subclass of `APIError` will be thrown:
 const defendResponse = await client.defend
   .createWorkflow({
     improvement_action: 'fixit',
-    metrics: { completeness: 0.85, instruction_adherence: 0.75 },
+    metrics: { completeness: 0.8, instruction_adherence: 0.75 },
     name: 'Push Alert Workflow',
     type: 'custom',
   })
@@ -112,7 +112,7 @@ const client = new Deeprails({
 });
 
 // Or, configure per-request:
-await client.defend.createWorkflow({ improvement_action: 'fixit', metrics: { completeness: 0.85, instruction_adherence: 0.75 }, name: 'Push Alert Workflow', type: 'custom' }, {
+await client.defend.createWorkflow({ improvement_action: 'fixit', metrics: { completeness: 0.8, instruction_adherence: 0.75 }, name: 'Push Alert Workflow', type: 'custom' }, {
   maxRetries: 5,
 });
 ```
@@ -129,7 +129,7 @@ const client = new Deeprails({
 });
 
 // Override per-request:
-await client.defend.createWorkflow({ improvement_action: 'fixit', metrics: { completeness: 0.85, instruction_adherence: 0.75 }, name: 'Push Alert Workflow', type: 'custom' }, {
+await client.defend.createWorkflow({ improvement_action: 'fixit', metrics: { completeness: 0.8, instruction_adherence: 0.75 }, name: 'Push Alert Workflow', type: 'custom' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -155,7 +155,7 @@ const client = new Deeprails();
 const response = await client.defend
   .createWorkflow({
     improvement_action: 'fixit',
-    metrics: { completeness: 0.85, instruction_adherence: 0.75 },
+    metrics: { completeness: 0.8, instruction_adherence: 0.75 },
     name: 'Push Alert Workflow',
     type: 'custom',
   })
@@ -166,7 +166,7 @@ console.log(response.statusText); // access the underlying Response object
 const { data: defendResponse, response: raw } = await client.defend
   .createWorkflow({
     improvement_action: 'fixit',
-    metrics: { completeness: 0.85, instruction_adherence: 0.75 },
+    metrics: { completeness: 0.8, instruction_adherence: 0.75 },
     name: 'Push Alert Workflow',
     type: 'custom',
   })
