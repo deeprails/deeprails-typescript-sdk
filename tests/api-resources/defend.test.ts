@@ -114,7 +114,7 @@ describe('resource defend', () => {
     await expect(
       client.defend.updateWorkflow(
         'workflow_id',
-        { description: 'description', name: 'name', type: 'automatic' },
+        { description: 'description', name: 'name' },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Deeprails.NotFoundError);

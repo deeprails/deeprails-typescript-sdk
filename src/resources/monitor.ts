@@ -8,14 +8,16 @@ import { path } from '../internal/utils/path';
 
 export class Monitor extends APIResource {
   /**
-   * Create a new monitor to evaluate model inputs and outputs using guardrails.
+   * Use this endpoint to create a new monitor to evaluate model inputs and outputs
+   * using guardrails
    */
   create(body: MonitorCreateParams, options?: RequestOptions): APIPromise<APIResponse> {
     return this._client.post('/monitor', { body, ...options });
   }
 
   /**
-   * Retrieve the details and evaluations associated with a specific monitor.
+   * Use this endpoint to retrieve the details and evaluations associated with a
+   * specific monitor
    */
   retrieve(
     monitorID: string,
@@ -26,7 +28,8 @@ export class Monitor extends APIResource {
   }
 
   /**
-   * Update the name, description, or status of an existing monitor.
+   * Use this endpoint to update the name, description, or status of an existing
+   * monitor
    */
   update(
     monitorID: string,
@@ -37,7 +40,8 @@ export class Monitor extends APIResource {
   }
 
   /**
-   * Submit a model input and output pair to a monitor for evaluation.
+   * Use this endpoint to submit a model input and output pair to a monitor for
+   * evaluation
    */
   submitEvent(
     monitorID: string,
@@ -57,9 +61,6 @@ export interface APIResponse {
    */
   success: boolean;
 
-  /**
-   * Response payload for creating or updating a monitor.
-   */
   data?: APIResponse.Data;
 
   /**
@@ -70,9 +71,6 @@ export interface APIResponse {
 }
 
 export namespace APIResponse {
-  /**
-   * Response payload for creating or updating a monitor.
-   */
   export interface Data {
     /**
      * A unique monitor ID.
@@ -121,9 +119,6 @@ export interface MonitorRetrieveResponse {
    */
   success: boolean;
 
-  /**
-   * Detailed response payload for retrieving a monitor and its evaluations.
-   */
   data?: MonitorRetrieveResponse.Data;
 
   /**
@@ -134,9 +129,6 @@ export interface MonitorRetrieveResponse {
 }
 
 export namespace MonitorRetrieveResponse {
-  /**
-   * Detailed response payload for retrieving a monitor and its evaluations.
-   */
   export interface Data {
     /**
      * A unique monitor ID.
@@ -232,9 +224,6 @@ export interface MonitorSubmitEventResponse {
    */
   success: boolean;
 
-  /**
-   * Response payload for monitor event operations.
-   */
   data?: MonitorSubmitEventResponse.Data;
 
   /**
@@ -245,9 +234,6 @@ export interface MonitorSubmitEventResponse {
 }
 
 export namespace MonitorSubmitEventResponse {
-  /**
-   * Response payload for monitor event operations.
-   */
   export interface Data {
     /**
      * A unique evaluation ID associated with this event.

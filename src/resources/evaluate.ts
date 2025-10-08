@@ -15,7 +15,7 @@ export class Evaluate extends APIResource {
   }
 
   /**
-   * Retrieve the evaluation record for a given evaluation ID.
+   * Use this endpoint to retrieve the evaluation record for a given evaluation ID
    */
   retrieve(evalID: string, options?: RequestOptions): APIPromise<Evaluation> {
     return this._client.get(path`/evaluate/${evalID}`, options);
