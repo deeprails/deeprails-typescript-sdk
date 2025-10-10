@@ -73,7 +73,6 @@ describe('resource defend', () => {
       model_input: { user_prompt: 'user_prompt' },
       model_output: 'model_output',
       model_used: 'model_used',
-      nametag: 'nametag',
       run_mode: 'precision_plus',
     });
     const rawResponse = await responsePromise.asResponse();
@@ -91,8 +90,8 @@ describe('resource defend', () => {
       model_input: { user_prompt: 'user_prompt', context: 'context' },
       model_output: 'model_output',
       model_used: 'model_used',
-      nametag: 'nametag',
       run_mode: 'precision_plus',
+      nametag: 'nametag',
     });
   });
 

@@ -217,17 +217,17 @@ export interface DefendSubmitEventParams {
   model_used: string;
 
   /**
-   * An optional, user-defined tag for the event.
-   */
-  nametag: string;
-
-  /**
    * Run mode for the workflow event. The run mode allows the user to optimize for
    * speed, accuracy, and cost by determining which models are used to evaluate the
    * event. Available run modes include `precision_plus`, `precision`, `smart`, and
    * `economy`. Defaults to `smart`.
    */
   run_mode: 'precision_plus' | 'precision' | 'smart' | 'economy';
+
+  /**
+   * An optional, user-defined tag for the event.
+   */
+  nametag?: string;
 }
 
 export namespace DefendSubmitEventParams {
