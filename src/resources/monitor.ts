@@ -311,9 +311,9 @@ export interface MonitorSubmitEventParams {
   >;
 
   /**
-   * A dictionary of inputs sent to the LLM to generate output. This must contain a
-   * `user_prompt` field and an optional `context` field. Additional properties are
-   * allowed.
+   * A dictionary of inputs sent to the LLM to generate output. The dictionary must
+   * contain at least one of `user_prompt` or `system_prompt`. For
+   * ground_truth_aherence guadrail metric, `ground_truth` should be provided.
    */
   model_input: MonitorSubmitEventParams.ModelInput;
 
@@ -343,16 +343,25 @@ export interface MonitorSubmitEventParams {
 
 export namespace MonitorSubmitEventParams {
   /**
-   * A dictionary of inputs sent to the LLM to generate output. This must contain a
-   * `user_prompt` field and an optional `context` field. Additional properties are
-   * allowed.
+   * A dictionary of inputs sent to the LLM to generate output. The dictionary must
+   * contain at least one of `user_prompt` or `system_prompt`. For
+   * ground_truth_aherence guadrail metric, `ground_truth` should be provided.
    */
   export interface ModelInput {
-    user_prompt: string;
+    /**
+     * The ground truth for evaluating Ground Truth Adherence guardrail.
+     */
+    ground_truth?: string;
 
-    context?: string;
+    /**
+     * The system prompt used to generate the output.
+     */
+    system_prompt?: string;
 
-    [k: string]: unknown;
+    /**
+     * The user prompt used to generate the output.
+     */
+    user_prompt?: string;
   }
 }
 

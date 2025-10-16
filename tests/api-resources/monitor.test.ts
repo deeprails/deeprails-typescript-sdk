@@ -73,7 +73,7 @@ describe('resource monitor', () => {
   test.skip('submitEvent: only required params', async () => {
     const responsePromise = client.monitor.submitEvent('monitor_id', {
       guardrail_metrics: ['correctness'],
-      model_input: { user_prompt: 'user_prompt' },
+      model_input: {},
       model_output: 'model_output',
     });
     const rawResponse = await responsePromise.asResponse();
@@ -89,7 +89,11 @@ describe('resource monitor', () => {
   test.skip('submitEvent: required and optional params', async () => {
     const response = await client.monitor.submitEvent('monitor_id', {
       guardrail_metrics: ['correctness'],
-      model_input: { user_prompt: 'user_prompt', context: 'context' },
+      model_input: {
+        ground_truth: 'ground_truth',
+        system_prompt: 'system_prompt',
+        user_prompt: 'user_prompt',
+      },
       model_output: 'model_output',
       model_used: 'model_used',
       nametag: 'nametag',

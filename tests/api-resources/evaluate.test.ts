@@ -11,7 +11,7 @@ describe('resource evaluate', () => {
   // Prism tests are disabled
   test.skip('create: only required params', async () => {
     const responsePromise = client.evaluate.create({
-      model_input: { user_prompt: 'user_prompt' },
+      model_input: {},
       model_output: 'model_output',
       run_mode: 'precision_plus',
     });
@@ -27,7 +27,11 @@ describe('resource evaluate', () => {
   // Prism tests are disabled
   test.skip('create: required and optional params', async () => {
     const response = await client.evaluate.create({
-      model_input: { user_prompt: 'user_prompt', context: 'context' },
+      model_input: {
+        ground_truth: 'ground_truth',
+        system_prompt: 'system_prompt',
+        user_prompt: 'user_prompt',
+      },
       model_output: 'model_output',
       run_mode: 'precision_plus',
       guardrail_metrics: ['correctness'],
