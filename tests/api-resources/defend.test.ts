@@ -70,7 +70,7 @@ describe('resource defend', () => {
   // Prism tests are disabled
   test.skip('submitEvent: only required params', async () => {
     const responsePromise = client.defend.submitEvent('workflow_id', {
-      model_input: { user_prompt: 'user_prompt' },
+      model_input: {},
       model_output: 'model_output',
       model_used: 'model_used',
       run_mode: 'precision_plus',
@@ -87,7 +87,11 @@ describe('resource defend', () => {
   // Prism tests are disabled
   test.skip('submitEvent: required and optional params', async () => {
     const response = await client.defend.submitEvent('workflow_id', {
-      model_input: { user_prompt: 'user_prompt', context: 'context' },
+      model_input: {
+        ground_truth: 'ground_truth',
+        system_prompt: 'system_prompt',
+        user_prompt: 'user_prompt',
+      },
       model_output: 'model_output',
       model_used: 'model_used',
       run_mode: 'precision_plus',
