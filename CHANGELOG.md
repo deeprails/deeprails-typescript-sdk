@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.0 (2025-10-16)
+
+Full Changelog: [v1.2.0...v1.3.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.2.0...v1.3.0)
+
+### Features
+
+* **api:** adding support for system_prompt and ground_truth ([9aacb17](https://github.com/deeprails/deeprails-typescript-sdk/commit/9aacb1737878e600091bd0c77fbb92b047fa406d))
+
 ## 1.2.0 (2025-10-10)
 
 Full Changelog: [v1.1.0...v1.2.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.1.0...v1.2.0)
