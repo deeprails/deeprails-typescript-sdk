@@ -28,7 +28,7 @@ const client = new Deeprails({
 
 const defendResponse = await client.defend.createWorkflow({
   improvement_action: 'fixit',
-  metrics: { completeness: 0.8, instruction_adherence: 0.75 },
+  metrics: { completeness: 0.7, instruction_adherence: 0.75 },
   name: 'Push Alert Workflow',
   type: 'custom',
 });
@@ -50,7 +50,7 @@ const client = new Deeprails({
 
 const params: Deeprails.DefendCreateWorkflowParams = {
   improvement_action: 'fixit',
-  metrics: { completeness: 0.8, instruction_adherence: 0.75 },
+  metrics: { completeness: 0.7, instruction_adherence: 0.75 },
   name: 'Push Alert Workflow',
   type: 'custom',
 };
@@ -70,7 +70,7 @@ a subclass of `APIError` will be thrown:
 const defendResponse = await client.defend
   .createWorkflow({
     improvement_action: 'fixit',
-    metrics: { completeness: 0.8, instruction_adherence: 0.75 },
+    metrics: { completeness: 0.7, instruction_adherence: 0.75 },
     name: 'Push Alert Workflow',
     type: 'custom',
   })
@@ -114,7 +114,7 @@ const client = new Deeprails({
 });
 
 // Or, configure per-request:
-await client.defend.createWorkflow({ improvement_action: 'fixit', metrics: { completeness: 0.8, instruction_adherence: 0.75 }, name: 'Push Alert Workflow', type: 'custom' }, {
+await client.defend.createWorkflow({ improvement_action: 'fixit', metrics: { completeness: 0.7, instruction_adherence: 0.75 }, name: 'Push Alert Workflow', type: 'custom' }, {
   maxRetries: 5,
 });
 ```
@@ -131,7 +131,7 @@ const client = new Deeprails({
 });
 
 // Override per-request:
-await client.defend.createWorkflow({ improvement_action: 'fixit', metrics: { completeness: 0.8, instruction_adherence: 0.75 }, name: 'Push Alert Workflow', type: 'custom' }, {
+await client.defend.createWorkflow({ improvement_action: 'fixit', metrics: { completeness: 0.7, instruction_adherence: 0.75 }, name: 'Push Alert Workflow', type: 'custom' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -157,7 +157,7 @@ const client = new Deeprails();
 const response = await client.defend
   .createWorkflow({
     improvement_action: 'fixit',
-    metrics: { completeness: 0.8, instruction_adherence: 0.75 },
+    metrics: { completeness: 0.7, instruction_adherence: 0.75 },
     name: 'Push Alert Workflow',
     type: 'custom',
   })
@@ -168,7 +168,7 @@ console.log(response.statusText); // access the underlying Response object
 const { data: defendResponse, response: raw } = await client.defend
   .createWorkflow({
     improvement_action: 'fixit',
-    metrics: { completeness: 0.8, instruction_adherence: 0.75 },
+    metrics: { completeness: 0.7, instruction_adherence: 0.75 },
     name: 'Push Alert Workflow',
     type: 'custom',
   })
