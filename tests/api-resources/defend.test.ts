@@ -14,7 +14,7 @@ describe('resource defend', () => {
       improvement_action: 'regen',
       name: 'name',
       type: 'automatic',
-      automatic_hallucination_tolerance_levels: { completeness: 'medium' }
+      automatic_hallucination_tolerance_levels: { completeness: 'medium' },
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
