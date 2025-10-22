@@ -11,8 +11,7 @@ describe('resource defend', () => {
   // Prism tests are disabled
   test.skip('createWorkflow: only required params', async () => {
     const responsePromise = client.defend.createWorkflow({
-      improvement_action: 'regenerate',
-      metrics: { foo: 0 },
+      improvement_action: 'regen',
       name: 'name',
       type: 'automatic',
     });
@@ -28,13 +27,13 @@ describe('resource defend', () => {
   // Prism tests are disabled
   test.skip('createWorkflow: required and optional params', async () => {
     const response = await client.defend.createWorkflow({
-      improvement_action: 'regenerate',
-      metrics: { foo: 0 },
+      improvement_action: 'regen',
       name: 'name',
       type: 'automatic',
-      automatic_tolerance: 'low',
+      automatic_hallucination_tolerance_levels: { foo: 'low' },
+      custom_hallucination_threshold_values: { foo: 0 },
       description: 'description',
-      max_retries: 0,
+      max_improvement_attempt: 0,
     });
   });
 
