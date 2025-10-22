@@ -14,6 +14,7 @@ describe('resource defend', () => {
       improvement_action: 'regen',
       name: 'name',
       type: 'automatic',
+      automatic_hallucination_tolerance_levels: { completeness: 'medium' },
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -30,8 +31,7 @@ describe('resource defend', () => {
       improvement_action: 'regen',
       name: 'name',
       type: 'automatic',
-      automatic_hallucination_tolerance_levels: { foo: 'low' },
-      custom_hallucination_threshold_values: { foo: 0 },
+      automatic_hallucination_tolerance_levels: { correctness: 'low' },
       description: 'description',
       max_improvement_attempt: 0,
     });
