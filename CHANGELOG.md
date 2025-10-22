@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.5.0 (2025-10-22)
+
+Full Changelog: [v1.4.0...v1.5.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.4.0...v1.5.0)
+
+### Features
+
+* **api:** update defend naming and data structures ([9a3caac](https://github.com/deeprails/deeprails-typescript-sdk/commit/9a3caac8bcdf81a7166d3e2b805598b4ad223a5e))
+
 ## 1.4.0 (2025-10-20)
 
 Full Changelog: [v1.3.0...v1.4.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.3.0...v1.4.0)
