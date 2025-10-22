@@ -36,7 +36,7 @@ export interface Evaluation {
   /**
    * A dictionary of inputs sent to the LLM to generate output. The dictionary must
    * contain at least `user_prompt` or `system_prompt` field. For
-   * ground_truth_aherence guadrail metric, `ground_truth` should be provided.
+   * ground_truth_adherence guardrail metric, `ground_truth` should be provided.
    */
   model_input: Evaluation.ModelInput;
 
@@ -126,7 +126,7 @@ export namespace Evaluation {
   /**
    * A dictionary of inputs sent to the LLM to generate output. The dictionary must
    * contain at least `user_prompt` or `system_prompt` field. For
-   * ground_truth_aherence guadrail metric, `ground_truth` should be provided.
+   * ground_truth_adherence guardrail metric, `ground_truth` should be provided.
    */
   export interface ModelInput {
     /**
@@ -150,7 +150,7 @@ export interface EvaluateCreateParams {
   /**
    * A dictionary of inputs sent to the LLM to generate output. The dictionary must
    * contain at least `user_prompt` or `system_prompt` field. For
-   * ground_truth_aherence guadrail metric, `ground_truth` should be provided.
+   * ground_truth_adherence guardrail metric, `ground_truth` should be provided.
    */
   model_input: EvaluateCreateParams.ModelInput;
 
@@ -196,7 +196,7 @@ export namespace EvaluateCreateParams {
   /**
    * A dictionary of inputs sent to the LLM to generate output. The dictionary must
    * contain at least `user_prompt` or `system_prompt` field. For
-   * ground_truth_aherence guadrail metric, `ground_truth` should be provided.
+   * ground_truth_adherence guardrail metric, `ground_truth` should be provided.
    */
   export interface ModelInput {
     /**
