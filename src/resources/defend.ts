@@ -80,18 +80,18 @@ export interface DefendResponse {
 
   /**
    * The action used to improve outputs that fail one or more guardrail metrics for
-   * the workflow events. May be `regenerate`, `fixit`, or null which represents “do
-   * nothing”. Regenerate runs the user's input prompt with minor induced variance.
-   * Fixit attempts to directly address the shortcomings of the output using the
-   * guardrail failure rationale. Do nothing does not attempt any improvement.
+   * the workflow events. May be `regen`, `fixit`, or `do_nothing`. ReGen runs the
+   * user's input prompt with minor induced variance. FixIt attempts to directly
+   * address the shortcomings of the output using the guardrail failure rationale. Do
+   * Nothing does not attempt any improvement.
    */
-  improvement_action?: 'regenerate' | 'fixit' | null;
+  improvement_action?: 'regen' | 'fixit' | 'do_nothing';
 
   /**
    * Max. number of improvement action retries until a given event passes the
    * guardrails.
    */
-  max_retries?: number;
+  max_improvement_attempt?: number;
 
   /**
    * The most recent time the workflow was modified in UTC.
@@ -99,10 +99,10 @@ export interface DefendResponse {
   modified_at?: string;
 
   /**
-   * Status of the selected workflow. May be `archived` or `active`. Archived
+   * Status of the selected workflow. May be `inactive` or `active`. Inactive
    * workflows will not accept events.
    */
-  status?: 'archived' | 'active';
+  status?: 'inactive' | 'active';
 
   /**
    * Rate of events associated with this workflow that passed evaluation.
@@ -143,21 +143,12 @@ export interface WorkflowEventResponse {
 export interface DefendCreateWorkflowParams {
   /**
    * The action used to improve outputs that fail one or guardrail metrics for the
-   * workflow events. May be `regenerate`, `fixit`, or null which represents “do
-   * nothing”. Regenerate runs the user's input prompt with minor induced variance.
-   * Fixit attempts to directly address the shortcomings of the output using the
-   * guardrail failure rationale. Do nothing does not attempt any improvement.
+   * workflow events. May be `regen`, `fixit`, or `do_nothing`. ReGen runs the user's
+   * input prompt with minor induced variance. FixIt attempts to directly address the
+   * shortcomings of the output using the guardrail failure rationale. Do Nothing
+   * does not attempt any improvement.
    */
-  improvement_action: 'regenerate' | 'fixit' | null;
-
-  /**
-   * Mapping of guardrail metrics to floating point threshold values. If the workflow
-   * type is automatic, only the metric names are used (`automatic_tolerance`
-   * determines thresholds). Possible metrics are `correctness`, `completeness`,
-   * `instruction_adherence`, `context_adherence`, `ground_truth_adherence`, or
-   * `comprehensive_safety`.
-   */
-  metrics: { [key: string]: number };
+  improvement_action: 'regen' | 'fixit' | 'do_nothing';
 
   /**
    * Name of the workflow.
@@ -174,10 +165,19 @@ export interface DefendCreateWorkflowParams {
   type: 'automatic' | 'custom';
 
   /**
-   * Hallucination tolerance for automatic workflows; may be `low`, `medium`, or
-   * `high`. Ignored if `type` is `custom`.
+   * Mapping of guardrail metrics to hallucination tolerance levels (either `low`,
+   * `medium`, or `high`). Possible metrics are `completeness`,
+   * `instruction_adherence`, `context_adherence`, `ground_truth_adherence`, or
+   * `comprehensive_safety`.
    */
-  automatic_tolerance?: 'low' | 'medium' | 'high';
+  automatic_hallucination_tolerance_levels?: { [key: string]: 'low' | 'medium' | 'high' };
+
+  /**
+   * Mapping of guardrail metrics to floating point threshold values. Possible
+   * metrics are `correctness`, `completeness`, `instruction_adherence`,
+   * `context_adherence`, `ground_truth_adherence`, or `comprehensive_safety`.
+   */
+  custom_hallucination_threshold_values?: { [key: string]: number };
 
   /**
    * Description for the workflow.
@@ -188,7 +188,7 @@ export interface DefendCreateWorkflowParams {
    * Max. number of improvement action retries until a given event passes the
    * guardrails. Defaults to 10.
    */
-  max_retries?: number;
+  max_improvement_attempt?: number;
 }
 
 export interface DefendRetrieveEventParams {
@@ -201,7 +201,7 @@ export interface DefendRetrieveEventParams {
 export interface DefendSubmitEventParams {
   /**
    * A dictionary of inputs sent to the LLM to generate output. The dictionary must
-   * contain at least one of `user_prompt` or `system_prompt`. For
+   * contain at least `user_prompt` or `system_prompt` field. For
    * ground_truth_aherence guadrail metric, `ground_truth` should be provided.
    */
   model_input: DefendSubmitEventParams.ModelInput;
@@ -233,7 +233,7 @@ export interface DefendSubmitEventParams {
 export namespace DefendSubmitEventParams {
   /**
    * A dictionary of inputs sent to the LLM to generate output. The dictionary must
-   * contain at least one of `user_prompt` or `system_prompt`. For
+   * contain at least `user_prompt` or `system_prompt` field. For
    * ground_truth_aherence guadrail metric, `ground_truth` should be provided.
    */
   export interface ModelInput {
