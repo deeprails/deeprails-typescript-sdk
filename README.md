@@ -28,7 +28,6 @@ const client = new Deeprails({
 
 const defendResponse = await client.defend.createWorkflow({
   improvement_action: 'fixit',
-  metrics: { completeness: 0.7, instruction_adherence: 0.75 },
   name: 'Push Alert Workflow',
   type: 'custom',
 });
@@ -50,7 +49,6 @@ const client = new Deeprails({
 
 const params: Deeprails.DefendCreateWorkflowParams = {
   improvement_action: 'fixit',
-  metrics: { completeness: 0.7, instruction_adherence: 0.75 },
   name: 'Push Alert Workflow',
   type: 'custom',
 };
@@ -68,12 +66,7 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 const defendResponse = await client.defend
-  .createWorkflow({
-    improvement_action: 'fixit',
-    metrics: { completeness: 0.7, instruction_adherence: 0.75 },
-    name: 'Push Alert Workflow',
-    type: 'custom',
-  })
+  .createWorkflow({ improvement_action: 'fixit', name: 'Push Alert Workflow', type: 'custom' })
   .catch(async (err) => {
     if (err instanceof Deeprails.APIError) {
       console.log(err.status); // 400
@@ -114,7 +107,7 @@ const client = new Deeprails({
 });
 
 // Or, configure per-request:
-await client.defend.createWorkflow({ improvement_action: 'fixit', metrics: { completeness: 0.7, instruction_adherence: 0.75 }, name: 'Push Alert Workflow', type: 'custom' }, {
+await client.defend.createWorkflow({ improvement_action: 'fixit', name: 'Push Alert Workflow', type: 'custom' }, {
   maxRetries: 5,
 });
 ```
@@ -131,7 +124,7 @@ const client = new Deeprails({
 });
 
 // Override per-request:
-await client.defend.createWorkflow({ improvement_action: 'fixit', metrics: { completeness: 0.7, instruction_adherence: 0.75 }, name: 'Push Alert Workflow', type: 'custom' }, {
+await client.defend.createWorkflow({ improvement_action: 'fixit', name: 'Push Alert Workflow', type: 'custom' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -155,23 +148,13 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 const client = new Deeprails();
 
 const response = await client.defend
-  .createWorkflow({
-    improvement_action: 'fixit',
-    metrics: { completeness: 0.7, instruction_adherence: 0.75 },
-    name: 'Push Alert Workflow',
-    type: 'custom',
-  })
+  .createWorkflow({ improvement_action: 'fixit', name: 'Push Alert Workflow', type: 'custom' })
   .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
 const { data: defendResponse, response: raw } = await client.defend
-  .createWorkflow({
-    improvement_action: 'fixit',
-    metrics: { completeness: 0.7, instruction_adherence: 0.75 },
-    name: 'Push Alert Workflow',
-    type: 'custom',
-  })
+  .createWorkflow({ improvement_action: 'fixit', name: 'Push Alert Workflow', type: 'custom' })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
 console.log(defendResponse.workflow_id);
