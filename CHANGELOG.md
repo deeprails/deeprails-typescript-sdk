@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.7.0 (2025-10-24)
+
+Full Changelog: [v1.6.0...v1.7.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.6.0...v1.7.0)
+
+### Features
+
+* **api:** remove apiresponse from monitor ([1599fc2](https://github.com/deeprails/deeprails-typescript-sdk/commit/1599fc28e3968e35900d429d5d97c96428736f3d))
+
 ## 1.6.0 (2025-10-22)
 
 Full Changelog: [v1.5.0...v1.6.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.5.0...v1.6.0)
