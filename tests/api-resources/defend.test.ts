@@ -33,7 +33,7 @@ describe('resource defend', () => {
       type: 'automatic',
       automatic_hallucination_tolerance_levels: { correctness: 'low' },
       description: 'description',
-      max_improvement_attempt: 0,
+      max_improvement_attempts: 0,
     });
   });
 
