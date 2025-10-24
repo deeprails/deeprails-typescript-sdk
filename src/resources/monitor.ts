@@ -11,7 +11,7 @@ export class Monitor extends APIResource {
    * Use this endpoint to create a new monitor to evaluate model inputs and outputs
    * using guardrails
    */
-  create(body: MonitorCreateParams, options?: RequestOptions): APIPromise<APIResponse> {
+  create(body: MonitorCreateParams, options?: RequestOptions): APIPromise<MonitorResponse> {
     return this._client.post('/monitor', { body, ...options });
   }
 
@@ -23,7 +23,7 @@ export class Monitor extends APIResource {
     monitorID: string,
     query: MonitorRetrieveParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<MonitorRetrieveResponse> {
+  ): APIPromise<MonitorDetailResponse> {
     return this._client.get(path`/monitor/${monitorID}`, { query, ...options });
   }
 
@@ -35,7 +35,7 @@ export class Monitor extends APIResource {
     monitorID: string,
     body: MonitorUpdateParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<APIResponse> {
+  ): APIPromise<MonitorResponse> {
     return this._client.put(path`/monitor/${monitorID}`, { body, ...options });
   }
 
@@ -47,214 +47,154 @@ export class Monitor extends APIResource {
     monitorID: string,
     body: MonitorSubmitEventParams,
     options?: RequestOptions,
-  ): APIPromise<MonitorSubmitEventResponse> {
+  ): APIPromise<MonitorEventResponse> {
     return this._client.post(path`/monitor/${monitorID}/events`, { body, ...options });
   }
 }
 
-/**
- * Response wrapper for operations returning a MonitorResponse.
- */
-export interface APIResponse {
+export interface MonitorDetailResponse {
   /**
-   * Represents whether the request was completed successfully.
+   * A unique monitor ID.
    */
-  success: boolean;
-
-  data?: APIResponse.Data;
+  monitor_id: string;
 
   /**
-   * The accompanying message for the request. Includes error details when
-   * applicable.
+   * Status of the monitor. Can be `active` or `inactive`. Inactive monitors no
+   * longer record and evaluate events.
    */
-  message?: string;
+  monitor_status: 'active' | 'inactive';
+
+  /**
+   * Name of this monitor.
+   */
+  name: string;
+
+  /**
+   * The time the monitor was created in UTC.
+   */
+  created_at?: string;
+
+  /**
+   * Description of this monitor.
+   */
+  description?: string;
+
+  /**
+   * An array of all evaluations performed by this monitor. Each one corresponds to a
+   * separate monitor event.
+   */
+  evaluations?: Array<EvaluateAPI.Evaluation>;
+
+  /**
+   * Contains five fields used for stats of this monitor: total evaluations,
+   * completed evaluations, failed evaluations, queued evaluations, and in progress
+   * evaluations.
+   */
+  stats?: MonitorDetailResponse.Stats;
+
+  /**
+   * The most recent time the monitor was modified in UTC.
+   */
+  updated_at?: string;
+
+  /**
+   * User ID of the user who created the monitor.
+   */
+  user_id?: string;
 }
 
-export namespace APIResponse {
-  export interface Data {
+export namespace MonitorDetailResponse {
+  /**
+   * Contains five fields used for stats of this monitor: total evaluations,
+   * completed evaluations, failed evaluations, queued evaluations, and in progress
+   * evaluations.
+   */
+  export interface Stats {
     /**
-     * A unique monitor ID.
+     * Number of evaluations that completed successfully.
      */
-    monitor_id: string;
+    completed_evaluations?: number;
 
     /**
-     * Name of the monitor.
+     * Number of evaluations that failed.
      */
-    name: string;
+    failed_evaluations?: number;
 
     /**
-     * The time the monitor was created in UTC.
+     * Number of evaluations currently in progress.
      */
-    created_at?: string;
+    in_progress_evaluations?: number;
 
     /**
-     * Description of the monitor.
+     * Number of evaluations currently queued.
      */
-    description?: string;
+    queued_evaluations?: number;
 
     /**
-     * Status of the monitor. Can be `active` or `inactive`. Inactive monitors no
-     * longer record and evaluate events.
+     * Total number of evaluations performed by this monitor.
      */
-    monitor_status?: 'active' | 'inactive';
-
-    /**
-     * The most recent time the monitor was modified in UTC.
-     */
-    updated_at?: string;
-
-    /**
-     * User ID of the user who created the monitor.
-     */
-    user_id?: string;
+    total_evaluations?: number;
   }
 }
 
-/**
- * Response wrapper for operations returning a MonitorDetailResponse.
- */
-export interface MonitorRetrieveResponse {
+export interface MonitorEventResponse {
   /**
-   * Represents whether the request was completed successfully.
+   * A unique evaluation ID associated with this event.
    */
-  success: boolean;
-
-  data?: MonitorRetrieveResponse.Data;
+  evaluation_id: string;
 
   /**
-   * The accompanying message for the request. Includes error details when
-   * applicable.
+   * A unique monitor event ID.
    */
-  message?: string;
+  event_id: string;
+
+  /**
+   * Monitor ID associated with this event.
+   */
+  monitor_id: string;
+
+  /**
+   * The time the monitor event was created in UTC.
+   */
+  created_at?: string;
 }
 
-export namespace MonitorRetrieveResponse {
-  export interface Data {
-    /**
-     * A unique monitor ID.
-     */
-    monitor_id: string;
-
-    /**
-     * Status of the monitor. Can be `active` or `inactive`. Inactive monitors no
-     * longer record and evaluate events.
-     */
-    monitor_status: 'active' | 'inactive';
-
-    /**
-     * Name of this monitor.
-     */
-    name: string;
-
-    /**
-     * The time the monitor was created in UTC.
-     */
-    created_at?: string;
-
-    /**
-     * Description of this monitor.
-     */
-    description?: string;
-
-    /**
-     * An array of all evaluations performed by this monitor. Each one corresponds to a
-     * separate monitor event.
-     */
-    evaluations?: Array<EvaluateAPI.Evaluation>;
-
-    /**
-     * Contains five fields used for stats of this monitor: total evaluations,
-     * completed evaluations, failed evaluations, queued evaluations, and in progress
-     * evaluations.
-     */
-    stats?: Data.Stats;
-
-    /**
-     * The most recent time the monitor was modified in UTC.
-     */
-    updated_at?: string;
-
-    /**
-     * User ID of the user who created the monitor.
-     */
-    user_id?: string;
-  }
-
-  export namespace Data {
-    /**
-     * Contains five fields used for stats of this monitor: total evaluations,
-     * completed evaluations, failed evaluations, queued evaluations, and in progress
-     * evaluations.
-     */
-    export interface Stats {
-      /**
-       * Number of evaluations that completed successfully.
-       */
-      completed_evaluations?: number;
-
-      /**
-       * Number of evaluations that failed.
-       */
-      failed_evaluations?: number;
-
-      /**
-       * Number of evaluations currently in progress.
-       */
-      in_progress_evaluations?: number;
-
-      /**
-       * Number of evaluations currently queued.
-       */
-      queued_evaluations?: number;
-
-      /**
-       * Total number of evaluations performed by this monitor.
-       */
-      total_evaluations?: number;
-    }
-  }
-}
-
-/**
- * Response wrapper for operations returning a MonitorEventResponse.
- */
-export interface MonitorSubmitEventResponse {
+export interface MonitorResponse {
   /**
-   * Represents whether the request was completed successfully.
+   * A unique monitor ID.
    */
-  success: boolean;
-
-  data?: MonitorSubmitEventResponse.Data;
+  monitor_id: string;
 
   /**
-   * The accompanying message for the request. Includes error details when
-   * applicable.
+   * Name of the monitor.
    */
-  message?: string;
-}
+  name: string;
 
-export namespace MonitorSubmitEventResponse {
-  export interface Data {
-    /**
-     * A unique evaluation ID associated with this event.
-     */
-    evaluation_id: string;
+  /**
+   * The time the monitor was created in UTC.
+   */
+  created_at?: string;
 
-    /**
-     * A unique monitor event ID.
-     */
-    event_id: string;
+  /**
+   * Description of the monitor.
+   */
+  description?: string;
 
-    /**
-     * Monitor ID associated with this event.
-     */
-    monitor_id: string;
+  /**
+   * Status of the monitor. Can be `active` or `inactive`. Inactive monitors no
+   * longer record and evaluate events.
+   */
+  monitor_status?: 'active' | 'inactive';
 
-    /**
-     * The time the monitor event was created in UTC.
-     */
-    created_at?: string;
-  }
+  /**
+   * The most recent time the monitor was modified in UTC.
+   */
+  updated_at?: string;
+
+  /**
+   * User ID of the user who created the monitor.
+   */
+  user_id?: string;
 }
 
 export interface MonitorCreateParams {
@@ -312,7 +252,7 @@ export interface MonitorSubmitEventParams {
 
   /**
    * A dictionary of inputs sent to the LLM to generate output. The dictionary must
-   * contain at least a `user_prompt` or `system_prompt` field. For
+   * contain at least a `user_prompt` field or a `system_prompt` field. For
    * ground_truth_adherence guardrail metric, `ground_truth` should be provided.
    */
   model_input: MonitorSubmitEventParams.ModelInput;
@@ -344,7 +284,7 @@ export interface MonitorSubmitEventParams {
 export namespace MonitorSubmitEventParams {
   /**
    * A dictionary of inputs sent to the LLM to generate output. The dictionary must
-   * contain at least a `user_prompt` or `system_prompt` field. For
+   * contain at least a `user_prompt` field or a `system_prompt` field. For
    * ground_truth_adherence guardrail metric, `ground_truth` should be provided.
    */
   export interface ModelInput {
@@ -367,9 +307,9 @@ export namespace MonitorSubmitEventParams {
 
 export declare namespace Monitor {
   export {
-    type APIResponse as APIResponse,
-    type MonitorRetrieveResponse as MonitorRetrieveResponse,
-    type MonitorSubmitEventResponse as MonitorSubmitEventResponse,
+    type MonitorDetailResponse as MonitorDetailResponse,
+    type MonitorEventResponse as MonitorEventResponse,
+    type MonitorResponse as MonitorResponse,
     type MonitorCreateParams as MonitorCreateParams,
     type MonitorRetrieveParams as MonitorRetrieveParams,
     type MonitorUpdateParams as MonitorUpdateParams,

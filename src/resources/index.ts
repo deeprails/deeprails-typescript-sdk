@@ -12,9 +12,9 @@ export {
 export { Evaluate, type Evaluation, type EvaluateCreateParams } from './evaluate';
 export {
   Monitor,
-  type APIResponse,
-  type MonitorRetrieveResponse,
-  type MonitorSubmitEventResponse,
+  type MonitorDetailResponse,
+  type MonitorEventResponse,
+  type MonitorResponse,
   type MonitorCreateParams,
   type MonitorRetrieveParams,
   type MonitorUpdateParams,
