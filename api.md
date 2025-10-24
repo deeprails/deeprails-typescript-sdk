@@ -17,16 +17,16 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/monitor.ts">APIResponse</a></code>
-- <code><a href="./src/resources/monitor.ts">MonitorRetrieveResponse</a></code>
-- <code><a href="./src/resources/monitor.ts">MonitorSubmitEventResponse</a></code>
+- <code><a href="./src/resources/monitor.ts">MonitorDetailResponse</a></code>
+- <code><a href="./src/resources/monitor.ts">MonitorEventResponse</a></code>
+- <code><a href="./src/resources/monitor.ts">MonitorResponse</a></code>
 
 Methods:
 
-- <code title="post /monitor">client.monitor.<a href="./src/resources/monitor.ts">create</a>({ ...params }) -> APIResponse</code>
-- <code title="get /monitor/{monitor_id}">client.monitor.<a href="./src/resources/monitor.ts">retrieve</a>(monitorID, { ...params }) -> MonitorRetrieveResponse</code>
-- <code title="put /monitor/{monitor_id}">client.monitor.<a href="./src/resources/monitor.ts">update</a>(monitorID, { ...params }) -> APIResponse</code>
-- <code title="post /monitor/{monitor_id}/events">client.monitor.<a href="./src/resources/monitor.ts">submitEvent</a>(monitorID, { ...params }) -> MonitorSubmitEventResponse</code>
+- <code title="post /monitor">client.monitor.<a href="./src/resources/monitor.ts">create</a>({ ...params }) -> MonitorResponse</code>
+- <code title="get /monitor/{monitor_id}">client.monitor.<a href="./src/resources/monitor.ts">retrieve</a>(monitorID, { ...params }) -> MonitorDetailResponse</code>
+- <code title="put /monitor/{monitor_id}">client.monitor.<a href="./src/resources/monitor.ts">update</a>(monitorID, { ...params }) -> MonitorResponse</code>
+- <code title="post /monitor/{monitor_id}/events">client.monitor.<a href="./src/resources/monitor.ts">submitEvent</a>(monitorID, { ...params }) -> MonitorEventResponse</code>
 
 # Evaluate
 

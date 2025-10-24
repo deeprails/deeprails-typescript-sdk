@@ -27,13 +27,13 @@ import {
 } from './resources/defend';
 import { Evaluate, EvaluateCreateParams, Evaluation } from './resources/evaluate';
 import {
-  APIResponse,
   Monitor,
   MonitorCreateParams,
+  MonitorDetailResponse,
+  MonitorEventResponse,
+  MonitorResponse,
   MonitorRetrieveParams,
-  MonitorRetrieveResponse,
   MonitorSubmitEventParams,
-  MonitorSubmitEventResponse,
   MonitorUpdateParams,
 } from './resources/monitor';
 import { type Fetch } from './internal/builtin-types';
@@ -757,9 +757,9 @@ export declare namespace Deeprails {
 
   export {
     Monitor as Monitor,
-    type APIResponse as APIResponse,
-    type MonitorRetrieveResponse as MonitorRetrieveResponse,
-    type MonitorSubmitEventResponse as MonitorSubmitEventResponse,
+    type MonitorDetailResponse as MonitorDetailResponse,
+    type MonitorEventResponse as MonitorEventResponse,
+    type MonitorResponse as MonitorResponse,
     type MonitorCreateParams as MonitorCreateParams,
     type MonitorRetrieveParams as MonitorRetrieveParams,
     type MonitorUpdateParams as MonitorUpdateParams,

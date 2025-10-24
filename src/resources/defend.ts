@@ -91,7 +91,7 @@ export interface DefendResponse {
    * Max. number of improvement action retries until a given event passes the
    * guardrails.
    */
-  max_improvement_attempt?: number;
+  max_improvement_attempts?: number;
 
   /**
    * The most recent time the workflow was modified in UTC.
@@ -188,7 +188,7 @@ export interface DefendCreateWorkflowParams {
    * Max. number of improvement action retries until a given event passes the
    * guardrails. Defaults to 10.
    */
-  max_improvement_attempt?: number;
+  max_improvement_attempts?: number;
 }
 
 export interface DefendRetrieveEventParams {
@@ -201,7 +201,7 @@ export interface DefendRetrieveEventParams {
 export interface DefendSubmitEventParams {
   /**
    * A dictionary of inputs sent to the LLM to generate output. The dictionary must
-   * contain at least `user_prompt` or `system_prompt` field. For the
+   * contain at least a `user_prompt` field or a `system_prompt` field. For the
    * ground_truth_adherence guardrail metric, `ground_truth` should be provided.
    */
   model_input: DefendSubmitEventParams.ModelInput;
@@ -233,12 +233,12 @@ export interface DefendSubmitEventParams {
 export namespace DefendSubmitEventParams {
   /**
    * A dictionary of inputs sent to the LLM to generate output. The dictionary must
-   * contain at least `user_prompt` or `system_prompt` field. For the
+   * contain at least a `user_prompt` field or a `system_prompt` field. For the
    * ground_truth_adherence guardrail metric, `ground_truth` should be provided.
    */
   export interface ModelInput {
     /**
-     * The ground truth for evaluating Ground Truth Adherence guardrail.
+     * The ground truth for evaluating the Ground Truth Adherence guardrail.
      */
     ground_truth?: string;
 
