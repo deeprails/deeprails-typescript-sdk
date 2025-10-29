@@ -25,7 +25,6 @@ import {
   DefendUpdateWorkflowParams,
   WorkflowEventResponse,
 } from './resources/defend';
-import { Evaluate, Evaluation } from './resources/evaluate';
 import {
   Monitor,
   MonitorCreateParams,
@@ -735,12 +734,10 @@ export class Deeprails {
 
   defend: API.Defend = new API.Defend(this);
   monitor: API.Monitor = new API.Monitor(this);
-  evaluate: API.Evaluate = new API.Evaluate(this);
 }
 
 Deeprails.Defend = Defend;
 Deeprails.Monitor = Monitor;
-Deeprails.Evaluate = Evaluate;
 
 export declare namespace Deeprails {
   export type RequestOptions = Opts.RequestOptions;
@@ -765,6 +762,4 @@ export declare namespace Deeprails {
     type MonitorUpdateParams as MonitorUpdateParams,
     type MonitorSubmitEventParams as MonitorSubmitEventParams,
   };
-
-  export { Evaluate as Evaluate, type Evaluation as Evaluation };
 }
