@@ -9,7 +9,7 @@ export {
   type DefendSubmitEventParams,
   type DefendUpdateWorkflowParams,
 } from './defend';
-export { Evaluate, type Evaluation, type EvaluateCreateParams } from './evaluate';
+export { Evaluate, type Evaluation } from './evaluate';
 export {
   Monitor,
   type MonitorDetailResponse,
