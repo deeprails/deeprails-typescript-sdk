@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.8.0 (2025-10-29)
+
+Full Changelog: [v1.7.0...v1.8.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.7.0...v1.8.0)
+
+### Features
+
+* **api:** remove evaluate api ([fa417fb](https://github.com/deeprails/deeprails-typescript-sdk/commit/fa417fbc72a33f60e53347fc154896f1c503d71b))
+* **api:** remove evaluate references ([34a7bf2](https://github.com/deeprails/deeprails-typescript-sdk/commit/34a7bf2a38c479ef02b69ff5b52f1c28d2862bdf))
+
 ## 1.7.0 (2025-10-24)
 
 Full Changelog: [v1.6.0...v1.7.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.6.0...v1.7.0)
