@@ -33,8 +33,3 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/evaluate.ts">Evaluation</a></code>
-
-Methods:
-
-- <code title="post /evaluate">client.evaluate.<a href="./src/resources/evaluate.ts">create</a>({ ...params }) -> Evaluation</code>
-- <code title="get /evaluate/{eval_id}">client.evaluate.<a href="./src/resources/evaluate.ts">retrieve</a>(evalID) -> Evaluation</code>

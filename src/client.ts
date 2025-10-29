@@ -25,7 +25,7 @@ import {
   DefendUpdateWorkflowParams,
   WorkflowEventResponse,
 } from './resources/defend';
-import { Evaluate, EvaluateCreateParams, Evaluation } from './resources/evaluate';
+import { Evaluate, Evaluation } from './resources/evaluate';
 import {
   Monitor,
   MonitorCreateParams,
@@ -766,9 +766,5 @@ export declare namespace Deeprails {
     type MonitorSubmitEventParams as MonitorSubmitEventParams,
   };
 
-  export {
-    Evaluate as Evaluate,
-    type Evaluation as Evaluation,
-    type EvaluateCreateParams as EvaluateCreateParams,
-  };
+  export { Evaluate as Evaluate, type Evaluation as Evaluation };
 }
