@@ -33,7 +33,9 @@ describe('resource defend', () => {
       automatic_hallucination_tolerance_levels: { foo: 'low' },
       custom_hallucination_threshold_values: { foo: 0 },
       description: 'description',
+      file_search: ['string'],
       max_improvement_attempts: 0,
+      web_search: true,
     });
   });
 

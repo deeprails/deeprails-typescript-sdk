@@ -25,6 +25,7 @@ import {
   DefendUpdateWorkflowParams,
   WorkflowEventResponse,
 } from './resources/defend';
+import { FileUploadParams, FileUploadResponse, Files } from './resources/files';
 import {
   Monitor,
   MonitorCreateParams,
@@ -734,10 +735,12 @@ export class Deeprails {
 
   defend: API.Defend = new API.Defend(this);
   monitor: API.Monitor = new API.Monitor(this);
+  files: API.Files = new API.Files(this);
 }
 
 Deeprails.Defend = Defend;
 Deeprails.Monitor = Monitor;
+Deeprails.Files = Files;
 
 export declare namespace Deeprails {
   export type RequestOptions = Opts.RequestOptions;
@@ -761,5 +764,11 @@ export declare namespace Deeprails {
     type MonitorRetrieveParams as MonitorRetrieveParams,
     type MonitorUpdateParams as MonitorUpdateParams,
     type MonitorSubmitEventParams as MonitorSubmitEventParams,
+  };
+
+  export {
+    Files as Files,
+    type FileUploadResponse as FileUploadResponse,
+    type FileUploadParams as FileUploadParams,
   };
 }
