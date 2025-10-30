@@ -25,7 +25,7 @@ import {
   DefendUpdateWorkflowParams,
   WorkflowEventResponse,
 } from './resources/defend';
-import { FileUploadParams, FileUploadResponse, Files } from './resources/files';
+import { FileResponse, FileUploadParams, Files } from './resources/files';
 import {
   Monitor,
   MonitorCreateParams,
@@ -766,9 +766,5 @@ export declare namespace Deeprails {
     type MonitorSubmitEventParams as MonitorSubmitEventParams,
   };
 
-  export {
-    Files as Files,
-    type FileUploadResponse as FileUploadResponse,
-    type FileUploadParams as FileUploadParams,
-  };
+  export { Files as Files, type FileResponse as FileResponse, type FileUploadParams as FileUploadParams };
 }
