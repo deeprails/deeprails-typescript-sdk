@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.9.0 (2025-10-30)
+
+Full Changelog: [v1.8.0...v1.9.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.8.0...v1.9.0)
+
+### Features
+
+* **api:** Add file and web search as extended ai capabilities ([67b9e40](https://github.com/deeprails/deeprails-typescript-sdk/commit/67b9e40a4af079e232b2334465a9c83779836d46))
+* **api:** manual updates ([364940a](https://github.com/deeprails/deeprails-typescript-sdk/commit/364940afffede4619b65a2855e1a8141e4c0c66f))
+
 ## 1.8.0 (2025-10-29)
 
 Full Changelog: [v1.7.0...v1.8.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.7.0...v1.8.0)
