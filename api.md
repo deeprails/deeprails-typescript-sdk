@@ -32,8 +32,8 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/files.ts">FileUploadResponse</a></code>
+- <code><a href="./src/resources/files.ts">FileResponse</a></code>
 
 Methods:
 
-- <code title="post /files/upload">client.files.<a href="./src/resources/files.ts">upload</a>({ ...params }) -> FileUploadResponse</code>
+- <code title="post /files/upload">client.files.<a href="./src/resources/files.ts">upload</a>({ ...params }) -> FileResponse</code>

@@ -10,7 +10,7 @@ export class Files extends APIResource {
   /**
    * Use this endpoint to upload a file to the DeepRails API
    */
-  upload(body: FileUploadParams, options?: RequestOptions): APIPromise<FileUploadResponse> {
+  upload(body: FileUploadParams, options?: RequestOptions): APIPromise<FileResponse> {
     return this._client.post(
       '/files/upload',
       multipartFormRequestOptions({ body, ...options }, this._client),
@@ -18,7 +18,7 @@ export class Files extends APIResource {
   }
 }
 
-export interface FileUploadResponse {
+export interface FileResponse {
   /**
    * The time the file was created in UTC.
    */
@@ -53,5 +53,5 @@ export interface FileUploadParams {
 }
 
 export declare namespace Files {
-  export { type FileUploadResponse as FileUploadResponse, type FileUploadParams as FileUploadParams };
+  export { type FileResponse as FileResponse, type FileUploadParams as FileUploadParams };
 }
