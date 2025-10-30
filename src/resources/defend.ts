@@ -185,10 +185,21 @@ export interface DefendCreateWorkflowParams {
   description?: string;
 
   /**
+   * An array of file IDs to search in the workflow's evaluations. Files must be
+   * uploaded via the DeepRails API first.
+   */
+  file_search?: Array<string>;
+
+  /**
    * Max. number of improvement action retries until a given event passes the
    * guardrails. Defaults to 10.
    */
   max_improvement_attempts?: number;
+
+  /**
+   * Whether to enable web search for this workflow's evaluations. Defaults to false.
+   */
+  web_search?: boolean;
 }
 
 export interface DefendRetrieveEventParams {

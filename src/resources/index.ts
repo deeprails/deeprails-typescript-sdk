@@ -9,6 +9,7 @@ export {
   type DefendSubmitEventParams,
   type DefendUpdateWorkflowParams,
 } from './defend';
+export { Files, type FileUploadResponse, type FileUploadParams } from './files';
 export {
   Monitor,
   type MonitorDetailResponse,

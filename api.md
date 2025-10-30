@@ -27,3 +27,13 @@ Methods:
 - <code title="get /monitor/{monitor_id}">client.monitor.<a href="./src/resources/monitor.ts">retrieve</a>(monitorID, { ...params }) -> MonitorDetailResponse</code>
 - <code title="put /monitor/{monitor_id}">client.monitor.<a href="./src/resources/monitor.ts">update</a>(monitorID, { ...params }) -> MonitorResponse</code>
 - <code title="post /monitor/{monitor_id}/events">client.monitor.<a href="./src/resources/monitor.ts">submitEvent</a>(monitorID, { ...params }) -> MonitorEventResponse</code>
+
+# Files
+
+Types:
+
+- <code><a href="./src/resources/files.ts">FileUploadResponse</a></code>
+
+Methods:
+
+- <code title="post /files/upload">client.files.<a href="./src/resources/files.ts">upload</a>({ ...params }) -> FileUploadResponse</code>
