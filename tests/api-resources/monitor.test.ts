@@ -10,7 +10,7 @@ const client = new Deeprails({
 describe('resource monitor', () => {
   // Prism tests are disabled
   test.skip('create: only required params', async () => {
-    const responsePromise = client.monitor.create({ name: 'name' });
+    const responsePromise = client.monitor.create({ guardrail_metrics: ['correctness'], name: 'name' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -22,7 +22,13 @@ describe('resource monitor', () => {
 
   // Prism tests are disabled
   test.skip('create: required and optional params', async () => {
-    const response = await client.monitor.create({ name: 'name', description: 'description' });
+    const response = await client.monitor.create({
+      guardrail_metrics: ['correctness'],
+      name: 'name',
+      description: 'description',
+      file_search: ['string'],
+      web_search: true,
+    });
   });
 
   // Prism tests are disabled
@@ -72,7 +78,6 @@ describe('resource monitor', () => {
   // Prism tests are disabled
   test.skip('submitEvent: only required params', async () => {
     const responsePromise = client.monitor.submitEvent('monitor_id', {
-      guardrail_metrics: ['correctness'],
       model_input: {},
       model_output: 'model_output',
     });
@@ -88,14 +93,12 @@ describe('resource monitor', () => {
   // Prism tests are disabled
   test.skip('submitEvent: required and optional params', async () => {
     const response = await client.monitor.submitEvent('monitor_id', {
-      guardrail_metrics: ['correctness'],
       model_input: {
         ground_truth: 'ground_truth',
         system_prompt: 'system_prompt',
         user_prompt: 'user_prompt',
       },
       model_output: 'model_output',
-      model_used: 'model_used',
       nametag: 'nametag',
       run_mode: 'precision_plus',
     });
