@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.10.0 (2025-11-02)
+
+Full Changelog: [v1.9.0...v1.10.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.9.0...v1.10.0)
+
+### Features
+
+* **api:** restructure monitor service ([0f03355](https://github.com/deeprails/deeprails-typescript-sdk/commit/0f0335579eb76298c3c7055e87409454b6c27e41))
+
 ## 1.9.0 (2025-10-30)
 
 Full Changelog: [v1.8.0...v1.9.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.8.0...v1.9.0)
