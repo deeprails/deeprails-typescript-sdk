@@ -10,7 +10,7 @@ export class Monitor extends APIResource {
    * Use this endpoint to create a new monitor to evaluate model inputs and outputs
    * using guardrails
    */
-  create(body: MonitorCreateParams, options?: RequestOptions): APIPromise<MonitorResponse> {
+  create(body: MonitorCreateParams, options?: RequestOptions): APIPromise<MonitorCreateResponse> {
     return this._client.post('/monitor', { body, ...options });
   }
 
@@ -34,7 +34,7 @@ export class Monitor extends APIResource {
     monitorID: string,
     body: MonitorUpdateParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<MonitorResponse> {
+  ): APIPromise<MonitorUpdateResponse> {
     return this._client.put(path`/monitor/${monitorID}`, { body, ...options });
   }
 
@@ -51,7 +51,12 @@ export class Monitor extends APIResource {
   }
 }
 
-export interface MonitorDetailResponse {
+export interface MonitorCreateResponse {
+  /**
+   * The time the monitor was created in UTC.
+   */
+  created_at: string;
+
   /**
    * A unique monitor ID.
    */
@@ -61,12 +66,30 @@ export interface MonitorDetailResponse {
    * Status of the monitor. Can be `active` or `inactive`. Inactive monitors no
    * longer record and evaluate events.
    */
-  monitor_status: 'active' | 'inactive';
+  status: 'active' | 'inactive';
+}
+
+export interface MonitorDetailResponse {
+  /**
+   * A unique monitor ID.
+   */
+  monitor_id: string;
 
   /**
    * Name of this monitor.
    */
   name: string;
+
+  /**
+   * Status of the monitor. Can be `active` or `inactive`. Inactive monitors no
+   * longer record and evaluate events.
+   */
+  status: 'active' | 'inactive';
+
+  /**
+   * An array of capabilities associated with this monitor.
+   */
+  capabilities?: Array<MonitorDetailResponse.Capability>;
 
   /**
    * The time the monitor was created in UTC.
@@ -85,6 +108,11 @@ export interface MonitorDetailResponse {
   evaluations?: Array<MonitorDetailResponse.Evaluation>;
 
   /**
+   * An array of files associated with this monitor.
+   */
+  files?: Array<MonitorDetailResponse.File>;
+
+  /**
    * Contains five fields used for stats of this monitor: total evaluations,
    * completed evaluations, failed evaluations, queued evaluations, and in progress
    * evaluations.
@@ -95,20 +123,17 @@ export interface MonitorDetailResponse {
    * The most recent time the monitor was modified in UTC.
    */
   updated_at?: string;
-
-  /**
-   * User ID of the user who created the monitor.
-   */
-  user_id?: string;
 }
 
 export namespace MonitorDetailResponse {
-  export interface Evaluation {
+  export interface Capability {
     /**
-     * A unique evaluation ID.
+     * The type of capability.
      */
-    eval_id: string;
+    capability?: string;
+  }
 
+  export interface Evaluation {
     /**
      * Status of the evaluation.
      */
@@ -138,19 +163,9 @@ export namespace MonitorDetailResponse {
     created_at?: string;
 
     /**
-     * The time the evaluation completed in UTC.
-     */
-    end_timestamp?: string;
-
-    /**
-     * Description of the error causing the evaluation to fail, if any.
+     * Error message if the evaluation failed.
      */
     error_message?: string;
-
-    /**
-     * The time the error causing the evaluation to fail was recorded.
-     */
-    error_timestamp?: string;
 
     /**
      * Evaluation result consisting of average scores and rationales for each of the
@@ -177,16 +192,6 @@ export namespace MonitorDetailResponse {
     >;
 
     /**
-     * Model ID used to generate the output, like `gpt-4o` or `o3`.
-     */
-    model_used?: string;
-
-    /**
-     * The most recent time the evaluation was modified in UTC.
-     */
-    modified_at?: string;
-
-    /**
      * An optional, user-defined tag for the evaluation.
      */
     nametag?: string;
@@ -196,11 +201,6 @@ export namespace MonitorDetailResponse {
      * completed `evaluation_status`.
      */
     progress?: number;
-
-    /**
-     * The time the evaluation started in UTC.
-     */
-    start_timestamp?: string;
   }
 
   export namespace Evaluation {
@@ -225,6 +225,23 @@ export namespace MonitorDetailResponse {
        */
       user_prompt?: string;
     }
+  }
+
+  export interface File {
+    /**
+     * The ID of the file.
+     */
+    file_id?: string;
+
+    /**
+     * The name of the file.
+     */
+    file_name?: string;
+
+    /**
+     * The size of the file in bytes.
+     */
+    file_size?: number;
   }
 
   /**
@@ -260,12 +277,100 @@ export namespace MonitorDetailResponse {
   }
 }
 
-export interface MonitorEventResponse {
+export interface MonitorEventDetailResponse {
   /**
-   * A unique evaluation ID associated with this event.
+   * The capabilities associated with the monitor event.
    */
-  evaluation_id: string;
+  capabilities?: Array<MonitorEventDetailResponse.Capability>;
 
+  /**
+   * The time spent on the evaluation in seconds.
+   */
+  eval_time?: string;
+
+  /**
+   * The result of the evaluation of the monitor event.
+   */
+  evaluation_result?: { [key: string]: unknown };
+
+  /**
+   * A unique monitor event ID.
+   */
+  event_id?: string;
+
+  /**
+   * The files associated with the monitor event.
+   */
+  files?: Array<MonitorEventDetailResponse.File>;
+
+  /**
+   * The guardrail metrics evaluated by the monitor event.
+   */
+  guardrail_metrics?: Array<string>;
+
+  /**
+   * The model input used to create the monitor event.
+   */
+  model_input?: { [key: string]: unknown };
+
+  /**
+   * The output evaluated by the monitor event.
+   */
+  model_output?: string;
+
+  /**
+   * Monitor ID associated with this event.
+   */
+  monitor_id?: string;
+
+  /**
+   * A human-readable tag for the monitor event.
+   */
+  nametag?: string;
+
+  /**
+   * The run mode used to evaluate the monitor event.
+   */
+  run_mode?: 'precision_plus' | 'precision' | 'smart' | 'economy';
+
+  /**
+   * Status of the monitor event's evaluation.
+   */
+  status?: 'in_progress' | 'completed' | 'canceled' | 'queued' | 'failed';
+
+  /**
+   * The time the monitor event was created in UTC.
+   */
+  timestamp?: string;
+}
+
+export namespace MonitorEventDetailResponse {
+  export interface Capability {
+    /**
+     * The type of capability.
+     */
+    capability?: string;
+  }
+
+  export interface File {
+    /**
+     * The ID of the file.
+     */
+    file_id?: string;
+
+    /**
+     * The name of the file.
+     */
+    file_name?: string;
+
+    /**
+     * The size of the file in bytes.
+     */
+    file_size?: number;
+  }
+}
+
+export interface MonitorEventResponse {
   /**
    * A unique monitor event ID.
    */
@@ -282,42 +387,22 @@ export interface MonitorEventResponse {
   created_at?: string;
 }
 
-export interface MonitorResponse {
+export interface MonitorUpdateResponse {
+  /**
+   * The time the monitor was last modified in UTC.
+   */
+  modified_at: string;
+
   /**
    * A unique monitor ID.
    */
   monitor_id: string;
 
   /**
-   * Name of the monitor.
-   */
-  name: string;
-
-  /**
-   * The time the monitor was created in UTC.
-   */
-  created_at?: string;
-
-  /**
-   * Description of the monitor.
-   */
-  description?: string;
-
-  /**
    * Status of the monitor. Can be `active` or `inactive`. Inactive monitors no
    * longer record and evaluate events.
    */
-  monitor_status?: 'active' | 'inactive';
-
-  /**
-   * The most recent time the monitor was modified in UTC.
-   */
-  updated_at?: string;
-
-  /**
-   * User ID of the user who created the monitor.
-   */
-  user_id?: string;
+  status: 'active' | 'inactive';
 }
 
 export interface MonitorCreateParams {
@@ -360,7 +445,8 @@ export interface MonitorCreateParams {
 
 export interface MonitorRetrieveParams {
   /**
-   * Limit the returned events associated with this monitor. Defaults to 10.
+   * Limit the number of returned evaluations associated with this monitor. Defaults
+   * to 10.
    */
   limit?: number;
 }
@@ -372,15 +458,15 @@ export interface MonitorUpdateParams {
   description?: string;
 
   /**
-   * Status of the monitor. Can be `active` or `inactive`. Inactive monitors no
-   * longer record and evaluate events.
-   */
-  monitor_status?: 'active' | 'inactive';
-
-  /**
    * Name of the monitor.
    */
   name?: string;
+
+  /**
+   * Status of the monitor. Can be `active` or `inactive`. Inactive monitors no
+   * longer record and evaluate events.
+   */
+  status?: 'active' | 'inactive';
 }
 
 export interface MonitorSubmitEventParams {
@@ -436,9 +522,11 @@ export namespace MonitorSubmitEventParams {
 
 export declare namespace Monitor {
   export {
+    type MonitorCreateResponse as MonitorCreateResponse,
     type MonitorDetailResponse as MonitorDetailResponse,
+    type MonitorEventDetailResponse as MonitorEventDetailResponse,
     type MonitorEventResponse as MonitorEventResponse,
-    type MonitorResponse as MonitorResponse,
+    type MonitorUpdateResponse as MonitorUpdateResponse,
     type MonitorCreateParams as MonitorCreateParams,
     type MonitorRetrieveParams as MonitorRetrieveParams,
     type MonitorUpdateParams as MonitorUpdateParams,

@@ -18,23 +18,29 @@ import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import {
   Defend,
+  DefendCreateResponse,
   DefendCreateWorkflowParams,
   DefendResponse,
   DefendRetrieveEventParams,
+  DefendRetrieveWorkflowParams,
   DefendSubmitEventParams,
+  DefendUpdateResponse,
   DefendUpdateWorkflowParams,
+  WorkflowEventDetailResponse,
   WorkflowEventResponse,
 } from './resources/defend';
 import { FileResponse, FileUploadParams, Files } from './resources/files';
 import {
   Monitor,
   MonitorCreateParams,
+  MonitorCreateResponse,
   MonitorDetailResponse,
+  MonitorEventDetailResponse,
   MonitorEventResponse,
-  MonitorResponse,
   MonitorRetrieveParams,
   MonitorSubmitEventParams,
   MonitorUpdateParams,
+  MonitorUpdateResponse,
 } from './resources/monitor';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
@@ -747,19 +753,25 @@ export declare namespace Deeprails {
 
   export {
     Defend as Defend,
+    type DefendCreateResponse as DefendCreateResponse,
     type DefendResponse as DefendResponse,
+    type DefendUpdateResponse as DefendUpdateResponse,
+    type WorkflowEventDetailResponse as WorkflowEventDetailResponse,
     type WorkflowEventResponse as WorkflowEventResponse,
     type DefendCreateWorkflowParams as DefendCreateWorkflowParams,
     type DefendRetrieveEventParams as DefendRetrieveEventParams,
+    type DefendRetrieveWorkflowParams as DefendRetrieveWorkflowParams,
     type DefendSubmitEventParams as DefendSubmitEventParams,
     type DefendUpdateWorkflowParams as DefendUpdateWorkflowParams,
   };
 
   export {
     Monitor as Monitor,
+    type MonitorCreateResponse as MonitorCreateResponse,
     type MonitorDetailResponse as MonitorDetailResponse,
+    type MonitorEventDetailResponse as MonitorEventDetailResponse,
     type MonitorEventResponse as MonitorEventResponse,
-    type MonitorResponse as MonitorResponse,
+    type MonitorUpdateResponse as MonitorUpdateResponse,
     type MonitorCreateParams as MonitorCreateParams,
     type MonitorRetrieveParams as MonitorRetrieveParams,
     type MonitorUpdateParams as MonitorUpdateParams,
