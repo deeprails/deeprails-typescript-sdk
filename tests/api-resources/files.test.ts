@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Deeprails, { toFile } from 'deeprails';
+import Deeprails from 'deeprails';
 
 const client = new Deeprails({
   apiKey: 'My API Key',
@@ -10,9 +10,7 @@ const client = new Deeprails({
 describe('resource files', () => {
   // Prism tests are disabled
   test.skip('upload: only required params', async () => {
-    const responsePromise = client.files.upload({
-      file: await toFile(Buffer.from('# my file contents'), 'README.md'),
-    });
+    const responsePromise = client.files.upload({ file: ['string'] });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -24,8 +22,6 @@ describe('resource files', () => {
 
   // Prism tests are disabled
   test.skip('upload: required and optional params', async () => {
-    const response = await client.files.upload({
-      file: await toFile(Buffer.from('# my file contents'), 'README.md'),
-    });
+    const response = await client.files.upload({ file: ['string'] });
   });
 });

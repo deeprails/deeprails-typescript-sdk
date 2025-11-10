@@ -2,7 +2,6 @@
 
 import { APIResource } from '../core/resource';
 import { APIPromise } from '../core/api-promise';
-import { type Uploadable } from '../core/uploads';
 import { RequestOptions } from '../internal/request-options';
 import { multipartFormRequestOptions } from '../internal/uploads';
 
@@ -20,11 +19,6 @@ export class Files extends APIResource {
 
 export interface FileResponse {
   /**
-   * The time the file was created in UTC.
-   */
-  created_at?: string;
-
-  /**
    * A unique file ID.
    */
   file_id?: string;
@@ -35,21 +29,16 @@ export interface FileResponse {
   file_name?: string;
 
   /**
-   * Path to the s3 bucket where the file is stored.
+   * The size of the file in bytes.
    */
-  file_path?: string;
-
-  /**
-   * The most recent time the file was modified in UTC.
-   */
-  updated_at?: string;
+  file_size?: number;
 }
 
 export interface FileUploadParams {
   /**
    * The contents of the file to upload.
    */
-  file: Uploadable;
+  file: Array<string>;
 }
 
 export declare namespace Files {

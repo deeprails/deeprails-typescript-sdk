@@ -69,7 +69,7 @@ describe('resource monitor', () => {
     await expect(
       client.monitor.update(
         'monitor_id',
-        { description: 'description', monitor_status: 'active', name: 'name' },
+        { description: 'description', name: 'name', status: 'active' },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Deeprails.NotFoundError);
