@@ -10,7 +10,10 @@ export class Defend extends APIResource {
    * Use this endpoint to create a new guardrail workflow with optional guardrail
    * thresholds and improvement actions
    */
-  createWorkflow(body: DefendCreateWorkflowParams, options?: RequestOptions): APIPromise<DefendResponse> {
+  createWorkflow(
+    body: DefendCreateWorkflowParams,
+    options?: RequestOptions,
+  ): APIPromise<DefendCreateResponse> {
     return this._client.post('/defend', { body, ...options });
   }
 
@@ -21,7 +24,7 @@ export class Defend extends APIResource {
     eventID: string,
     params: DefendRetrieveEventParams,
     options?: RequestOptions,
-  ): APIPromise<WorkflowEventResponse> {
+  ): APIPromise<WorkflowEventDetailResponse> {
     const { workflow_id } = params;
     return this._client.get(path`/defend/${workflow_id}/events/${eventID}`, options);
   }
@@ -29,8 +32,12 @@ export class Defend extends APIResource {
   /**
    * Use this endpoint to retrieve the details for a specific defend workflow
    */
-  retrieveWorkflow(workflowID: string, options?: RequestOptions): APIPromise<DefendResponse> {
-    return this._client.get(path`/defend/${workflowID}`, options);
+  retrieveWorkflow(
+    workflowID: string,
+    query: DefendRetrieveWorkflowParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<DefendResponse> {
+    return this._client.get(path`/defend/${workflowID}`, { query, ...options });
   }
 
   /**
@@ -46,15 +53,33 @@ export class Defend extends APIResource {
   }
 
   /**
-   * Use this endpoint to update an existing guardrail workflow
+   * Use this endpoint to update an existing defend workflow
    */
   updateWorkflow(
     workflowID: string,
     body: DefendUpdateWorkflowParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<DefendResponse> {
+  ): APIPromise<DefendUpdateResponse> {
     return this._client.put(path`/defend/${workflowID}`, { body, ...options });
   }
+}
+
+export interface DefendCreateResponse {
+  /**
+   * The time the workflow was created in UTC.
+   */
+  created_at: string;
+
+  /**
+   * Status of the selected workflow. May be `inactive` or `active`. Inactive
+   * workflows will not accept events.
+   */
+  status: 'inactive' | 'active';
+
+  /**
+   * A unique workflow ID.
+   */
+  workflow_id: string;
 }
 
 export interface DefendResponse {
@@ -69,9 +94,27 @@ export interface DefendResponse {
   workflow_id: string;
 
   /**
+   * Mapping of guardrail metric names to tolerance values. Values can be strings
+   * (`low`, `medium`, `high`) for automatic tolerance levels.
+   */
+  automatic_hallucination_tolerance_levels?: { [key: string]: 'low' | 'medium' | 'high' };
+
+  /**
+   * Extended AI capabilities available to the event, if any. Can be `web_search`
+   * and/or `file_search`.
+   */
+  capabilities?: Array<DefendResponse.Capability>;
+
+  /**
    * The time the workflow was created in UTC.
    */
   created_at?: string;
+
+  /**
+   * Mapping of guardrail metric names to threshold values. Values can be floating
+   * point numbers (0.0-1.0) for custom thresholds.
+   */
+  custom_hallucination_threshold_values?: { [key: string]: number };
 
   /**
    * Description for the workflow.
@@ -79,24 +122,17 @@ export interface DefendResponse {
   description?: string;
 
   /**
-   * The action used to improve outputs that fail one or more guardrail metrics for
-   * the workflow events. May be `regen`, `fixit`, or `do_nothing`. ReGen runs the
-   * user's input prompt with minor induced variance. FixIt attempts to directly
-   * address the shortcomings of the output using the guardrail failure rationale. Do
-   * Nothing does not attempt any improvement.
+   * An array of events associated with this workflow.
    */
-  improvement_action?: 'regen' | 'fixit' | 'do_nothing';
+  events?: Array<DefendResponse.Event>;
 
   /**
-   * Max. number of improvement action retries until a given event passes the
-   * guardrails.
+   * List of files associated with the workflow. If this is not empty, models can
+   * search these files when performing evaluations or remediations
    */
-  max_improvement_attempts?: number;
+  files?: Array<DefendResponse.File>;
 
-  /**
-   * The most recent time the workflow was modified in UTC.
-   */
-  modified_at?: string;
+  stats?: DefendResponse.Stats;
 
   /**
    * Status of the selected workflow. May be `inactive` or `active`. Inactive
@@ -105,16 +141,176 @@ export interface DefendResponse {
   status?: 'inactive' | 'active';
 
   /**
-   * Rate of events associated with this workflow that passed evaluation.
+   * Type of thresholds used to evaluate the event.
    */
-  success_rate?: number;
+  threshold_type?: 'custom' | 'automatic';
+
+  /**
+   * The most recent time the workflow was updated in UTC.
+   */
+  updated_at?: string;
 }
 
-export interface WorkflowEventResponse {
+export namespace DefendResponse {
+  export interface Capability {
+    capability?: string;
+  }
+
+  export interface Event {
+    /**
+     * An array of evaluations for this event.
+     */
+    evaluations?: Array<Event.Evaluation>;
+
+    /**
+     * A unique workflow event ID.
+     */
+    event_id?: string;
+
+    /**
+     * Improved model output after improvement tool was applied.
+     */
+    improved_model_output?: string;
+
+    /**
+     * Status of the improvement tool used to improve the event.
+     */
+    improvement_tool_status?: string;
+  }
+
+  export namespace Event {
+    export interface Evaluation {
+      /**
+       * The attempt number or identifier for this evaluation.
+       */
+      attempt?: string;
+
+      /**
+       * The time the evaluation was created in UTC.
+       */
+      created_at?: string;
+
+      /**
+       * Error message if the evaluation failed.
+       */
+      error_message?: string;
+
+      /**
+       * The result of the evaluation.
+       */
+      evaluation_result?: { [key: string]: unknown };
+
+      /**
+       * Status of the evaluation.
+       */
+      evaluation_status?: string;
+
+      /**
+       * Total cost of the evaluation.
+       */
+      evaluation_total_cost?: number;
+
+      /**
+       * An array of guardrail metrics evaluated.
+       */
+      guardrail_metrics?: Array<string>;
+
+      /**
+       * The model input used for the evaluation.
+       */
+      model_input?: { [key: string]: unknown };
+
+      /**
+       * The model output that was evaluated.
+       */
+      model_output?: string;
+
+      /**
+       * The time the evaluation was last modified in UTC.
+       */
+      modified_at?: string;
+
+      /**
+       * An optional tag for the evaluation.
+       */
+      nametag?: string;
+
+      /**
+       * Evaluation progress (0-100).
+       */
+      progress?: number;
+
+      /**
+       * Run mode used for the evaluation.
+       */
+      run_mode?: string;
+    }
+  }
+
+  export interface File {
+    file_id?: string;
+
+    file_name?: string;
+
+    file_size?: number;
+  }
+
+  export interface Stats {
+    /**
+     * Number of AI outputs that failed the guardrails.
+     */
+    outputs_below_threshold?: number;
+
+    /**
+     * Number of AI outputs that were improved.
+     */
+    outputs_improved?: number;
+
+    /**
+     * Total number of AI outputs processed by the workflow.
+     */
+    outputs_processed?: number;
+  }
+}
+
+export interface DefendUpdateResponse {
+  /**
+   * The time the workflow was last modified in UTC.
+   */
+  modified_at: string;
+
+  /**
+   * Status of the selected workflow. May be `inactive` or `active`. Inactive
+   * workflows will not accept events.
+   */
+  status: 'inactive' | 'active';
+
+  /**
+   * A unique workflow ID.
+   */
+  workflow_id: string;
+}
+
+export interface WorkflowEventDetailResponse {
   /**
    * A unique workflow event ID.
    */
   event_id: string;
+
+  /**
+   * Status of the event.
+   */
+  event_status: 'In Progress' | 'Completed';
+
+  /**
+   * Whether the event was filtered and requires improvement.
+   */
+  filtered: boolean;
+
+  /**
+   * Type of improvement tool used to improve the event.
+   */
+  improvement_tool_type: 'regen' | 'fixit' | 'do_nothing';
 
   /**
    * Workflow ID associated with the event.
@@ -122,31 +318,128 @@ export interface WorkflowEventResponse {
   workflow_id: string;
 
   /**
-   * Count of improvement attempts for the event. If greater than one then all
-   * previous improvement attempts failed.
+   * Mapping of guardrail metric names to tolerance values. Values are strings
+   * (`low`, `medium`, `high`) representing automatic tolerance levels.
    */
-  attempt_number?: number;
+  automatic_hallucination_tolerance_levels?: { [key: string]: 'low' | 'medium' | 'high' };
 
   /**
-   * A unique evaluation ID associated with this event. Every event has one or more
-   * evaluation attempts.
+   * Extended AI capabilities available to the event, if any. Can be `web_search`
+   * and/or `file_search`.
    */
-  evaluation_id?: string;
+  capabilities?: Array<WorkflowEventDetailResponse.Capability>;
 
   /**
-   * `False` if evaluation passed all of the guardrail metrics, `True` if evaluation
-   * failed any of the guardrail metrics.
+   * Mapping of guardrail metric names to threshold values. Values are floating point
+   * numbers (0.0-1.0) representing custom thresholds.
    */
-  filtered?: boolean;
+  custom_hallucination_threshold_values?: { [key: string]: number };
+
+  /**
+   * History of evaluations for the event.
+   */
+  evaluation_history?: Array<WorkflowEventDetailResponse.EvaluationHistory>;
+
+  /**
+   * Evaluation result consisting of average scores and rationales for each of the
+   * evaluated guardrail metrics.
+   */
+  evaluation_result?: { [key: string]: unknown };
+
+  /**
+   * List of files available to the event, if any. Will only be present if
+   * `file_search` is enabled.
+   */
+  files?: Array<WorkflowEventDetailResponse.File>;
+
+  /**
+   * Improved model output after improvement tool was applied and each metric passed
+   * evaluation.
+   */
+  improved_model_output?: string;
+
+  /**
+   * Status of the improvement tool used to improve the event.
+   */
+  improvement_tool_status?: 'improved' | 'failed on max retries' | 'improvement_required' | null;
+
+  /**
+   * Type of thresholds used to evaluate the event.
+   */
+  threshold_type?: 'custom' | 'automatic';
+}
+
+export namespace WorkflowEventDetailResponse {
+  export interface Capability {
+    capability?: string;
+  }
+
+  export interface EvaluationHistory {
+    attempt?: string;
+
+    created_at?: string;
+
+    error_message?: string;
+
+    evaluation_result?: { [key: string]: unknown };
+
+    evaluation_status?: string;
+
+    evaluation_total_cost?: number;
+
+    guardrail_metrics?: Array<string>;
+
+    model_input?: { [key: string]: unknown };
+
+    model_output?: string;
+
+    modified_at?: string;
+
+    nametag?: string;
+
+    progress?: number;
+
+    run_mode?: string;
+  }
+
+  export interface File {
+    file_id?: string;
+
+    file_name?: string;
+
+    file_size?: number;
+  }
+}
+
+export interface WorkflowEventResponse {
+  /**
+   * The time the event was created in UTC.
+   */
+  created_at: string;
+
+  /**
+   * A unique workflow event ID.
+   */
+  event_id: string;
+
+  /**
+   * Status of the event.
+   */
+  status: 'In Progress' | 'Completed';
+
+  /**
+   * Workflow ID associated with the event.
+   */
+  workflow_id: string;
 }
 
 export interface DefendCreateWorkflowParams {
   /**
-   * The action used to improve outputs that fail one or guardrail metrics for the
-   * workflow events. May be `regen`, `fixit`, or `do_nothing`. ReGen runs the user's
-   * input prompt with minor induced variance. FixIt attempts to directly address the
-   * shortcomings of the output using the guardrail failure rationale. Do Nothing
-   * does not attempt any improvement.
+   * The action used to improve outputs that fail one or more guardrail metrics for
+   * the workflow events. May be `regen`, `fixit`, or `do_nothing`. ReGen runs the
+   * user's input prompt with minor induced variance. FixIt attempts to directly
+   * address the shortcomings of the output using the guardrail failure rationale. Do
+   * Nothing does not attempt any improvement.
    */
   improvement_action: 'regen' | 'fixit' | 'do_nothing';
 
@@ -162,7 +455,7 @@ export interface DefendCreateWorkflowParams {
    * set the threshold for each metric as a floating point number between 0.0 and
    * 1.0.
    */
-  type: 'automatic' | 'custom';
+  threshold_type: 'automatic' | 'custom';
 
   /**
    * Mapping of guardrail metrics to hallucination tolerance levels (either `low`,
@@ -191,7 +484,7 @@ export interface DefendCreateWorkflowParams {
   file_search?: Array<string>;
 
   /**
-   * Max. number of improvement action retries until a given event passes the
+   * Max. number of improvement action attempts until a given event passes the
    * guardrails. Defaults to 10.
    */
   max_improvement_attempts?: number;
@@ -207,6 +500,14 @@ export interface DefendRetrieveEventParams {
    * The ID of the workflow associated with the event.
    */
   workflow_id: string;
+}
+
+export interface DefendRetrieveWorkflowParams {
+  /**
+   * Limit the number of returned events associated with this workflow. Defaults
+   * to 10.
+   */
+  limit?: number;
 }
 
 export interface DefendSubmitEventParams {
@@ -279,10 +580,14 @@ export interface DefendUpdateWorkflowParams {
 
 export declare namespace Defend {
   export {
+    type DefendCreateResponse as DefendCreateResponse,
     type DefendResponse as DefendResponse,
+    type DefendUpdateResponse as DefendUpdateResponse,
+    type WorkflowEventDetailResponse as WorkflowEventDetailResponse,
     type WorkflowEventResponse as WorkflowEventResponse,
     type DefendCreateWorkflowParams as DefendCreateWorkflowParams,
     type DefendRetrieveEventParams as DefendRetrieveEventParams,
+    type DefendRetrieveWorkflowParams as DefendRetrieveWorkflowParams,
     type DefendSubmitEventParams as DefendSubmitEventParams,
     type DefendUpdateWorkflowParams as DefendUpdateWorkflowParams,
   };

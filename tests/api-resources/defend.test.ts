@@ -13,7 +13,7 @@ describe('resource defend', () => {
     const responsePromise = client.defend.createWorkflow({
       improvement_action: 'regen',
       name: 'name',
-      type: 'automatic',
+      threshold_type: 'automatic',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -29,7 +29,7 @@ describe('resource defend', () => {
     const response = await client.defend.createWorkflow({
       improvement_action: 'regen',
       name: 'name',
-      type: 'automatic',
+      threshold_type: 'automatic',
       automatic_hallucination_tolerance_levels: { foo: 'low' },
       custom_hallucination_threshold_values: { foo: 0 },
       description: 'description',
@@ -66,6 +66,14 @@ describe('resource defend', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('retrieveWorkflow: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.defend.retrieveWorkflow('workflow_id', { limit: 0 }, { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(Deeprails.NotFoundError);
   });
 
   // Prism tests are disabled

@@ -26,14 +26,15 @@ const client = new Deeprails({
   apiKey: process.env['DEEPRAILS_API_KEY'], // This is the default and can be omitted
 });
 
-const defendResponse = await client.defend.createWorkflow({
+const defendCreateResponse = await client.defend.createWorkflow({
   improvement_action: 'fixit',
   name: 'Push Alert Workflow',
-  type: 'custom',
+  threshold_type: 'automatic',
   custom_hallucination_threshold_values: { completeness: 0.7, instruction_adherence: 0.75 },
+  web_search: true,
 });
 
-console.log(defendResponse.workflow_id);
+console.log(defendCreateResponse.workflow_id);
 ```
 
 ### Request & Response types
@@ -51,42 +52,14 @@ const client = new Deeprails({
 const params: Deeprails.DefendCreateWorkflowParams = {
   improvement_action: 'fixit',
   name: 'Push Alert Workflow',
-  type: 'custom',
+  threshold_type: 'automatic',
   custom_hallucination_threshold_values: { completeness: 0.7, instruction_adherence: 0.75 },
+  web_search: true,
 };
-const defendResponse: Deeprails.DefendResponse = await client.defend.createWorkflow(params);
+const defendCreateResponse: Deeprails.DefendCreateResponse = await client.defend.createWorkflow(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
-
-## File uploads
-
-Request parameters that correspond to file uploads can be passed in many different forms:
-
-- `File` (or an object with the same structure)
-- a `fetch` `Response` (or an object with the same structure)
-- an `fs.ReadStream`
-- the return value of our `toFile` helper
-
-```ts
-import fs from 'fs';
-import Deeprails, { toFile } from 'deeprails';
-
-const client = new Deeprails();
-
-// If you have access to Node `fs` we recommend using `fs.createReadStream()`:
-await client.files.upload({ file: fs.createReadStream('/path/to/file') });
-
-// Or if you have the web `File` API you can pass a `File` instance:
-await client.files.upload({ file: new File(['my bytes'], 'file') });
-
-// You can also pass a `fetch` `Response`:
-await client.files.upload({ file: await fetch('https://somesite/file') });
-
-// Finally, if none of the above are convenient, you can use our `toFile` helper:
-await client.files.upload({ file: await toFile(Buffer.from('my bytes'), 'file') });
-await client.files.upload({ file: await toFile(new Uint8Array([0, 1, 2]), 'file') });
-```
 
 ## Handling errors
 
@@ -96,12 +69,13 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const defendResponse = await client.defend
+const defendCreateResponse = await client.defend
   .createWorkflow({
     improvement_action: 'fixit',
     name: 'Push Alert Workflow',
-    type: 'custom',
+    threshold_type: 'automatic',
     custom_hallucination_threshold_values: { completeness: 0.7, instruction_adherence: 0.75 },
+    web_search: true,
   })
   .catch(async (err) => {
     if (err instanceof Deeprails.APIError) {
@@ -143,7 +117,7 @@ const client = new Deeprails({
 });
 
 // Or, configure per-request:
-await client.defend.createWorkflow({ improvement_action: 'fixit', name: 'Push Alert Workflow', type: 'custom', custom_hallucination_threshold_values: { completeness: 0.7, instruction_adherence: 0.75 } }, {
+await client.defend.createWorkflow({ improvement_action: 'fixit', name: 'Push Alert Workflow', threshold_type: 'automatic', custom_hallucination_threshold_values: { completeness: 0.7, instruction_adherence: 0.75 }, web_search: true }, {
   maxRetries: 5,
 });
 ```
@@ -160,7 +134,7 @@ const client = new Deeprails({
 });
 
 // Override per-request:
-await client.defend.createWorkflow({ improvement_action: 'fixit', name: 'Push Alert Workflow', type: 'custom', custom_hallucination_threshold_values: { completeness: 0.7, instruction_adherence: 0.75 } }, {
+await client.defend.createWorkflow({ improvement_action: 'fixit', name: 'Push Alert Workflow', threshold_type: 'automatic', custom_hallucination_threshold_values: { completeness: 0.7, instruction_adherence: 0.75 }, web_search: true }, {
   timeout: 5 * 1000,
 });
 ```
@@ -187,23 +161,25 @@ const response = await client.defend
   .createWorkflow({
     improvement_action: 'fixit',
     name: 'Push Alert Workflow',
-    type: 'custom',
+    threshold_type: 'automatic',
     custom_hallucination_threshold_values: { completeness: 0.7, instruction_adherence: 0.75 },
+    web_search: true,
   })
   .asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: defendResponse, response: raw } = await client.defend
+const { data: defendCreateResponse, response: raw } = await client.defend
   .createWorkflow({
     improvement_action: 'fixit',
     name: 'Push Alert Workflow',
-    type: 'custom',
+    threshold_type: 'automatic',
     custom_hallucination_threshold_values: { completeness: 0.7, instruction_adherence: 0.75 },
+    web_search: true,
   })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(defendResponse.workflow_id);
+console.log(defendCreateResponse.workflow_id);
 ```
 
 ### Logging
