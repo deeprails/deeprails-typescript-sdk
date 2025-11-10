@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.11.0 (2025-11-10)
+
+Full Changelog: [v1.10.0...v1.11.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.10.0...v1.11.0)
+
+### Features
+
+* **api:** Mass restructuring of API, including response bodies and naming schemes ([686429f](https://github.com/deeprails/deeprails-typescript-sdk/commit/686429f19f13865c5896d3e2f241257201cf700d))
+
 ## 1.10.0 (2025-11-02)
 
 Full Changelog: [v1.9.0...v1.10.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.9.0...v1.10.0)
