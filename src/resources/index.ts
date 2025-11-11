@@ -24,5 +24,6 @@ export {
   type MonitorCreateParams,
   type MonitorRetrieveParams,
   type MonitorUpdateParams,
+  type MonitorRetrieveEventParams,
   type MonitorSubmitEventParams,
 } from './monitor';

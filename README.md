@@ -27,7 +27,7 @@ const client = new Deeprails({
 const defendCreateResponse = await client.defend.createWorkflow({
   improvement_action: 'fixit',
   name: 'Push Alert Workflow',
-  threshold_type: 'automatic',
+  threshold_type: 'custom',
   custom_hallucination_threshold_values: { completeness: 0.7, instruction_adherence: 0.75 },
   web_search: true,
 });
@@ -50,7 +50,7 @@ const client = new Deeprails({
 const params: Deeprails.DefendCreateWorkflowParams = {
   improvement_action: 'fixit',
   name: 'Push Alert Workflow',
-  threshold_type: 'automatic',
+  threshold_type: 'custom',
   custom_hallucination_threshold_values: { completeness: 0.7, instruction_adherence: 0.75 },
   web_search: true,
 };
@@ -71,7 +71,7 @@ const defendCreateResponse = await client.defend
   .createWorkflow({
     improvement_action: 'fixit',
     name: 'Push Alert Workflow',
-    threshold_type: 'automatic',
+    threshold_type: 'custom',
     custom_hallucination_threshold_values: { completeness: 0.7, instruction_adherence: 0.75 },
     web_search: true,
   })
@@ -115,7 +115,7 @@ const client = new Deeprails({
 });
 
 // Or, configure per-request:
-await client.defend.createWorkflow({ improvement_action: 'fixit', name: 'Push Alert Workflow', threshold_type: 'automatic', custom_hallucination_threshold_values: { completeness: 0.7, instruction_adherence: 0.75 }, web_search: true }, {
+await client.defend.createWorkflow({ improvement_action: 'fixit', name: 'Push Alert Workflow', threshold_type: 'custom', custom_hallucination_threshold_values: { completeness: 0.7, instruction_adherence: 0.75 }, web_search: true }, {
   maxRetries: 5,
 });
 ```
@@ -132,7 +132,7 @@ const client = new Deeprails({
 });
 
 // Override per-request:
-await client.defend.createWorkflow({ improvement_action: 'fixit', name: 'Push Alert Workflow', threshold_type: 'automatic', custom_hallucination_threshold_values: { completeness: 0.7, instruction_adherence: 0.75 }, web_search: true }, {
+await client.defend.createWorkflow({ improvement_action: 'fixit', name: 'Push Alert Workflow', threshold_type: 'custom', custom_hallucination_threshold_values: { completeness: 0.7, instruction_adherence: 0.75 }, web_search: true }, {
   timeout: 5 * 1000,
 });
 ```
@@ -159,7 +159,7 @@ const response = await client.defend
   .createWorkflow({
     improvement_action: 'fixit',
     name: 'Push Alert Workflow',
-    threshold_type: 'automatic',
+    threshold_type: 'custom',
     custom_hallucination_threshold_values: { completeness: 0.7, instruction_adherence: 0.75 },
     web_search: true,
   })
@@ -171,7 +171,7 @@ const { data: defendCreateResponse, response: raw } = await client.defend
   .createWorkflow({
     improvement_action: 'fixit',
     name: 'Push Alert Workflow',
-    threshold_type: 'automatic',
+    threshold_type: 'custom',
     custom_hallucination_threshold_values: { completeness: 0.7, instruction_adherence: 0.75 },
     web_search: true,
   })
