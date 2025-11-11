@@ -76,6 +76,23 @@ describe('resource monitor', () => {
   });
 
   // Prism tests are disabled
+  test.skip('retrieveEvent: only required params', async () => {
+    const responsePromise = client.monitor.retrieveEvent('event_id', { monitor_id: 'monitor_id' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism tests are disabled
+  test.skip('retrieveEvent: required and optional params', async () => {
+    const response = await client.monitor.retrieveEvent('event_id', { monitor_id: 'monitor_id' });
+  });
+
+  // Prism tests are disabled
   test.skip('submitEvent: only required params', async () => {
     const responsePromise = client.monitor.submitEvent('monitor_id', {
       model_input: {},
