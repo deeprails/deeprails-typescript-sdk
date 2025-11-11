@@ -39,6 +39,18 @@ export class Monitor extends APIResource {
   }
 
   /**
+   * Use this endpoint to retrieve the details of a specific monitor event
+   */
+  retrieveEvent(
+    eventID: string,
+    params: MonitorRetrieveEventParams,
+    options?: RequestOptions,
+  ): APIPromise<MonitorEventDetailResponse> {
+    const { monitor_id } = params;
+    return this._client.get(path`/monitor/${monitor_id}/events/${eventID}`, options);
+  }
+
+  /**
    * Use this endpoint to submit a model input and output pair to a monitor for
    * evaluation
    */
@@ -71,6 +83,27 @@ export interface MonitorCreateResponse {
 
 export interface MonitorDetailResponse {
   /**
+   * An array of capabilities associated with this monitor.
+   */
+  capabilities: Array<MonitorDetailResponse.Capability>;
+
+  /**
+   * The time the monitor was created in UTC.
+   */
+  created_at: string;
+
+  /**
+   * An array of all evaluations performed by this monitor. Each one corresponds to a
+   * separate monitor event.
+   */
+  evaluations: Array<MonitorDetailResponse.Evaluation>;
+
+  /**
+   * An array of files associated with this monitor.
+   */
+  files: Array<MonitorDetailResponse.File>;
+
+  /**
    * A unique monitor ID.
    */
   monitor_id: string;
@@ -81,48 +114,27 @@ export interface MonitorDetailResponse {
   name: string;
 
   /**
+   * Contains five fields used for stats of this monitor: total evaluations,
+   * completed evaluations, failed evaluations, queued evaluations, and in progress
+   * evaluations.
+   */
+  stats: MonitorDetailResponse.Stats;
+
+  /**
    * Status of the monitor. Can be `active` or `inactive`. Inactive monitors no
    * longer record and evaluate events.
    */
   status: 'active' | 'inactive';
 
   /**
-   * An array of capabilities associated with this monitor.
+   * The most recent time the monitor was modified in UTC.
    */
-  capabilities?: Array<MonitorDetailResponse.Capability>;
-
-  /**
-   * The time the monitor was created in UTC.
-   */
-  created_at?: string;
+  updated_at: string;
 
   /**
    * Description of this monitor.
    */
   description?: string;
-
-  /**
-   * An array of all evaluations performed by this monitor. Each one corresponds to a
-   * separate monitor event.
-   */
-  evaluations?: Array<MonitorDetailResponse.Evaluation>;
-
-  /**
-   * An array of files associated with this monitor.
-   */
-  files?: Array<MonitorDetailResponse.File>;
-
-  /**
-   * Contains five fields used for stats of this monitor: total evaluations,
-   * completed evaluations, failed evaluations, queued evaluations, and in progress
-   * evaluations.
-   */
-  stats?: MonitorDetailResponse.Stats;
-
-  /**
-   * The most recent time the monitor was modified in UTC.
-   */
-  updated_at?: string;
 }
 
 export namespace MonitorDetailResponse {
@@ -469,6 +481,13 @@ export interface MonitorUpdateParams {
   status?: 'active' | 'inactive';
 }
 
+export interface MonitorRetrieveEventParams {
+  /**
+   * The ID of the monitor associated with this event.
+   */
+  monitor_id: string;
+}
+
 export interface MonitorSubmitEventParams {
   /**
    * A dictionary of inputs sent to the LLM to generate output. The dictionary must
@@ -530,6 +549,7 @@ export declare namespace Monitor {
     type MonitorCreateParams as MonitorCreateParams,
     type MonitorRetrieveParams as MonitorRetrieveParams,
     type MonitorUpdateParams as MonitorUpdateParams,
+    type MonitorRetrieveEventParams as MonitorRetrieveEventParams,
     type MonitorSubmitEventParams as MonitorSubmitEventParams,
   };
 }

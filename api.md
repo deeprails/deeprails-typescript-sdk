@@ -31,6 +31,7 @@ Methods:
 - <code title="post /monitor">client.monitor.<a href="./src/resources/monitor.ts">create</a>({ ...params }) -> MonitorCreateResponse</code>
 - <code title="get /monitor/{monitor_id}">client.monitor.<a href="./src/resources/monitor.ts">retrieve</a>(monitorID, { ...params }) -> MonitorDetailResponse</code>
 - <code title="put /monitor/{monitor_id}">client.monitor.<a href="./src/resources/monitor.ts">update</a>(monitorID, { ...params }) -> MonitorUpdateResponse</code>
+- <code title="get /monitor/{monitor_id}/events/{event_id}">client.monitor.<a href="./src/resources/monitor.ts">retrieveEvent</a>(eventID, { ...params }) -> MonitorEventDetailResponse</code>
 - <code title="post /monitor/{monitor_id}/events">client.monitor.<a href="./src/resources/monitor.ts">submitEvent</a>(monitorID, { ...params }) -> MonitorEventResponse</code>
 
 # Files

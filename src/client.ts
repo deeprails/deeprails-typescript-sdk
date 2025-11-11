@@ -37,6 +37,7 @@ import {
   MonitorDetailResponse,
   MonitorEventDetailResponse,
   MonitorEventResponse,
+  MonitorRetrieveEventParams,
   MonitorRetrieveParams,
   MonitorSubmitEventParams,
   MonitorUpdateParams,
@@ -775,6 +776,7 @@ export declare namespace Deeprails {
     type MonitorCreateParams as MonitorCreateParams,
     type MonitorRetrieveParams as MonitorRetrieveParams,
     type MonitorUpdateParams as MonitorUpdateParams,
+    type MonitorRetrieveEventParams as MonitorRetrieveEventParams,
     type MonitorSubmitEventParams as MonitorSubmitEventParams,
   };
 
