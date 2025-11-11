@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.12.0 (2025-11-11)
+
+Full Changelog: [v1.11.0...v1.12.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.11.0...v1.12.0)
+
+### Features
+
+* **api:** add retrieve monitor event and examples ([1277dbf](https://github.com/deeprails/deeprails-typescript-sdk/commit/1277dbfc39f4d6fb520be5face213f8520e1c4ec))
+
 ## 1.11.0 (2025-11-10)
 
 Full Changelog: [v1.10.0...v1.11.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.10.0...v1.11.0)
