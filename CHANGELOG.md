@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.13.0 (2025-11-12)
+
+Full Changelog: [v1.12.0...v1.13.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.12.0...v1.13.0)
+
+### Features
+
+* **api:** remove dev server ([800c868](https://github.com/deeprails/deeprails-typescript-sdk/commit/800c8684dc1bb3e2e1199395cd4d5f4fdb588d0e))
+
 ## 1.12.0 (2025-11-11)
 
 Full Changelog: [v1.11.0...v1.12.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.11.0...v1.12.0)

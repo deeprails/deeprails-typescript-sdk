@@ -107,7 +107,8 @@ export interface DefendResponse {
   custom_hallucination_threshold_values: { [key: string]: number };
 
   /**
-   * Description for the workflow.
+   * A description for the workflow, to help you remember what that workflow means to
+   * your organization.
    */
   description: string;
 
@@ -123,7 +124,7 @@ export interface DefendResponse {
   files: Array<DefendResponse.File>;
 
   /**
-   * Name of the workflow.
+   * A human-readable name for the workflow that will correspond to it's workflow ID.
    */
   name: string;
 
@@ -147,6 +148,12 @@ export interface DefendResponse {
    * A unique workflow ID.
    */
   workflow_id: string;
+
+  /**
+   * The action used to improve outputs that fail one or more guardrail metrics for
+   * the workflow events.
+   */
+  improvement_action?: 'regen' | 'fixit' | 'do_nothing';
 
   stats?: DefendResponse.Stats;
 }
@@ -325,14 +332,14 @@ export interface WorkflowEventDetailResponse {
   improved_model_output: string;
 
   /**
+   * Type of improvement action used to improve the event.
+   */
+  improvement_action: 'regen' | 'fixit' | 'do_nothing';
+
+  /**
    * Status of the improvement tool used to improve the event.
    */
   improvement_tool_status: 'improved' | 'failed on max retries' | 'improvement_required' | null;
-
-  /**
-   * Type of improvement tool used to improve the event.
-   */
-  improvement_tool_type: 'regen' | 'fixit' | 'do_nothing';
 
   /**
    * Type of thresholds used to evaluate the event.
