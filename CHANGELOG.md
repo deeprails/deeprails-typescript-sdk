@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.15.0 (2025-11-18)
+
+Full Changelog: [v1.14.0...v1.15.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.14.0...v1.15.0)
+
+### Features
+
+* **api:** revert docs URL ([6317fef](https://github.com/deeprails/deeprails-typescript-sdk/commit/6317feff4148dc7d8033d2c03f4a9565e08ee701))
+
 ## 1.14.0 (2025-11-18)
 
 Full Changelog: [v1.13.0...v1.14.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.13.0...v1.14.0)
