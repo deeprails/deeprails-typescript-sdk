@@ -1,11 +1,11 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import type { Deeprails } from '../client';
+import type { DeepRails } from '../client';
 
 export abstract class APIResource {
-  protected _client: Deeprails;
+  protected _client: DeepRails;
 
-  constructor(client: Deeprails) {
+  constructor(client: DeepRails) {
     this._client = client;
   }
 }
