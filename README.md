@@ -1,8 +1,8 @@
-# Deep Rails TypeScript API Library
+# DeepRails TypeScript API Library
 
 [![NPM version](<https://img.shields.io/npm/v/deeprails.svg?label=npm%20(stable)>)](https://npmjs.org/package/deeprails) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/deeprails)
 
-This library provides convenient access to the Deep Rails REST API from server-side TypeScript or JavaScript.
+This library provides convenient access to the DeepRails REST API from server-side TypeScript or JavaScript.
 
 The REST API documentation can be found on [docs.deeprails.com](https://docs.deeprails.com). The full API of this library can be found in [api.md](api.md).
 
