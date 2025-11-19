@@ -7,8 +7,8 @@ import { path } from '../internal/utils/path';
 
 export class Defend extends APIResource {
   /**
-   * Use this endpoint to create a new guardrail workflow with optional guardrail
-   * thresholds and improvement actions
+   * Use this endpoint to create a new guardrail workflow by specifying guardrail
+   * thresholds, an improvement action, and optional extended capabilities.
    */
   createWorkflow(
     body: DefendCreateWorkflowParams,
@@ -53,7 +53,7 @@ export class Defend extends APIResource {
   }
 
   /**
-   * Use this endpoint to update an existing defend workflow
+   * Use this endpoint to update an existing defend workflow if its details change.
    */
   updateWorkflow(
     workflowID: string,
@@ -145,7 +145,7 @@ export interface DefendResponse {
   updated_at: string;
 
   /**
-   * A unique workflow ID.
+   * A unique workflow ID used to identify the workflow in other endpoints.
    */
   workflow_id: string;
 
@@ -316,11 +316,6 @@ export interface WorkflowEventDetailResponse {
   event_id: string;
 
   /**
-   * Status of the event.
-   */
-  event_status: 'In Progress' | 'Completed';
-
-  /**
    * Whether the event was filtered and requires improvement.
    */
   filtered: boolean;
@@ -340,6 +335,11 @@ export interface WorkflowEventDetailResponse {
    * Status of the improvement tool used to improve the event.
    */
   improvement_tool_status: 'improved' | 'failed on max retries' | 'improvement_required' | null;
+
+  /**
+   * Status of the event.
+   */
+  status: 'In Progress' | 'Completed';
 
   /**
    * Type of thresholds used to evaluate the event.
