@@ -65,7 +65,7 @@ export interface ClientOptions {
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
    *
-   * Defaults to process.env['DEEPRAILS_BASE_URL'].
+   * Defaults to process.env['DEEP_RAILS_BASE_URL'].
    */
   baseURL?: string | null | undefined;
 
@@ -119,7 +119,7 @@ export interface ClientOptions {
   /**
    * Set the log level.
    *
-   * Defaults to process.env['DEEPRAILS_LOG'] or 'warn' if it isn't set.
+   * Defaults to process.env['DEEP_RAILS_LOG'] or 'warn' if it isn't set.
    */
   logLevel?: LogLevel | undefined;
 
@@ -132,9 +132,9 @@ export interface ClientOptions {
 }
 
 /**
- * API Client for interfacing with the Deeprails API.
+ * API Client for interfacing with the Deep Rails API.
  */
-export class Deeprails {
+export class DeepRails {
   apiKey: string;
 
   baseURL: string;
@@ -150,10 +150,10 @@ export class Deeprails {
   private _options: ClientOptions;
 
   /**
-   * API Client for interfacing with the Deeprails API.
+   * API Client for interfacing with the Deep Rails API.
    *
    * @param {string | undefined} [opts.apiKey=process.env['DEEPRAILS_API_KEY'] ?? undefined]
-   * @param {string} [opts.baseURL=process.env['DEEPRAILS_BASE_URL'] ?? https://api.deeprails.com] - Override the default base URL for the API.
+   * @param {string} [opts.baseURL=process.env['DEEP_RAILS_BASE_URL'] ?? https://api.deeprails.com] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {MergedRequestInit} [opts.fetchOptions] - Additional `RequestInit` options to be passed to `fetch` calls.
    * @param {Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -162,13 +162,13 @@ export class Deeprails {
    * @param {Record<string, string | undefined>} opts.defaultQuery - Default query parameters to include with every request to the API.
    */
   constructor({
-    baseURL = readEnv('DEEPRAILS_BASE_URL'),
+    baseURL = readEnv('DEEP_RAILS_BASE_URL'),
     apiKey = readEnv('DEEPRAILS_API_KEY'),
     ...opts
   }: ClientOptions = {}) {
     if (apiKey === undefined) {
-      throw new Errors.DeeprailsError(
-        "The DEEPRAILS_API_KEY environment variable is missing or empty; either provide it, or instantiate the Deeprails client with an apiKey option, like new Deeprails({ apiKey: 'My API Key' }).",
+      throw new Errors.DeepRailsError(
+        "The DEEPRAILS_API_KEY environment variable is missing or empty; either provide it, or instantiate the DeepRails client with an apiKey option, like new DeepRails({ apiKey: 'My API Key' }).",
       );
     }
 
@@ -179,14 +179,14 @@ export class Deeprails {
     };
 
     this.baseURL = options.baseURL!;
-    this.timeout = options.timeout ?? Deeprails.DEFAULT_TIMEOUT /* 1 minute */;
+    this.timeout = options.timeout ?? DeepRails.DEFAULT_TIMEOUT /* 1 minute */;
     this.logger = options.logger ?? console;
     const defaultLogLevel = 'warn';
     // Set default logLevel early so that we can log a warning in parseLogLevel.
     this.logLevel = defaultLogLevel;
     this.logLevel =
       parseLogLevel(options.logLevel, 'ClientOptions.logLevel', this) ??
-      parseLogLevel(readEnv('DEEPRAILS_LOG'), "process.env['DEEPRAILS_LOG']", this) ??
+      parseLogLevel(readEnv('DEEP_RAILS_LOG'), "process.env['DEEP_RAILS_LOG']", this) ??
       defaultLogLevel;
     this.fetchOptions = options.fetchOptions;
     this.maxRetries = options.maxRetries ?? 2;
@@ -249,7 +249,7 @@ export class Deeprails {
         if (value === null) {
           return `${encodeURIComponent(key)}=`;
         }
-        throw new Errors.DeeprailsError(
+        throw new Errors.DeepRailsError(
           `Cannot stringify type ${typeof value}; Expected string, number, boolean, or null. If you need to pass nested query parameters, you can manually encode them, e.g. { query: { 'foo[key1]': value1, 'foo[key2]': value2 } }, and please open a GitHub issue requesting better support for your use case.`,
         );
       })
@@ -721,10 +721,10 @@ export class Deeprails {
     }
   }
 
-  static Deeprails = this;
+  static DeepRails = this;
   static DEFAULT_TIMEOUT = 60000; // 1 minute
 
-  static DeeprailsError = Errors.DeeprailsError;
+  static DeepRailsError = Errors.DeepRailsError;
   static APIError = Errors.APIError;
   static APIConnectionError = Errors.APIConnectionError;
   static APIConnectionTimeoutError = Errors.APIConnectionTimeoutError;
@@ -745,11 +745,11 @@ export class Deeprails {
   files: API.Files = new API.Files(this);
 }
 
-Deeprails.Defend = Defend;
-Deeprails.Monitor = Monitor;
-Deeprails.Files = Files;
+DeepRails.Defend = Defend;
+DeepRails.Monitor = Monitor;
+DeepRails.Files = Files;
 
-export declare namespace Deeprails {
+export declare namespace DeepRails {
   export type RequestOptions = Opts.RequestOptions;
 
   export {

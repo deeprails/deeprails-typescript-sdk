@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Deeprails from 'deeprails';
+import DeepRails from 'deeprails';
 
-const client = new Deeprails({
+const client = new DeepRails({
   apiKey: 'My API Key',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
@@ -48,7 +48,7 @@ describe('resource monitor', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.monitor.retrieve('monitor_id', { limit: 0 }, { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(Deeprails.NotFoundError);
+    ).rejects.toThrow(DeepRails.NotFoundError);
   });
 
   // Prism tests are disabled
@@ -72,7 +72,7 @@ describe('resource monitor', () => {
         { description: 'description', name: 'name', status: 'active' },
         { path: '/_stainless_unknown_path' },
       ),
-    ).rejects.toThrow(Deeprails.NotFoundError);
+    ).rejects.toThrow(DeepRails.NotFoundError);
   });
 
   // Prism tests are disabled

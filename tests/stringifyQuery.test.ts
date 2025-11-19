@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { Deeprails } from 'deeprails';
+import { DeepRails } from 'deeprails';
 
-const { stringifyQuery } = Deeprails.prototype as any;
+const { stringifyQuery } = DeepRails.prototype as any;
 
 describe(stringifyQuery, () => {
   for (const [input, expected] of [

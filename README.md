@@ -1,8 +1,8 @@
-# Deeprails TypeScript API Library
+# Deep Rails TypeScript API Library
 
 [![NPM version](<https://img.shields.io/npm/v/deeprails.svg?label=npm%20(stable)>)](https://npmjs.org/package/deeprails) ![npm bundle size](https://img.shields.io/bundlephobia/minzip/deeprails)
 
-This library provides convenient access to the Deeprails REST API from server-side TypeScript or JavaScript.
+This library provides convenient access to the Deep Rails REST API from server-side TypeScript or JavaScript.
 
 The REST API documentation can be found on [docs.deeprails.com](https://docs.deeprails.com). The full API of this library can be found in [api.md](api.md).
 
@@ -20,9 +20,9 @@ The full API of this library can be found in [api.md](api.md).
 
 <!-- prettier-ignore -->
 ```js
-import Deeprails from 'deeprails';
+import DeepRails from 'deeprails';
 
-const client = new Deeprails({
+const client = new DeepRails({
   apiKey: process.env['DEEPRAILS_API_KEY'], // This is the default and can be omitted
 });
 
@@ -43,20 +43,20 @@ This library includes TypeScript definitions for all request params and response
 
 <!-- prettier-ignore -->
 ```ts
-import Deeprails from 'deeprails';
+import DeepRails from 'deeprails';
 
-const client = new Deeprails({
+const client = new DeepRails({
   apiKey: process.env['DEEPRAILS_API_KEY'], // This is the default and can be omitted
 });
 
-const params: Deeprails.DefendCreateWorkflowParams = {
+const params: DeepRails.DefendCreateWorkflowParams = {
   improvement_action: 'fixit',
   name: 'Push Alert Workflow',
   threshold_type: 'custom',
   custom_hallucination_threshold_values: { completeness: 0.7, instruction_adherence: 0.75 },
   web_search: true,
 };
-const defendCreateResponse: Deeprails.DefendCreateResponse = await client.defend.createWorkflow(params);
+const defendCreateResponse: DeepRails.DefendCreateResponse = await client.defend.createWorkflow(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -78,7 +78,7 @@ const defendCreateResponse = await client.defend
     web_search: true,
   })
   .catch(async (err) => {
-    if (err instanceof Deeprails.APIError) {
+    if (err instanceof DeepRails.APIError) {
       console.log(err.status); // 400
       console.log(err.name); // BadRequestError
       console.log(err.headers); // {server: 'nginx', ...}
@@ -112,7 +112,7 @@ You can use the `maxRetries` option to configure or disable this:
 <!-- prettier-ignore -->
 ```js
 // Configure the default for all requests:
-const client = new Deeprails({
+const client = new DeepRails({
   maxRetries: 0, // default is 2
 });
 
@@ -129,7 +129,7 @@ Requests time out after 1 minute by default. You can configure this with a `time
 <!-- prettier-ignore -->
 ```ts
 // Configure the default for all requests:
-const client = new Deeprails({
+const client = new DeepRails({
   timeout: 20 * 1000, // 20 seconds (default is 1 minute)
 });
 
@@ -155,7 +155,7 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 
 <!-- prettier-ignore -->
 ```ts
-const client = new Deeprails();
+const client = new DeepRails();
 
 const response = await client.defend
   .createWorkflow({
@@ -192,13 +192,13 @@ console.log(defendCreateResponse.workflow_id);
 
 The log level can be configured in two ways:
 
-1. Via the `DEEPRAILS_LOG` environment variable
+1. Via the `DEEP_RAILS_LOG` environment variable
 2. Using the `logLevel` client option (overrides the environment variable if set)
 
 ```ts
-import Deeprails from 'deeprails';
+import DeepRails from 'deeprails';
 
-const client = new Deeprails({
+const client = new DeepRails({
   logLevel: 'debug', // Show all log messages
 });
 ```
@@ -224,13 +224,13 @@ When providing a custom logger, the `logLevel` option still controls which messa
 below the configured level will not be sent to your logger.
 
 ```ts
-import Deeprails from 'deeprails';
+import DeepRails from 'deeprails';
 import pino from 'pino';
 
 const logger = pino();
 
-const client = new Deeprails({
-  logger: logger.child({ name: 'Deeprails' }),
+const client = new DeepRails({
+  logger: logger.child({ name: 'DeepRails' }),
   logLevel: 'debug', // Send all messages to pino, allowing it to filter
 });
 ```
@@ -293,10 +293,10 @@ globalThis.fetch = fetch;
 Or pass it to the client:
 
 ```ts
-import Deeprails from 'deeprails';
+import DeepRails from 'deeprails';
 import fetch from 'my-fetch';
 
-const client = new Deeprails({ fetch });
+const client = new DeepRails({ fetch });
 ```
 
 ### Fetch options
@@ -304,9 +304,9 @@ const client = new Deeprails({ fetch });
 If you want to set custom `fetch` options without overriding the `fetch` function, you can provide a `fetchOptions` object when instantiating the client or making a request. (Request-specific options override client options.)
 
 ```ts
-import Deeprails from 'deeprails';
+import DeepRails from 'deeprails';
 
-const client = new Deeprails({
+const client = new DeepRails({
   fetchOptions: {
     // `RequestInit` options
   },
@@ -321,11 +321,11 @@ options to requests:
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/node.svg" align="top" width="18" height="21"> **Node** <sup>[[docs](https://github.com/nodejs/undici/blob/main/docs/docs/api/ProxyAgent.md#example---proxyagent-with-fetch)]</sup>
 
 ```ts
-import Deeprails from 'deeprails';
+import DeepRails from 'deeprails';
 import * as undici from 'undici';
 
 const proxyAgent = new undici.ProxyAgent('http://localhost:8888');
-const client = new Deeprails({
+const client = new DeepRails({
   fetchOptions: {
     dispatcher: proxyAgent,
   },
@@ -335,9 +335,9 @@ const client = new Deeprails({
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/bun.svg" align="top" width="18" height="21"> **Bun** <sup>[[docs](https://bun.sh/guides/http/proxy)]</sup>
 
 ```ts
-import Deeprails from 'deeprails';
+import DeepRails from 'deeprails';
 
-const client = new Deeprails({
+const client = new DeepRails({
   fetchOptions: {
     proxy: 'http://localhost:8888',
   },
@@ -347,10 +347,10 @@ const client = new Deeprails({
 <img src="https://raw.githubusercontent.com/stainless-api/sdk-assets/refs/heads/main/deno.svg" align="top" width="18" height="21"> **Deno** <sup>[[docs](https://docs.deno.com/api/deno/~/Deno.createHttpClient)]</sup>
 
 ```ts
-import Deeprails from 'npm:deeprails';
+import DeepRails from 'npm:deeprails';
 
 const httpClient = Deno.createHttpClient({ proxy: { url: 'http://localhost:8888' } });
-const client = new Deeprails({
+const client = new DeepRails({
   fetchOptions: {
     client: httpClient,
   },
