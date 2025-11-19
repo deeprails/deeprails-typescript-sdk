@@ -191,8 +191,8 @@ export namespace MonitorDetailResponse {
     evaluation_total_cost?: number;
 
     /**
-     * An array of guardrail metrics that the model input and output pair will be
-     * evaluated on.
+     * An array of guardrail metrics that the input and output pair will be evaluated
+     * on.
      */
     guardrail_metrics?: Array<
       | 'correctness'
