@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.16.0 (2025-11-19)
+
+Full Changelog: [v1.15.0...v1.16.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.15.0...v1.16.0)
+
+### Features
+
+* **api:** update package name casing ([a905b07](https://github.com/deeprails/deeprails-typescript-sdk/commit/a905b07da78dacb55054a4987bb47ccdc3ff568b))
+
 ## 1.15.0 (2025-11-18)
 
 Full Changelog: [v1.14.0...v1.15.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.14.0...v1.15.0)
