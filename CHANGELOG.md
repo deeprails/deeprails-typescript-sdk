@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.17.0 (2025-11-20)
+
+Full Changelog: [v1.16.1...v1.17.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.16.1...v1.17.0)
+
+### Features
+
+* **api:** fix files upload parameter ([321bd37](https://github.com/deeprails/deeprails-typescript-sdk/commit/321bd371a037d1d54cadc4409cc359027e1eb766))
+
 ## 1.16.1 (2025-11-19)
 
 Full Changelog: [v1.16.0...v1.16.1](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.16.0...v1.16.1)
