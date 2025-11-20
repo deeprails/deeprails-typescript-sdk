@@ -36,9 +36,9 @@ export interface FileResponse {
 
 export interface FileUploadParams {
   /**
-   * The contents of the file to upload.
+   * The contents of the files to upload.
    */
-  file: Array<string>;
+  files: Array<string>;
 }
 
 export declare namespace Files {
