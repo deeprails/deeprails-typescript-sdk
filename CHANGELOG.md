@@ -1,5 +1,27 @@
 # Changelog
 
+## 1.18.0 (2025-12-07)
+
+Full Changelog: [v1.17.0...v1.18.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.17.0...v1.18.0)
+
+### Features
+
+* **api:** added context_awareness and context ([d499696](https://github.com/deeprails/deeprails-typescript-sdk/commit/d499696cc4973880566df6af4e1e2b7e22d98af1))
+
+
+### Bug Fixes
+
+* **mcp:** correct code tool API endpoint ([6c3fbab](https://github.com/deeprails/deeprails-typescript-sdk/commit/6c3fbab2828e394d0d866e8e66e2eed2840d06cd))
+* **mcp:** return correct lines on typescript errors ([51e68a1](https://github.com/deeprails/deeprails-typescript-sdk/commit/51e68a1b352108e0b9a9a16bea33aacd8f8785ee))
+
+
+### Chores
+
+* **client:** fix logger property type ([3e66f6b](https://github.com/deeprails/deeprails-typescript-sdk/commit/3e66f6bfbb383f232445235674d7d29b94686777))
+* **internal:** codegen related update ([15b81e1](https://github.com/deeprails/deeprails-typescript-sdk/commit/15b81e197b343ba584d2ba37a7b308e32d3933f6))
+* **internal:** codegen related update ([1729fa7](https://github.com/deeprails/deeprails-typescript-sdk/commit/1729fa70e3e1b27dfa978721c1e3015fb75c0805))
+* **internal:** upgrade eslint ([1fdd8dc](https://github.com/deeprails/deeprails-typescript-sdk/commit/1fdd8dc3c61c0fc0a118dd8be828f63a01e8d168))
+
 ## 1.17.0 (2025-11-20)
 
 Full Changelog: [v1.16.1...v1.17.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.16.1...v1.17.0)
