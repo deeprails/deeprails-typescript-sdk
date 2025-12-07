@@ -25,6 +25,7 @@ describe('resource monitor', () => {
     const response = await client.monitor.create({
       guardrail_metrics: ['correctness'],
       name: 'name',
+      context_awareness: true,
       description: 'description',
       file_search: ['string'],
       web_search: true,
@@ -111,6 +112,7 @@ describe('resource monitor', () => {
   test.skip('submitEvent: required and optional params', async () => {
     const response = await client.monitor.submitEvent('monitor_id', {
       model_input: {
+        context: ['string'],
         ground_truth: 'ground_truth',
         system_prompt: 'system_prompt',
         user_prompt: 'user_prompt',

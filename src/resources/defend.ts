@@ -90,8 +90,8 @@ export interface DefendResponse {
   automatic_hallucination_tolerance_levels: { [key: string]: 'low' | 'medium' | 'high' };
 
   /**
-   * Extended AI capabilities available to the event, if any. Can be `web_search`
-   * and/or `file_search`.
+   * Extended AI capabilities available to the event, if any. Can be `web_search`,
+   * `context_awareness`, and/or `file_search`.
    */
   capabilities: Array<DefendResponse.Capability>;
 
@@ -358,8 +358,8 @@ export interface WorkflowEventDetailResponse {
   automatic_hallucination_tolerance_levels?: { [key: string]: 'low' | 'medium' | 'high' };
 
   /**
-   * Extended AI capabilities available to the event, if any. Can be `web_search`
-   * and/or `file_search`.
+   * Extended AI capabilities available to the event, if any. Can be `web_search`,
+   * `context_awareness`, and/or `file_search`.
    */
   capabilities?: Array<WorkflowEventDetailResponse.Capability>;
 
@@ -473,6 +473,11 @@ export interface DefendCreateWorkflowParams {
   automatic_hallucination_tolerance_levels?: { [key: string]: 'low' | 'medium' | 'high' };
 
   /**
+   * Whether to enable context for this workflow's evaluations. Defaults to false.
+   */
+  context_awareness?: boolean;
+
+  /**
    * Mapping of guardrail metrics to floating point threshold values. Possible
    * metrics are `correctness`, `completeness`, `instruction_adherence`,
    * `context_adherence`, `ground_truth_adherence`, or `comprehensive_safety`.
@@ -556,6 +561,15 @@ export namespace DefendSubmitEventParams {
    * ground_truth_adherence guardrail metric, `ground_truth` should be provided.
    */
   export interface ModelInput {
+    /**
+     * Any structured information that directly relates to the model’s input and
+     * expected output —e.g., the recent turn-by-turn history between an AI tutor and a
+     * student, facts or state passed through an agentic workflow, or other
+     * domain-specific signals your system already knows and wants the model to
+     * condition on.
+     */
+    context?: Array<string>;
+
     /**
      * The ground truth for evaluating the Ground Truth Adherence guardrail.
      */
