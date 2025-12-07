@@ -10,10 +10,7 @@ export class Defend extends APIResource {
    * Use this endpoint to create a new guardrail workflow by specifying guardrail
    * thresholds, an improvement action, and optional extended capabilities.
    */
-  createWorkflow(
-    body: DefendCreateWorkflowParams,
-    options?: RequestOptions,
-  ): APIPromise<DefendCreateResponse> {
+  createWorkflow(body: DefendCreateWorkflowParams, options?: RequestOptions): APIPromise<unknown> {
     return this._client.post('/defend', { body, ...options });
   }
 
@@ -24,7 +21,7 @@ export class Defend extends APIResource {
     eventID: string,
     params: DefendRetrieveEventParams,
     options?: RequestOptions,
-  ): APIPromise<WorkflowEventDetailResponse> {
+  ): APIPromise<unknown> {
     const { workflow_id } = params;
     return this._client.get(path`/defend/${workflow_id}/events/${eventID}`, options);
   }
@@ -48,7 +45,7 @@ export class Defend extends APIResource {
     workflowID: string,
     body: DefendSubmitEventParams,
     options?: RequestOptions,
-  ): APIPromise<WorkflowEventResponse> {
+  ): APIPromise<unknown> {
     return this._client.post(path`/defend/${workflowID}/events`, { body, ...options });
   }
 
@@ -59,27 +56,9 @@ export class Defend extends APIResource {
     workflowID: string,
     body: DefendUpdateWorkflowParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<DefendUpdateResponse> {
+  ): APIPromise<unknown> {
     return this._client.put(path`/defend/${workflowID}`, { body, ...options });
   }
-}
-
-export interface DefendCreateResponse {
-  /**
-   * The time the workflow was created in UTC.
-   */
-  created_at: string;
-
-  /**
-   * Status of the selected workflow. May be `inactive` or `active`. Inactive
-   * workflows will not accept events.
-   */
-  status: 'inactive' | 'active';
-
-  /**
-   * A unique workflow ID.
-   */
-  workflow_id: string;
 }
 
 export interface DefendResponse {
@@ -87,67 +66,24 @@ export interface DefendResponse {
    * Mapping of guardrail metric names to tolerance values. Values can be strings
    * (`low`, `medium`, `high`) for automatic tolerance levels.
    */
-  automatic_hallucination_tolerance_levels: { [key: string]: 'low' | 'medium' | 'high' };
-
-  /**
-   * Extended AI capabilities available to the event, if any. Can be `web_search`,
-   * `context_awareness`, and/or `file_search`.
-   */
-  capabilities: Array<DefendResponse.Capability>;
+  automatic_hallucination_tolerance_levels?: { [key: string]: 'low' | 'medium' | 'high' };
 
   /**
    * The time the workflow was created in UTC.
    */
-  created_at: string;
+  created_at?: string;
 
   /**
    * Mapping of guardrail metric names to threshold values. Values can be floating
    * point numbers (0.0-1.0) for custom thresholds.
    */
-  custom_hallucination_threshold_values: { [key: string]: number };
+  custom_hallucination_threshold_values?: unknown;
 
   /**
    * A description for the workflow, to help you remember what that workflow means to
    * your organization.
    */
-  description: string;
-
-  /**
-   * An array of events associated with this workflow.
-   */
-  events: Array<DefendResponse.Event>;
-
-  /**
-   * List of files associated with the workflow. If this is not empty, models can
-   * search these files when performing evaluations or remediations
-   */
-  files: Array<DefendResponse.File>;
-
-  /**
-   * A human-readable name for the workflow that will correspond to it's workflow ID.
-   */
-  name: string;
-
-  /**
-   * Status of the selected workflow. May be `inactive` or `active`. Inactive
-   * workflows will not accept events.
-   */
-  status: 'inactive' | 'active';
-
-  /**
-   * Type of thresholds used to evaluate the event.
-   */
-  threshold_type: 'custom' | 'automatic';
-
-  /**
-   * The most recent time the workflow was updated in UTC.
-   */
-  updated_at: string;
-
-  /**
-   * A unique workflow ID used to identify the workflow in other endpoints.
-   */
-  workflow_id: string;
+  description?: string;
 
   /**
    * The action used to improve outputs that fail one or more guardrail metrics for
@@ -155,113 +91,36 @@ export interface DefendResponse {
    */
   improvement_action?: 'regen' | 'fixit' | 'do_nothing';
 
+  /**
+   * A human-readable name for the workflow that will correspond to it's workflow ID.
+   */
+  name?: string;
+
   stats?: DefendResponse.Stats;
+
+  /**
+   * Status of the selected workflow. May be `inactive` or `active`. Inactive
+   * workflows will not accept events.
+   */
+  status?: 'inactive' | 'active';
+
+  /**
+   * Type of thresholds used to evaluate the event.
+   */
+  threshold_type?: 'custom' | 'automatic';
+
+  /**
+   * The most recent time the workflow was updated in UTC.
+   */
+  updated_at?: string;
+
+  /**
+   * A unique workflow ID used to identify the workflow in other endpoints.
+   */
+  workflow_id?: string;
 }
 
 export namespace DefendResponse {
-  export interface Capability {
-    capability?: string;
-  }
-
-  export interface Event {
-    /**
-     * An array of evaluations for this event.
-     */
-    evaluations?: Array<Event.Evaluation>;
-
-    /**
-     * A unique workflow event ID.
-     */
-    event_id?: string;
-
-    /**
-     * Improved model output after improvement tool was applied.
-     */
-    improved_model_output?: string;
-
-    /**
-     * Status of the improvement tool used to improve the event.
-     */
-    improvement_tool_status?: string;
-  }
-
-  export namespace Event {
-    export interface Evaluation {
-      /**
-       * The attempt number or identifier for this evaluation.
-       */
-      attempt?: string;
-
-      /**
-       * The time the evaluation was created in UTC.
-       */
-      created_at?: string;
-
-      /**
-       * Error message if the evaluation failed.
-       */
-      error_message?: string;
-
-      /**
-       * The result of the evaluation.
-       */
-      evaluation_result?: { [key: string]: unknown };
-
-      /**
-       * Status of the evaluation.
-       */
-      evaluation_status?: string;
-
-      /**
-       * Total cost of the evaluation.
-       */
-      evaluation_total_cost?: number;
-
-      /**
-       * An array of guardrail metrics evaluated.
-       */
-      guardrail_metrics?: Array<string>;
-
-      /**
-       * The model input used for the evaluation.
-       */
-      model_input?: { [key: string]: unknown };
-
-      /**
-       * The model output that was evaluated.
-       */
-      model_output?: string;
-
-      /**
-       * The time the evaluation was last modified in UTC.
-       */
-      modified_at?: string;
-
-      /**
-       * An optional tag for the evaluation.
-       */
-      nametag?: string;
-
-      /**
-       * Evaluation progress (0-100).
-       */
-      progress?: number;
-
-      /**
-       * Run mode used for the evaluation.
-       */
-      run_mode?: string;
-    }
-  }
-
-  export interface File {
-    file_id?: string;
-
-    file_name?: string;
-
-    file_size?: number;
-  }
-
   export interface Stats {
     /**
      * Number of AI outputs that failed the guardrails.
@@ -280,165 +139,13 @@ export namespace DefendResponse {
   }
 }
 
-export interface DefendUpdateResponse {
-  /**
-   * The time the workflow was last modified in UTC.
-   */
-  modified_at: string;
+export type DefendCreateWorkflowResponse = unknown;
 
-  /**
-   * Status of the selected workflow. May be `inactive` or `active`. Inactive
-   * workflows will not accept events.
-   */
-  status: 'inactive' | 'active';
+export type DefendRetrieveEventResponse = unknown;
 
-  /**
-   * A unique workflow ID.
-   */
-  workflow_id: string;
-}
+export type DefendSubmitEventResponse = unknown;
 
-export interface WorkflowEventDetailResponse {
-  /**
-   * History of evaluations for the event.
-   */
-  evaluation_history: Array<WorkflowEventDetailResponse.EvaluationHistory>;
-
-  /**
-   * Evaluation result consisting of average scores and rationales for each of the
-   * evaluated guardrail metrics.
-   */
-  evaluation_result: { [key: string]: unknown };
-
-  /**
-   * A unique workflow event ID.
-   */
-  event_id: string;
-
-  /**
-   * Whether the event was filtered and requires improvement.
-   */
-  filtered: boolean;
-
-  /**
-   * Improved model output after improvement tool was applied and each metric passed
-   * evaluation.
-   */
-  improved_model_output: string;
-
-  /**
-   * Type of improvement action used to improve the event.
-   */
-  improvement_action: 'regen' | 'fixit' | 'do_nothing';
-
-  /**
-   * Status of the improvement tool used to improve the event.
-   */
-  improvement_tool_status: 'improved' | 'failed on max retries' | 'improvement_required' | null;
-
-  /**
-   * Status of the event.
-   */
-  status: 'In Progress' | 'Completed';
-
-  /**
-   * Type of thresholds used to evaluate the event.
-   */
-  threshold_type: 'custom' | 'automatic';
-
-  /**
-   * Workflow ID associated with the event.
-   */
-  workflow_id: string;
-
-  /**
-   * Mapping of guardrail metric names to tolerance values. Values are strings
-   * (`low`, `medium`, `high`) representing automatic tolerance levels.
-   */
-  automatic_hallucination_tolerance_levels?: { [key: string]: 'low' | 'medium' | 'high' };
-
-  /**
-   * Extended AI capabilities available to the event, if any. Can be `web_search`,
-   * `context_awareness`, and/or `file_search`.
-   */
-  capabilities?: Array<WorkflowEventDetailResponse.Capability>;
-
-  /**
-   * Mapping of guardrail metric names to threshold values. Values are floating point
-   * numbers (0.0-1.0) representing custom thresholds.
-   */
-  custom_hallucination_threshold_values?: { [key: string]: number };
-
-  /**
-   * List of files available to the event, if any. Will only be present if
-   * `file_search` is enabled.
-   */
-  files?: Array<WorkflowEventDetailResponse.File>;
-}
-
-export namespace WorkflowEventDetailResponse {
-  export interface EvaluationHistory {
-    attempt?: string;
-
-    created_at?: string;
-
-    error_message?: string;
-
-    evaluation_result?: { [key: string]: unknown };
-
-    evaluation_status?: string;
-
-    evaluation_total_cost?: number;
-
-    guardrail_metrics?: Array<string>;
-
-    model_input?: { [key: string]: unknown };
-
-    model_output?: string;
-
-    modified_at?: string;
-
-    nametag?: string;
-
-    progress?: number;
-
-    run_mode?: string;
-  }
-
-  export interface Capability {
-    capability?: string;
-  }
-
-  export interface File {
-    file_id?: string;
-
-    file_name?: string;
-
-    file_size?: number;
-  }
-}
-
-export interface WorkflowEventResponse {
-  /**
-   * The time the event was created in UTC.
-   */
-  created_at: string;
-
-  /**
-   * A unique workflow event ID.
-   */
-  event_id: string;
-
-  /**
-   * Status of the event.
-   */
-  status: 'In Progress' | 'Completed';
-
-  /**
-   * Workflow ID associated with the event.
-   */
-  workflow_id: string;
-}
+export type DefendUpdateWorkflowResponse = unknown;
 
 export interface DefendCreateWorkflowParams {
   /**
@@ -473,7 +180,12 @@ export interface DefendCreateWorkflowParams {
   automatic_hallucination_tolerance_levels?: { [key: string]: 'low' | 'medium' | 'high' };
 
   /**
-   * Whether to enable context for this workflow's evaluations. Defaults to false.
+   * Context includes any structured information that directly relates to the model’s
+   * input and expected output—e.g., the recent turn-by-turn history between an AI
+   * tutor and a student, facts or state passed through an agentic workflow, or other
+   * domain-specific signals your system already knows and wants the model to
+   * condition on. This field determines whether to enable context awareness for this
+   * workflow's evaluations. Defaults to false.
    */
   context_awareness?: boolean;
 
@@ -563,7 +275,7 @@ export namespace DefendSubmitEventParams {
   export interface ModelInput {
     /**
      * Any structured information that directly relates to the model’s input and
-     * expected output —e.g., the recent turn-by-turn history between an AI tutor and a
+     * expected output—e.g., the recent turn-by-turn history between an AI tutor and a
      * student, facts or state passed through an agentic workflow, or other
      * domain-specific signals your system already knows and wants the model to
      * condition on.
@@ -589,23 +301,79 @@ export namespace DefendSubmitEventParams {
 
 export interface DefendUpdateWorkflowParams {
   /**
-   * Description for the workflow.
+   * New mapping of guardrail metrics to hallucination tolerance levels (either
+   * `low`, `medium`, or `high`) to be used when `threshold_type` is set to
+   * `automatic`. Possible metrics are `completeness`, `instruction_adherence`,
+   * `context_adherence`, `ground_truth_adherence`, or `comprehensive_safety`.
+   */
+  automatic_hallucination_tolerance_levels?: { [key: string]: 'low' | 'medium' | 'high' };
+
+  /**
+   * Whether to enable context awareness for this workflow's evaluations.
+   */
+  context_awareness?: boolean;
+
+  /**
+   * New mapping of guardrail metrics to floating point threshold values to be used
+   * when `threshold_type` is set to `custom`. Possible metrics are `correctness`,
+   * `completeness`, `instruction_adherence`, `context_adherence`,
+   * `ground_truth_adherence`, or `comprehensive_safety`.
+   */
+  custom_hallucination_threshold_values?: { [key: string]: number };
+
+  /**
+   * New description for the workflow.
    */
   description?: string;
 
   /**
-   * Name of the workflow.
+   * An array of file IDs to search in the workflow's evaluations. Files must be
+   * uploaded via the DeepRails API first.
+   */
+  file_search?: Array<string>;
+
+  /**
+   * The new action used to improve outputs that fail one or more guardrail metrics
+   * for the workflow events. May be `regen`, `fixit`, or `do_nothing`. ReGen runs
+   * the user's input prompt with minor induced variance. FixIt attempts to directly
+   * address the shortcomings of the output using the guardrail failure rationale. Do
+   * Nothing does not attempt any improvement.
+   */
+  improvement_action?: 'regen' | 'fixit' | 'do_nothing';
+
+  /**
+   * Max. number of improvement action attempts until a given event passes the
+   * guardrails. Defaults to 10.
+   */
+  max_improvement_attempts?: number;
+
+  /**
+   * New name for the workflow.
    */
   name?: string;
+
+  /**
+   * New type of thresholds to use for the workflow, either `automatic` or `custom`.
+   * Automatic thresholds are assigned internally after the user specifies a
+   * qualitative tolerance for the metrics, whereas custom metrics allow the user to
+   * set the threshold for each metric as a floating point number between 0.0 and
+   * 1.0.
+   */
+  threshold_type?: 'automatic' | 'custom';
+
+  /**
+   * Whether to enable web search for this workflow's evaluations.
+   */
+  web_search?: boolean;
 }
 
 export declare namespace Defend {
   export {
-    type DefendCreateResponse as DefendCreateResponse,
     type DefendResponse as DefendResponse,
-    type DefendUpdateResponse as DefendUpdateResponse,
-    type WorkflowEventDetailResponse as WorkflowEventDetailResponse,
-    type WorkflowEventResponse as WorkflowEventResponse,
+    type DefendCreateWorkflowResponse as DefendCreateWorkflowResponse,
+    type DefendRetrieveEventResponse as DefendRetrieveEventResponse,
+    type DefendSubmitEventResponse as DefendSubmitEventResponse,
+    type DefendUpdateWorkflowResponse as DefendUpdateWorkflowResponse,
     type DefendCreateWorkflowParams as DefendCreateWorkflowParams,
     type DefendRetrieveEventParams as DefendRetrieveEventParams,
     type DefendRetrieveWorkflowParams as DefendRetrieveWorkflowParams,

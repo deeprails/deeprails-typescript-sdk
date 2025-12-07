@@ -128,7 +128,18 @@ describe('resource defend', () => {
     await expect(
       client.defend.updateWorkflow(
         'workflow_id',
-        { description: 'description', name: 'name' },
+        {
+          automatic_hallucination_tolerance_levels: { foo: 'low' },
+          context_awareness: true,
+          custom_hallucination_threshold_values: { foo: 0 },
+          description: 'description',
+          file_search: ['string'],
+          improvement_action: 'regen',
+          max_improvement_attempts: 0,
+          name: 'name',
+          threshold_type: 'automatic',
+          web_search: true,
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(DeepRails.NotFoundError);
