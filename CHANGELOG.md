@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.19.0 (2025-12-07)
+
+Full Changelog: [v1.18.0...v1.19.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.18.0...v1.19.0)
+
+### Features
+
+* **api:** Expand update endpoints ([da3f6f7](https://github.com/deeprails/deeprails-typescript-sdk/commit/da3f6f730e41e2d06f4017f84c3ee6435d9197e0))
+* **api:** manual updates ([f1b49cc](https://github.com/deeprails/deeprails-typescript-sdk/commit/f1b49cc6d070f9fd801a6f04ecbb669dddb084ac))
+
 ## 1.18.0 (2025-12-07)
 
 Full Changelog: [v1.17.0...v1.18.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.17.0...v1.18.0)

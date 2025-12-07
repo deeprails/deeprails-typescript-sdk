@@ -9,6 +9,14 @@ export class Monitor extends APIResource {
   /**
    * Use this endpoint to create a new monitor to evaluate model inputs and outputs
    * using guardrails
+   *
+   * @example
+   * ```ts
+   * const monitorCreateResponse = await client.monitor.create({
+   *   guardrail_metrics: ['correctness'],
+   *   name: 'name',
+   * });
+   * ```
    */
   create(body: MonitorCreateParams, options?: RequestOptions): APIPromise<MonitorCreateResponse> {
     return this._client.post('/monitor', { body, ...options });
@@ -17,6 +25,13 @@ export class Monitor extends APIResource {
   /**
    * Use this endpoint to retrieve the details and evaluations associated with a
    * specific monitor
+   *
+   * @example
+   * ```ts
+   * const monitorDetailResponse = await client.monitor.retrieve(
+   *   'monitor_id',
+   * );
+   * ```
    */
   retrieve(
     monitorID: string,
@@ -27,8 +42,15 @@ export class Monitor extends APIResource {
   }
 
   /**
-   * Use this endpoint to update the name, description, or status of an existing
-   * monitor
+   * Use this endpoint to update the name, status, and/or other details of an
+   * existing monitor.
+   *
+   * @example
+   * ```ts
+   * const monitorUpdateResponse = await client.monitor.update(
+   *   'monitor_id',
+   * );
+   * ```
    */
   update(
     monitorID: string,
@@ -40,6 +62,14 @@ export class Monitor extends APIResource {
 
   /**
    * Use this endpoint to retrieve the details of a specific monitor event
+   *
+   * @example
+   * ```ts
+   * const monitorEventDetailResponse =
+   *   await client.monitor.retrieveEvent('event_id', {
+   *     monitor_id: 'monitor_id',
+   *   });
+   * ```
    */
   retrieveEvent(
     eventID: string,
@@ -53,6 +83,15 @@ export class Monitor extends APIResource {
   /**
    * Use this endpoint to submit a model input and output pair to a monitor for
    * evaluation
+   *
+   * @example
+   * ```ts
+   * const monitorEventResponse =
+   *   await client.monitor.submitEvent('monitor_id', {
+   *     model_input: {},
+   *     model_output: 'model_output',
+   *   });
+   * ```
    */
   submitEvent(
     monitorID: string,
@@ -83,7 +122,8 @@ export interface MonitorCreateResponse {
 
 export interface MonitorDetailResponse {
   /**
-   * An array of capabilities associated with this monitor.
+   * An array of extended AI capabilities associated with this monitor. Can be
+   * `web_search`, `file_search`, and/or `context_awareness`.
    */
   capabilities: Array<MonitorDetailResponse.Capability>;
 
@@ -224,7 +264,7 @@ export namespace MonitorDetailResponse {
     export interface ModelInput {
       /**
        * Any structured information that directly relates to the model’s input and
-       * expected output —e.g., the recent turn-by-turn history between an AI tutor and a
+       * expected output—e.g., the recent turn-by-turn history between an AI tutor and a
        * student, facts or state passed through an agentic workflow, or other
        * domain-specific signals your system already knows and wants the model to
        * condition on.
@@ -300,7 +340,8 @@ export namespace MonitorDetailResponse {
 
 export interface MonitorEventDetailResponse {
   /**
-   * The capabilities associated with the monitor event.
+   * The extended AI capabilities associated with the monitor event. Can be
+   * `web_search`, `file_search`, and/or `context_awareness`.
    */
   capabilities?: Array<MonitorEventDetailResponse.Capability>;
 
@@ -448,7 +489,12 @@ export interface MonitorCreateParams {
   name: string;
 
   /**
-   * Whether to enable context for this workflow's evaluations. Defaults to false.
+   * Context includes any structured information that directly relates to the model’s
+   * input and expected output—e.g., the recent turn-by-turn history between an AI
+   * tutor and a student, facts or state passed through an agentic workflow, or other
+   * domain-specific signals your system already knows and wants the model to
+   * condition on. This field determines whether to enable context awareness for this
+   * monitor's evaluations. Defaults to false.
    */
   context_awareness?: boolean;
 
@@ -479,12 +525,31 @@ export interface MonitorRetrieveParams {
 
 export interface MonitorUpdateParams {
   /**
-   * Description of the monitor.
+   * New description of the monitor.
    */
   description?: string;
 
   /**
-   * Name of the monitor.
+   * An array of file IDs to search in the monitor's evaluations. Files must be
+   * uploaded via the DeepRails API first.
+   */
+  file_search?: Array<string>;
+
+  /**
+   * An array of the new guardrail metrics that model input and output pairs will be
+   * evaluated on.
+   */
+  guardrail_metrics?: Array<
+    | 'correctness'
+    | 'completeness'
+    | 'instruction_adherence'
+    | 'context_adherence'
+    | 'ground_truth_adherence'
+    | 'comprehensive_safety'
+  >;
+
+  /**
+   * New name of the monitor.
    */
   name?: string;
 
@@ -493,6 +558,11 @@ export interface MonitorUpdateParams {
    * longer record and evaluate events.
    */
   status?: 'active' | 'inactive';
+
+  /**
+   * Whether to enable web search for this monitor's evaluations.
+   */
+  web_search?: boolean;
 }
 
 export interface MonitorRetrieveEventParams {
@@ -538,7 +608,7 @@ export namespace MonitorSubmitEventParams {
   export interface ModelInput {
     /**
      * Any structured information that directly relates to the model’s input and
-     * expected output —e.g., the recent turn-by-turn history between an AI tutor and a
+     * expected output—e.g., the recent turn-by-turn history between an AI tutor and a
      * student, facts or state passed through an agentic workflow, or other
      * domain-specific signals your system already knows and wants the model to
      * condition on.

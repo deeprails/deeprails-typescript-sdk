@@ -91,7 +91,7 @@ export interface DefendResponse {
 
   /**
    * Extended AI capabilities available to the event, if any. Can be `web_search`,
-   * `context_awareness`, and/or `file_search`.
+   * `file_search`, and/or `context_awareness`.
    */
   capabilities: Array<DefendResponse.Capability>;
 
@@ -359,7 +359,7 @@ export interface WorkflowEventDetailResponse {
 
   /**
    * Extended AI capabilities available to the event, if any. Can be `web_search`,
-   * `context_awareness`, and/or `file_search`.
+   * `file_search`, and/or `context_awareness`.
    */
   capabilities?: Array<WorkflowEventDetailResponse.Capability>;
 
@@ -473,7 +473,12 @@ export interface DefendCreateWorkflowParams {
   automatic_hallucination_tolerance_levels?: { [key: string]: 'low' | 'medium' | 'high' };
 
   /**
-   * Whether to enable context for this workflow's evaluations. Defaults to false.
+   * Context includes any structured information that directly relates to the model’s
+   * input and expected output—e.g., the recent turn-by-turn history between an AI
+   * tutor and a student, facts or state passed through an agentic workflow, or other
+   * domain-specific signals your system already knows and wants the model to
+   * condition on. This field determines whether to enable context awareness for this
+   * workflow's evaluations. Defaults to false.
    */
   context_awareness?: boolean;
 
@@ -563,7 +568,7 @@ export namespace DefendSubmitEventParams {
   export interface ModelInput {
     /**
      * Any structured information that directly relates to the model’s input and
-     * expected output —e.g., the recent turn-by-turn history between an AI tutor and a
+     * expected output—e.g., the recent turn-by-turn history between an AI tutor and a
      * student, facts or state passed through an agentic workflow, or other
      * domain-specific signals your system already knows and wants the model to
      * condition on.
@@ -589,14 +594,70 @@ export namespace DefendSubmitEventParams {
 
 export interface DefendUpdateWorkflowParams {
   /**
-   * Description for the workflow.
+   * New mapping of guardrail metrics to hallucination tolerance levels (either
+   * `low`, `medium`, or `high`) to be used when `threshold_type` is set to
+   * `automatic`. Possible metrics are `completeness`, `instruction_adherence`,
+   * `context_adherence`, `ground_truth_adherence`, or `comprehensive_safety`.
+   */
+  automatic_hallucination_tolerance_levels?: { [key: string]: 'low' | 'medium' | 'high' };
+
+  /**
+   * Whether to enable context awareness for this workflow's evaluations.
+   */
+  context_awareness?: boolean;
+
+  /**
+   * New mapping of guardrail metrics to floating point threshold values to be used
+   * when `threshold_type` is set to `custom`. Possible metrics are `correctness`,
+   * `completeness`, `instruction_adherence`, `context_adherence`,
+   * `ground_truth_adherence`, or `comprehensive_safety`.
+   */
+  custom_hallucination_threshold_values?: { [key: string]: number };
+
+  /**
+   * New description for the workflow.
    */
   description?: string;
 
   /**
-   * Name of the workflow.
+   * An array of file IDs to search in the workflow's evaluations. Files must be
+   * uploaded via the DeepRails API first.
+   */
+  file_search?: Array<string>;
+
+  /**
+   * The new action used to improve outputs that fail one or more guardrail metrics
+   * for the workflow events. May be `regen`, `fixit`, or `do_nothing`. ReGen runs
+   * the user's input prompt with minor induced variance. FixIt attempts to directly
+   * address the shortcomings of the output using the guardrail failure rationale. Do
+   * Nothing does not attempt any improvement.
+   */
+  improvement_action?: 'regen' | 'fixit' | 'do_nothing';
+
+  /**
+   * Max. number of improvement action attempts until a given event passes the
+   * guardrails. Defaults to 10.
+   */
+  max_improvement_attempts?: number;
+
+  /**
+   * New name for the workflow.
    */
   name?: string;
+
+  /**
+   * New type of thresholds to use for the workflow, either `automatic` or `custom`.
+   * Automatic thresholds are assigned internally after the user specifies a
+   * qualitative tolerance for the metrics, whereas custom metrics allow the user to
+   * set the threshold for each metric as a floating point number between 0.0 and
+   * 1.0.
+   */
+  threshold_type?: 'automatic' | 'custom';
+
+  /**
+   * Whether to enable web search for this workflow's evaluations.
+   */
+  web_search?: boolean;
 }
 
 export declare namespace Defend {
