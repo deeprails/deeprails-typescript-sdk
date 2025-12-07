@@ -70,7 +70,14 @@ describe('resource monitor', () => {
     await expect(
       client.monitor.update(
         'monitor_id',
-        { description: 'description', name: 'name', status: 'active' },
+        {
+          description: 'description',
+          file_search: ['string'],
+          guardrail_metrics: ['correctness'],
+          name: 'name',
+          status: 'inactive',
+          web_search: true,
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(DeepRails.NotFoundError);

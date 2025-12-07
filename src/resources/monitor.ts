@@ -9,43 +9,69 @@ export class Monitor extends APIResource {
   /**
    * Use this endpoint to create a new monitor to evaluate model inputs and outputs
    * using guardrails
+   *
+   * @example
+   * ```ts
+   * const monitor = await client.monitor.create({
+   *   guardrail_metrics: ['correctness'],
+   *   name: 'name',
+   * });
+   * ```
    */
-  create(body: MonitorCreateParams, options?: RequestOptions): APIPromise<MonitorCreateResponse> {
+  create(body: MonitorCreateParams, options?: RequestOptions): APIPromise<unknown> {
     return this._client.post('/monitor', { body, ...options });
   }
 
   /**
    * Use this endpoint to retrieve the details and evaluations associated with a
    * specific monitor
+   *
+   * @example
+   * ```ts
+   * const monitor = await client.monitor.retrieve('monitor_id');
+   * ```
    */
   retrieve(
     monitorID: string,
     query: MonitorRetrieveParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<MonitorDetailResponse> {
+  ): APIPromise<unknown> {
     return this._client.get(path`/monitor/${monitorID}`, { query, ...options });
   }
 
   /**
-   * Use this endpoint to update the name, description, or status of an existing
-   * monitor
+   * Use this endpoint to update the name, status, and/or other details of an
+   * existing monitor.
+   *
+   * @example
+   * ```ts
+   * const monitor = await client.monitor.update('monitor_id');
+   * ```
    */
   update(
     monitorID: string,
     body: MonitorUpdateParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<MonitorUpdateResponse> {
+  ): APIPromise<unknown> {
     return this._client.put(path`/monitor/${monitorID}`, { body, ...options });
   }
 
   /**
    * Use this endpoint to retrieve the details of a specific monitor event
+   *
+   * @example
+   * ```ts
+   * const response = await client.monitor.retrieveEvent(
+   *   'event_id',
+   *   { monitor_id: 'monitor_id' },
+   * );
+   * ```
    */
   retrieveEvent(
     eventID: string,
     params: MonitorRetrieveEventParams,
     options?: RequestOptions,
-  ): APIPromise<MonitorEventDetailResponse> {
+  ): APIPromise<unknown> {
     const { monitor_id } = params;
     return this._client.get(path`/monitor/${monitor_id}/events/${eventID}`, options);
   }
@@ -53,378 +79,33 @@ export class Monitor extends APIResource {
   /**
    * Use this endpoint to submit a model input and output pair to a monitor for
    * evaluation
+   *
+   * @example
+   * ```ts
+   * const response = await client.monitor.submitEvent(
+   *   'monitor_id',
+   *   { model_input: {}, model_output: 'model_output' },
+   * );
+   * ```
    */
   submitEvent(
     monitorID: string,
     body: MonitorSubmitEventParams,
     options?: RequestOptions,
-  ): APIPromise<MonitorEventResponse> {
+  ): APIPromise<unknown> {
     return this._client.post(path`/monitor/${monitorID}/events`, { body, ...options });
   }
 }
 
-export interface MonitorCreateResponse {
-  /**
-   * The time the monitor was created in UTC.
-   */
-  created_at: string;
+export type MonitorCreateResponse = unknown;
 
-  /**
-   * A unique monitor ID.
-   */
-  monitor_id: string;
+export type MonitorRetrieveResponse = unknown;
 
-  /**
-   * Status of the monitor. Can be `active` or `inactive`. Inactive monitors no
-   * longer record and evaluate events.
-   */
-  status: 'active' | 'inactive';
-}
+export type MonitorUpdateResponse = unknown;
 
-export interface MonitorDetailResponse {
-  /**
-   * An array of capabilities associated with this monitor.
-   */
-  capabilities: Array<MonitorDetailResponse.Capability>;
+export type MonitorRetrieveEventResponse = unknown;
 
-  /**
-   * The time the monitor was created in UTC.
-   */
-  created_at: string;
-
-  /**
-   * An array of all evaluations performed by this monitor. Each one corresponds to a
-   * separate monitor event.
-   */
-  evaluations: Array<MonitorDetailResponse.Evaluation>;
-
-  /**
-   * An array of files associated with this monitor.
-   */
-  files: Array<MonitorDetailResponse.File>;
-
-  /**
-   * A unique monitor ID.
-   */
-  monitor_id: string;
-
-  /**
-   * Name of this monitor.
-   */
-  name: string;
-
-  /**
-   * Contains five fields used for stats of this monitor: total evaluations,
-   * completed evaluations, failed evaluations, queued evaluations, and in progress
-   * evaluations.
-   */
-  stats: MonitorDetailResponse.Stats;
-
-  /**
-   * Status of the monitor. Can be `active` or `inactive`. Inactive monitors no
-   * longer record and evaluate events.
-   */
-  status: 'active' | 'inactive';
-
-  /**
-   * The most recent time the monitor was modified in UTC.
-   */
-  updated_at: string;
-
-  /**
-   * Description of this monitor.
-   */
-  description?: string;
-}
-
-export namespace MonitorDetailResponse {
-  export interface Capability {
-    /**
-     * The type of capability.
-     */
-    capability?: string;
-  }
-
-  export interface Evaluation {
-    /**
-     * Status of the evaluation.
-     */
-    evaluation_status: 'in_progress' | 'completed' | 'canceled' | 'queued' | 'failed';
-
-    /**
-     * A dictionary of inputs sent to the LLM to generate output. The dictionary must
-     * contain at least a `user_prompt` field or a `system_prompt` field. For
-     * ground_truth_adherence guardrail metric, `ground_truth` should be provided.
-     */
-    model_input: Evaluation.ModelInput;
-
-    /**
-     * Output generated by the LLM to be evaluated.
-     */
-    model_output: string;
-
-    /**
-     * Run mode for the evaluation. The run mode allows the user to optimize for speed,
-     * accuracy, and cost by determining which models are used to evaluate the event.
-     */
-    run_mode: 'precision_plus' | 'precision' | 'smart' | 'economy';
-
-    /**
-     * The time the evaluation was created in UTC.
-     */
-    created_at?: string;
-
-    /**
-     * Error message if the evaluation failed.
-     */
-    error_message?: string;
-
-    /**
-     * Evaluation result consisting of average scores and rationales for each of the
-     * evaluated guardrail metrics.
-     */
-    evaluation_result?: { [key: string]: unknown };
-
-    /**
-     * Total cost of the evaluation.
-     */
-    evaluation_total_cost?: number;
-
-    /**
-     * An array of guardrail metrics that the input and output pair will be evaluated
-     * on.
-     */
-    guardrail_metrics?: Array<
-      | 'correctness'
-      | 'completeness'
-      | 'instruction_adherence'
-      | 'context_adherence'
-      | 'ground_truth_adherence'
-      | 'comprehensive_safety'
-    >;
-
-    /**
-     * An optional, user-defined tag for the evaluation.
-     */
-    nametag?: string;
-
-    /**
-     * Evaluation progress. Values range between 0 and 100; 100 corresponds to a
-     * completed `evaluation_status`.
-     */
-    progress?: number;
-  }
-
-  export namespace Evaluation {
-    /**
-     * A dictionary of inputs sent to the LLM to generate output. The dictionary must
-     * contain at least a `user_prompt` field or a `system_prompt` field. For
-     * ground_truth_adherence guardrail metric, `ground_truth` should be provided.
-     */
-    export interface ModelInput {
-      /**
-       * Any structured information that directly relates to the model’s input and
-       * expected output —e.g., the recent turn-by-turn history between an AI tutor and a
-       * student, facts or state passed through an agentic workflow, or other
-       * domain-specific signals your system already knows and wants the model to
-       * condition on.
-       */
-      context?: Array<string>;
-
-      /**
-       * The ground truth for evaluating Ground Truth Adherence guardrail.
-       */
-      ground_truth?: string;
-
-      /**
-       * The system prompt used to generate the output.
-       */
-      system_prompt?: string;
-
-      /**
-       * The user prompt used to generate the output.
-       */
-      user_prompt?: string;
-    }
-  }
-
-  export interface File {
-    /**
-     * The ID of the file.
-     */
-    file_id?: string;
-
-    /**
-     * The name of the file.
-     */
-    file_name?: string;
-
-    /**
-     * The size of the file in bytes.
-     */
-    file_size?: number;
-  }
-
-  /**
-   * Contains five fields used for stats of this monitor: total evaluations,
-   * completed evaluations, failed evaluations, queued evaluations, and in progress
-   * evaluations.
-   */
-  export interface Stats {
-    /**
-     * Number of evaluations that completed successfully.
-     */
-    completed_evaluations?: number;
-
-    /**
-     * Number of evaluations that failed.
-     */
-    failed_evaluations?: number;
-
-    /**
-     * Number of evaluations currently in progress.
-     */
-    in_progress_evaluations?: number;
-
-    /**
-     * Number of evaluations currently queued.
-     */
-    queued_evaluations?: number;
-
-    /**
-     * Total number of evaluations performed by this monitor.
-     */
-    total_evaluations?: number;
-  }
-}
-
-export interface MonitorEventDetailResponse {
-  /**
-   * The capabilities associated with the monitor event.
-   */
-  capabilities?: Array<MonitorEventDetailResponse.Capability>;
-
-  /**
-   * The time spent on the evaluation in seconds.
-   */
-  eval_time?: string;
-
-  /**
-   * The result of the evaluation of the monitor event.
-   */
-  evaluation_result?: { [key: string]: unknown };
-
-  /**
-   * A unique monitor event ID.
-   */
-  event_id?: string;
-
-  /**
-   * The files associated with the monitor event.
-   */
-  files?: Array<MonitorEventDetailResponse.File>;
-
-  /**
-   * The guardrail metrics evaluated by the monitor event.
-   */
-  guardrail_metrics?: Array<string>;
-
-  /**
-   * The model input used to create the monitor event.
-   */
-  model_input?: { [key: string]: unknown };
-
-  /**
-   * The output evaluated by the monitor event.
-   */
-  model_output?: string;
-
-  /**
-   * Monitor ID associated with this event.
-   */
-  monitor_id?: string;
-
-  /**
-   * A human-readable tag for the monitor event.
-   */
-  nametag?: string;
-
-  /**
-   * The run mode used to evaluate the monitor event.
-   */
-  run_mode?: 'precision_plus' | 'precision' | 'smart' | 'economy';
-
-  /**
-   * Status of the monitor event's evaluation.
-   */
-  status?: 'in_progress' | 'completed' | 'canceled' | 'queued' | 'failed';
-
-  /**
-   * The time the monitor event was created in UTC.
-   */
-  timestamp?: string;
-}
-
-export namespace MonitorEventDetailResponse {
-  export interface Capability {
-    /**
-     * The type of capability.
-     */
-    capability?: string;
-  }
-
-  export interface File {
-    /**
-     * The ID of the file.
-     */
-    file_id?: string;
-
-    /**
-     * The name of the file.
-     */
-    file_name?: string;
-
-    /**
-     * The size of the file in bytes.
-     */
-    file_size?: number;
-  }
-}
-
-export interface MonitorEventResponse {
-  /**
-   * A unique monitor event ID.
-   */
-  event_id: string;
-
-  /**
-   * Monitor ID associated with this event.
-   */
-  monitor_id: string;
-
-  /**
-   * The time the monitor event was created in UTC.
-   */
-  created_at?: string;
-}
-
-export interface MonitorUpdateResponse {
-  /**
-   * The time the monitor was last modified in UTC.
-   */
-  modified_at: string;
-
-  /**
-   * A unique monitor ID.
-   */
-  monitor_id: string;
-
-  /**
-   * Status of the monitor. Can be `active` or `inactive`. Inactive monitors no
-   * longer record and evaluate events.
-   */
-  status: 'active' | 'inactive';
-}
+export type MonitorSubmitEventResponse = unknown;
 
 export interface MonitorCreateParams {
   /**
@@ -448,7 +129,12 @@ export interface MonitorCreateParams {
   name: string;
 
   /**
-   * Whether to enable context for this workflow's evaluations. Defaults to false.
+   * Context includes any structured information that directly relates to the model’s
+   * input and expected output—e.g., the recent turn-by-turn history between an AI
+   * tutor and a student, facts or state passed through an agentic workflow, or other
+   * domain-specific signals your system already knows and wants the model to
+   * condition on. This field determines whether to enable context awareness for this
+   * monitor's evaluations. Defaults to false.
    */
   context_awareness?: boolean;
 
@@ -479,12 +165,31 @@ export interface MonitorRetrieveParams {
 
 export interface MonitorUpdateParams {
   /**
-   * Description of the monitor.
+   * New description of the monitor.
    */
   description?: string;
 
   /**
-   * Name of the monitor.
+   * An array of file IDs to search in the monitor's evaluations. Files must be
+   * uploaded via the DeepRails API first.
+   */
+  file_search?: Array<string>;
+
+  /**
+   * An array of the new guardrail metrics that model input and output pairs will be
+   * evaluated on.
+   */
+  guardrail_metrics?: Array<
+    | 'correctness'
+    | 'completeness'
+    | 'instruction_adherence'
+    | 'context_adherence'
+    | 'ground_truth_adherence'
+    | 'comprehensive_safety'
+  >;
+
+  /**
+   * New name of the monitor.
    */
   name?: string;
 
@@ -493,6 +198,11 @@ export interface MonitorUpdateParams {
    * longer record and evaluate events.
    */
   status?: 'active' | 'inactive';
+
+  /**
+   * Whether to enable web search for this monitor's evaluations.
+   */
+  web_search?: boolean;
 }
 
 export interface MonitorRetrieveEventParams {
@@ -538,7 +248,7 @@ export namespace MonitorSubmitEventParams {
   export interface ModelInput {
     /**
      * Any structured information that directly relates to the model’s input and
-     * expected output —e.g., the recent turn-by-turn history between an AI tutor and a
+     * expected output—e.g., the recent turn-by-turn history between an AI tutor and a
      * student, facts or state passed through an agentic workflow, or other
      * domain-specific signals your system already knows and wants the model to
      * condition on.
@@ -565,10 +275,10 @@ export namespace MonitorSubmitEventParams {
 export declare namespace Monitor {
   export {
     type MonitorCreateResponse as MonitorCreateResponse,
-    type MonitorDetailResponse as MonitorDetailResponse,
-    type MonitorEventDetailResponse as MonitorEventDetailResponse,
-    type MonitorEventResponse as MonitorEventResponse,
+    type MonitorRetrieveResponse as MonitorRetrieveResponse,
     type MonitorUpdateResponse as MonitorUpdateResponse,
+    type MonitorRetrieveEventResponse as MonitorRetrieveEventResponse,
+    type MonitorSubmitEventResponse as MonitorSubmitEventResponse,
     type MonitorCreateParams as MonitorCreateParams,
     type MonitorRetrieveParams as MonitorRetrieveParams,
     type MonitorUpdateParams as MonitorUpdateParams,
