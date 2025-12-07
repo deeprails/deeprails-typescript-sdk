@@ -24,13 +24,15 @@ const client = new DeepRails({
   apiKey: process.env['DEEPRAILS_API_KEY'], // This is the default and can be omitted
 });
 
-const response = await client.defend.createWorkflow({
+const defendCreateResponse = await client.defend.createWorkflow({
   improvement_action: 'fixit',
   name: 'Push Alert Workflow',
   threshold_type: 'custom',
   custom_hallucination_threshold_values: { completeness: 0.7, instruction_adherence: 0.75 },
   web_search: true,
 });
+
+console.log(defendCreateResponse.workflow_id);
 ```
 
 ### Request & Response types
@@ -52,7 +54,7 @@ const params: DeepRails.DefendCreateWorkflowParams = {
   custom_hallucination_threshold_values: { completeness: 0.7, instruction_adherence: 0.75 },
   web_search: true,
 };
-const response: unknown = await client.defend.createWorkflow(params);
+const defendCreateResponse: DeepRails.DefendCreateResponse = await client.defend.createWorkflow(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -65,7 +67,7 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const response = await client.defend
+const defendCreateResponse = await client.defend
   .createWorkflow({
     improvement_action: 'fixit',
     name: 'Push Alert Workflow',
@@ -165,7 +167,7 @@ const response = await client.defend
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: response, response: raw } = await client.defend
+const { data: defendCreateResponse, response: raw } = await client.defend
   .createWorkflow({
     improvement_action: 'fixit',
     name: 'Push Alert Workflow',
@@ -175,7 +177,7 @@ const { data: response, response: raw } = await client.defend
   })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(response);
+console.log(defendCreateResponse.workflow_id);
 ```
 
 ### Logging
