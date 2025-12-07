@@ -31,6 +31,7 @@ describe('resource defend', () => {
       name: 'name',
       threshold_type: 'automatic',
       automatic_hallucination_tolerance_levels: { foo: 'low' },
+      context_awareness: true,
       custom_hallucination_threshold_values: { foo: 0 },
       description: 'description',
       file_search: ['string'],
@@ -97,6 +98,7 @@ describe('resource defend', () => {
   test.skip('submitEvent: required and optional params', async () => {
     const response = await client.defend.submitEvent('workflow_id', {
       model_input: {
+        context: ['string'],
         ground_truth: 'ground_truth',
         system_prompt: 'system_prompt',
         user_prompt: 'user_prompt',

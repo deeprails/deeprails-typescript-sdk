@@ -223,6 +223,15 @@ export namespace MonitorDetailResponse {
      */
     export interface ModelInput {
       /**
+       * Any structured information that directly relates to the model’s input and
+       * expected output —e.g., the recent turn-by-turn history between an AI tutor and a
+       * student, facts or state passed through an agentic workflow, or other
+       * domain-specific signals your system already knows and wants the model to
+       * condition on.
+       */
+      context?: Array<string>;
+
+      /**
        * The ground truth for evaluating Ground Truth Adherence guardrail.
        */
       ground_truth?: string;
@@ -439,6 +448,11 @@ export interface MonitorCreateParams {
   name: string;
 
   /**
+   * Whether to enable context for this workflow's evaluations. Defaults to false.
+   */
+  context_awareness?: boolean;
+
+  /**
    * Description of the new monitor.
    */
   description?: string;
@@ -522,6 +536,15 @@ export namespace MonitorSubmitEventParams {
    * ground_truth_adherence guardrail metric, `ground_truth` should be provided.
    */
   export interface ModelInput {
+    /**
+     * Any structured information that directly relates to the model’s input and
+     * expected output —e.g., the recent turn-by-turn history between an AI tutor and a
+     * student, facts or state passed through an agentic workflow, or other
+     * domain-specific signals your system already knows and wants the model to
+     * condition on.
+     */
+    context?: Array<string>;
+
     /**
      * The ground truth for evaluating Ground Truth Adherence guardrail.
      */
