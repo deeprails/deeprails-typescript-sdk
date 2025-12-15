@@ -88,7 +88,7 @@ export class Monitor extends APIResource {
    * ```ts
    * const monitorEventResponse =
    *   await client.monitor.submitEvent('monitor_id', {
-   *     model_input: {},
+   *     model_input: { user_prompt: 'user_prompt' },
    *     model_output: 'model_output',
    *   });
    * ```
@@ -263,6 +263,11 @@ export namespace MonitorDetailResponse {
      */
     export interface ModelInput {
       /**
+       * The user prompt used to generate the output.
+       */
+      user_prompt: string;
+
+      /**
        * Any structured information that directly relates to the model’s input and
        * expected output—e.g., the recent turn-by-turn history between an AI tutor and a
        * student, facts or state passed through an agentic workflow, or other
@@ -280,11 +285,6 @@ export namespace MonitorDetailResponse {
        * The system prompt used to generate the output.
        */
       system_prompt?: string;
-
-      /**
-       * The user prompt used to generate the output.
-       */
-      user_prompt?: string;
     }
   }
 
@@ -593,10 +593,10 @@ export interface MonitorSubmitEventParams {
   /**
    * Run mode for the monitor event. The run mode allows the user to optimize for
    * speed, accuracy, and cost by determining which models are used to evaluate the
-   * event. Available run modes include `precision_plus`, `precision`, `smart`, and
-   * `economy`. Defaults to `smart`.
+   * event. Available run modes include `precision_plus_codex`, `precision_plus`,
+   * `precision`, `smart`, and `economy`. Defaults to `smart`.
    */
-  run_mode?: 'precision_plus' | 'precision' | 'smart' | 'economy';
+  run_mode?: 'precision_plus_codex' | 'precision_plus' | 'precision' | 'smart' | 'economy';
 }
 
 export namespace MonitorSubmitEventParams {
@@ -606,6 +606,11 @@ export namespace MonitorSubmitEventParams {
    * ground_truth_adherence guardrail metric, `ground_truth` should be provided.
    */
   export interface ModelInput {
+    /**
+     * The user prompt used to generate the output.
+     */
+    user_prompt: string;
+
     /**
      * Any structured information that directly relates to the model’s input and
      * expected output—e.g., the recent turn-by-turn history between an AI tutor and a
@@ -624,11 +629,6 @@ export namespace MonitorSubmitEventParams {
      * The system prompt used to generate the output.
      */
     system_prompt?: string;
-
-    /**
-     * The user prompt used to generate the output.
-     */
-    user_prompt?: string;
   }
 }
 

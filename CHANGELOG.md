@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.20.0 (2025-12-15)
+
+Full Changelog: [v1.19.0...v1.20.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.19.0...v1.20.0)
+
+### Features
+
+* **api:** add precision plus codex ([73c7034](https://github.com/deeprails/deeprails-typescript-sdk/commit/73c70341677cb23235bae7f637b264adf30cbd46))
+
 ## 1.19.0 (2025-12-07)
 
 Full Changelog: [v1.18.0...v1.19.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.18.0...v1.19.0)
