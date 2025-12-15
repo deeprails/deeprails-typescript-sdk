@@ -180,9 +180,18 @@ export namespace DefendResponse {
     improved_model_output?: string;
 
     /**
-     * Status of the improvement tool used to improve the event.
+     * Status of the improvement tool used to improve the event. `improvement_required`
+     * indicates that the evaluation is complete and the improvement action is needed
+     * but is not taking place. `improved` and `improvement_failed` indicate when the
+     * improvement action concludes, successfully and unsuccessfully, respectively.
+     * `no_improvement_required` means that the first evaluation passed all its
+     * metrics!
      */
-    improvement_tool_status?: string;
+    improvement_tool_status?:
+      | 'improved'
+      | 'improvement_failed'
+      | 'no_improvement_required'
+      | 'improvement_required';
   }
 
   export namespace Event {
@@ -332,9 +341,19 @@ export interface WorkflowEventDetailResponse {
   improvement_action: 'regen' | 'fixit' | 'do_nothing';
 
   /**
-   * Status of the improvement tool used to improve the event.
+   * Status of the improvement tool used to improve the event. `improvement_required`
+   * indicates that the evaluation is complete and the improvement action is needed
+   * but is not taking place. `improved` and `improvement_failed` indicate when the
+   * improvement action concludes, successfully and unsuccessfully, respectively.
+   * `no_improvement_required` means that the first evaluation passed all its
+   * metrics!
    */
-  improvement_tool_status: 'improved' | 'failed on max retries' | 'improvement_required' | null;
+  improvement_tool_status:
+    | 'improved'
+    | 'improvement_failed'
+    | 'no_improvement_required'
+    | 'improvement_required'
+    | null;
 
   /**
    * Status of the event.
@@ -548,10 +567,10 @@ export interface DefendSubmitEventParams {
   /**
    * Run mode for the workflow event. The run mode allows the user to optimize for
    * speed, accuracy, and cost by determining which models are used to evaluate the
-   * event. Available run modes include `precision_plus`, `precision`, `smart`, and
-   * `economy`. Defaults to `smart`.
+   * event. Available run modes include `precision_plus_codex`, `precision_plus`,
+   * `precision`, `smart`, and `economy`. Defaults to `smart`.
    */
-  run_mode: 'precision_plus' | 'precision' | 'smart' | 'economy';
+  run_mode: 'precision_plus_codex' | 'precision_plus' | 'precision' | 'smart' | 'economy';
 
   /**
    * An optional, user-defined tag for the event.
@@ -566,6 +585,11 @@ export namespace DefendSubmitEventParams {
    * ground_truth_adherence guardrail metric, `ground_truth` should be provided.
    */
   export interface ModelInput {
+    /**
+     * The user prompt used to generate the output.
+     */
+    user_prompt: string;
+
     /**
      * Any structured information that directly relates to the model’s input and
      * expected output—e.g., the recent turn-by-turn history between an AI tutor and a
@@ -584,11 +608,6 @@ export namespace DefendSubmitEventParams {
      * The system prompt used to generate the output.
      */
     system_prompt?: string;
-
-    /**
-     * The user prompt used to generate the output.
-     */
-    user_prompt?: string;
   }
 }
 
