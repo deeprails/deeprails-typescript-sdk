@@ -193,8 +193,9 @@ export namespace MonitorDetailResponse {
 
     /**
      * A dictionary of inputs sent to the LLM to generate output. The dictionary must
-     * contain at least a `user_prompt` field or a `system_prompt` field. For
-     * ground_truth_adherence guardrail metric, `ground_truth` should be provided.
+     * contain a `user_prompt` field. For ground_truth_adherence guardrail metric,
+     * `ground_truth` should be provided. When `context_awareness` is enabled,
+     * `context` should be provided.
      */
     model_input: Evaluation.ModelInput;
 
@@ -258,8 +259,9 @@ export namespace MonitorDetailResponse {
   export namespace Evaluation {
     /**
      * A dictionary of inputs sent to the LLM to generate output. The dictionary must
-     * contain at least a `user_prompt` field or a `system_prompt` field. For
-     * ground_truth_adherence guardrail metric, `ground_truth` should be provided.
+     * contain a `user_prompt` field. For ground_truth_adherence guardrail metric,
+     * `ground_truth` should be provided. When `context_awareness` is enabled,
+     * `context` should be provided.
      */
     export interface ModelInput {
       /**
@@ -274,7 +276,7 @@ export namespace MonitorDetailResponse {
        * domain-specific signals your system already knows and wants the model to
        * condition on.
        */
-      context?: Array<string>;
+      context?: Array<ModelInput.Context>;
 
       /**
        * The ground truth for evaluating Ground Truth Adherence guardrail.
@@ -285,6 +287,20 @@ export namespace MonitorDetailResponse {
        * The system prompt used to generate the output.
        */
       system_prompt?: string;
+    }
+
+    export namespace ModelInput {
+      export interface Context {
+        /**
+         * The content of the message.
+         */
+        content?: string;
+
+        /**
+         * The role of the speaker.
+         */
+        role?: string;
+      }
     }
   }
 
@@ -575,8 +591,8 @@ export interface MonitorRetrieveEventParams {
 export interface MonitorSubmitEventParams {
   /**
    * A dictionary of inputs sent to the LLM to generate output. The dictionary must
-   * contain at least a `user_prompt` field or a `system_prompt` field. For
-   * ground_truth_adherence guardrail metric, `ground_truth` should be provided.
+   * contain a `user_prompt` field. For ground_truth_adherence guardrail metric,
+   * `ground_truth` should be provided.
    */
   model_input: MonitorSubmitEventParams.ModelInput;
 
@@ -602,8 +618,8 @@ export interface MonitorSubmitEventParams {
 export namespace MonitorSubmitEventParams {
   /**
    * A dictionary of inputs sent to the LLM to generate output. The dictionary must
-   * contain at least a `user_prompt` field or a `system_prompt` field. For
-   * ground_truth_adherence guardrail metric, `ground_truth` should be provided.
+   * contain a `user_prompt` field. For ground_truth_adherence guardrail metric,
+   * `ground_truth` should be provided.
    */
   export interface ModelInput {
     /**
@@ -618,7 +634,7 @@ export namespace MonitorSubmitEventParams {
      * domain-specific signals your system already knows and wants the model to
      * condition on.
      */
-    context?: Array<string>;
+    context?: Array<ModelInput.Context>;
 
     /**
      * The ground truth for evaluating Ground Truth Adherence guardrail.
@@ -629,6 +645,20 @@ export namespace MonitorSubmitEventParams {
      * The system prompt used to generate the output.
      */
     system_prompt?: string;
+  }
+
+  export namespace ModelInput {
+    export interface Context {
+      /**
+       * The content of the message.
+       */
+      content?: string;
+
+      /**
+       * The role of the speaker.
+       */
+      role?: string;
+    }
   }
 }
 
