@@ -165,6 +165,11 @@ export namespace DefendResponse {
 
   export interface Event {
     /**
+     * The ID of the billing request for the event.
+     */
+    billing_request_id?: string;
+
+    /**
      * An array of evaluations for this event.
      */
     evaluations?: Array<Event.Evaluation>;
@@ -192,10 +197,21 @@ export namespace DefendResponse {
       | 'improvement_failed'
       | 'no_improvement_required'
       | 'improvement_required';
+
+    /**
+     * Status of the event.
+     */
+    status?: 'completed' | 'failed' | 'in_progress';
   }
 
   export namespace Event {
     export interface Evaluation {
+      /**
+       * Analysis of the failures of the model_output according to the guardrail metrics
+       * evaluated.
+       */
+      analysis_of_failures?: string;
+
       /**
        * The attempt number or identifier for this evaluation.
        */
@@ -230,6 +246,25 @@ export namespace DefendResponse {
        * An array of guardrail metrics evaluated.
        */
       guardrail_metrics?: Array<string>;
+
+      /**
+       * Status of the improvement tool used to improve the event. `improvement_required`
+       * indicates that the evaluation is complete and the improvement action is needed
+       * but is not taking place. `improved` and `improvement_failed` indicate when the
+       * improvement action concludes, successfully and unsuccessfully, respectively.
+       * `no_improvement_required` means that the first evaluation passed all its
+       * metrics!
+       */
+      improvement_tool_status?:
+        | 'improved'
+        | 'improvement_failed'
+        | 'no_improvement_required'
+        | 'improvement_required';
+
+      /**
+       * A list of key improvements made to the model_output to address the failures.
+       */
+      key_improvements?: Array<string>;
 
       /**
        * The model input used for the evaluation.
@@ -269,6 +304,10 @@ export namespace DefendResponse {
     file_name?: string;
 
     file_size?: number;
+
+    presigned_url?: string;
+
+    presigned_url_expires_at?: string;
   }
 
   export interface Stats {
@@ -305,9 +344,16 @@ export interface DefendUpdateResponse {
    * A unique workflow ID.
    */
   workflow_id: string;
+
+  /**
+   * The name of the workflow.
+   */
+  name?: string;
 }
 
 export interface WorkflowEventDetailResponse {
+  analysis_of_failures: Array<string>;
+
   /**
    * History of evaluations for the event.
    */
@@ -355,6 +401,8 @@ export interface WorkflowEventDetailResponse {
     | 'improvement_required'
     | null;
 
+  key_improvements: Array<unknown>;
+
   /**
    * Status of the event.
    */
@@ -393,10 +441,18 @@ export interface WorkflowEventDetailResponse {
    * `file_search` is enabled.
    */
   files?: Array<WorkflowEventDetailResponse.File>;
+
+  /**
+   * The maximum number of improvement attempts to be applied to one event before it
+   * is considered failed.
+   */
+  max_improvement_attempts?: number;
 }
 
 export namespace WorkflowEventDetailResponse {
   export interface EvaluationHistory {
+    analysis_of_failures?: string;
+
     attempt?: string;
 
     created_at?: string;
@@ -411,11 +467,17 @@ export namespace WorkflowEventDetailResponse {
 
     guardrail_metrics?: Array<string>;
 
+    improvement_tool_status?:
+      | 'improved'
+      | 'improvement_failed'
+      | 'no_improvement_required'
+      | 'improvement_required';
+
+    key_improvements?: Array<string>;
+
     model_input?: { [key: string]: unknown };
 
     model_output?: string;
-
-    modified_at?: string;
 
     nametag?: string;
 
@@ -434,10 +496,19 @@ export namespace WorkflowEventDetailResponse {
     file_name?: string;
 
     file_size?: number;
+
+    presigned_url?: string;
+
+    presigned_url_expires_at?: string;
   }
 }
 
 export interface WorkflowEventResponse {
+  /**
+   * The ID of the billing request for the event.
+   */
+  billing_request_id: string;
+
   /**
    * The time the event was created in UTC.
    */
@@ -549,8 +620,8 @@ export interface DefendRetrieveWorkflowParams {
 export interface DefendSubmitEventParams {
   /**
    * A dictionary of inputs sent to the LLM to generate output. The dictionary must
-   * contain at least a `user_prompt` field or a `system_prompt` field. For the
-   * ground_truth_adherence guardrail metric, `ground_truth` should be provided.
+   * contain a `user_prompt` field. For the ground_truth_adherence guardrail metric,
+   * `ground_truth` should be provided.
    */
   model_input: DefendSubmitEventParams.ModelInput;
 
@@ -581,8 +652,8 @@ export interface DefendSubmitEventParams {
 export namespace DefendSubmitEventParams {
   /**
    * A dictionary of inputs sent to the LLM to generate output. The dictionary must
-   * contain at least a `user_prompt` field or a `system_prompt` field. For the
-   * ground_truth_adherence guardrail metric, `ground_truth` should be provided.
+   * contain a `user_prompt` field. For the ground_truth_adherence guardrail metric,
+   * `ground_truth` should be provided.
    */
   export interface ModelInput {
     /**
@@ -597,7 +668,7 @@ export namespace DefendSubmitEventParams {
      * domain-specific signals your system already knows and wants the model to
      * condition on.
      */
-    context?: Array<string>;
+    context?: Array<ModelInput.Context>;
 
     /**
      * The ground truth for evaluating the Ground Truth Adherence guardrail.
@@ -608,6 +679,20 @@ export namespace DefendSubmitEventParams {
      * The system prompt used to generate the output.
      */
     system_prompt?: string;
+  }
+
+  export namespace ModelInput {
+    export interface Context {
+      /**
+       * The content of the message.
+       */
+      content?: string;
+
+      /**
+       * The role of the speaker.
+       */
+      role?: string;
+    }
   }
 }
 
