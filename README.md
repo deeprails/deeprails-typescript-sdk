@@ -56,7 +56,9 @@ const params: DeepRails.DefendCreateWorkflowParams = {
   custom_hallucination_threshold_values: { completeness: 0.7, instruction_adherence: 0.75 },
   web_search: true,
 };
-const defendCreateResponse: DeepRails.DefendCreateResponse = await client.defend.createWorkflow(params);
+const defendCreateResponse: DeepRails.DefendCreateResponse = await client.defend.createWorkflow(
+  params,
+);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -117,7 +119,13 @@ const client = new DeepRails({
 });
 
 // Or, configure per-request:
-await client.defend.createWorkflow({ improvement_action: 'fixit', name: 'Push Alert Workflow', threshold_type: 'custom', custom_hallucination_threshold_values: { completeness: 0.7, instruction_adherence: 0.75 }, web_search: true }, {
+await client.defend.createWorkflow({
+  improvement_action: 'fixit',
+  name: 'Push Alert Workflow',
+  threshold_type: 'custom',
+  custom_hallucination_threshold_values: { completeness: 0.7, instruction_adherence: 0.75 },
+  web_search: true,
+}, {
   maxRetries: 5,
 });
 ```
@@ -134,7 +142,13 @@ const client = new DeepRails({
 });
 
 // Override per-request:
-await client.defend.createWorkflow({ improvement_action: 'fixit', name: 'Push Alert Workflow', threshold_type: 'custom', custom_hallucination_threshold_values: { completeness: 0.7, instruction_adherence: 0.75 }, web_search: true }, {
+await client.defend.createWorkflow({
+  improvement_action: 'fixit',
+  name: 'Push Alert Workflow',
+  threshold_type: 'custom',
+  custom_hallucination_threshold_values: { completeness: 0.7, instruction_adherence: 0.75 },
+  web_search: true,
+}, {
   timeout: 5 * 1000,
 });
 ```
