@@ -7,9 +7,11 @@ export {
   type DefendUpdateResponse,
   type WorkflowEventDetailResponse,
   type WorkflowEventResponse,
+  type DefendSubmitAndStreamEventResponse,
   type DefendCreateWorkflowParams,
   type DefendRetrieveEventParams,
   type DefendRetrieveWorkflowParams,
+  type DefendSubmitAndStreamEventParams,
   type DefendSubmitEventParams,
   type DefendUpdateWorkflowParams,
 } from './defend';

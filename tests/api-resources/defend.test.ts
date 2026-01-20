@@ -77,6 +77,35 @@ describe('resource defend', () => {
     ).rejects.toThrow(DeepRails.NotFoundError);
   });
 
+  // Prism doesn't support text/event-stream responses
+  test.skip('submitAndStreamEvent: only required params', async () => {
+    const responsePromise = client.defend.submitAndStreamEvent('workflow_id', {
+      model_input: { foo: 'bar' },
+      model_output: 'model_output',
+      model_used: 'model_used',
+      run_mode: 'fast',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  // Prism doesn't support text/event-stream responses
+  test.skip('submitAndStreamEvent: required and optional params', async () => {
+    const response = await client.defend.submitAndStreamEvent('workflow_id', {
+      model_input: { foo: 'bar' },
+      model_output: 'model_output',
+      model_used: 'model_used',
+      run_mode: 'fast',
+      stream: true,
+      nametag: 'nametag',
+    });
+  });
+
   // Prism tests are disabled
   test.skip('submitEvent: only required params', async () => {
     const responsePromise = client.defend.submitEvent('workflow_id', {
