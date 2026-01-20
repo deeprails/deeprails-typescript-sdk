@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.22.0 (2026-01-20)
+
+Full Changelog: [v1.21.0...v1.22.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.21.0...v1.22.0)
+
+### Features
+
+* **api:** manual updates ([7b0c743](https://github.com/deeprails/deeprails-typescript-sdk/commit/7b0c74395d06bf52ef84fd1f56af03d8b694ffde))
+
+
+### Chores
+
+* break long lines in snippets into multiline ([d103ed3](https://github.com/deeprails/deeprails-typescript-sdk/commit/d103ed3c0cb25e88a4a680376b699e7e8dbc933a))
+* **internal:** codegen related update ([6610185](https://github.com/deeprails/deeprails-typescript-sdk/commit/6610185dab7c035bb4b9faa69f8e9ec2c6eda80e))
+* **internal:** update `actions/checkout` version ([73712e5](https://github.com/deeprails/deeprails-typescript-sdk/commit/73712e5c6bc6ea1143c318c4c8e8a9c5435d8b96))
+* **internal:** upgrade babel, qs, js-yaml ([ef5e89c](https://github.com/deeprails/deeprails-typescript-sdk/commit/ef5e89c88ce81a06dc767f1d76ac72dbaf60e208))
+
 ## 1.21.0 (2025-12-23)
 
 Full Changelog: [v1.20.0...v1.21.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.20.0...v1.21.0)
