@@ -7,12 +7,14 @@ Types:
 - <code><a href="./src/resources/defend.ts">DefendUpdateResponse</a></code>
 - <code><a href="./src/resources/defend.ts">WorkflowEventDetailResponse</a></code>
 - <code><a href="./src/resources/defend.ts">WorkflowEventResponse</a></code>
+- <code><a href="./src/resources/defend.ts">DefendSubmitAndStreamEventResponse</a></code>
 
 Methods:
 
 - <code title="post /defend">client.defend.<a href="./src/resources/defend.ts">createWorkflow</a>({ ...params }) -> DefendCreateResponse</code>
 - <code title="get /defend/{workflow_id}/events/{event_id}">client.defend.<a href="./src/resources/defend.ts">retrieveEvent</a>(eventID, { ...params }) -> WorkflowEventDetailResponse</code>
 - <code title="get /defend/{workflow_id}">client.defend.<a href="./src/resources/defend.ts">retrieveWorkflow</a>(workflowID, { ...params }) -> DefendResponse</code>
+- <code title="post /defend/{workflow_id}/events?stream=true">client.defend.<a href="./src/resources/defend.ts">submitAndStreamEvent</a>(workflowID, { ...params }) -> string</code>
 - <code title="post /defend/{workflow_id}/events">client.defend.<a href="./src/resources/defend.ts">submitEvent</a>(workflowID, { ...params }) -> WorkflowEventResponse</code>
 - <code title="put /defend/{workflow_id}">client.defend.<a href="./src/resources/defend.ts">updateWorkflow</a>(workflowID, { ...params }) -> DefendUpdateResponse</code>
 
