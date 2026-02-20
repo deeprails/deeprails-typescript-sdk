@@ -8,7 +8,7 @@ const client = new DeepRails({
 });
 
 describe('resource files', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('upload: only required params', async () => {
     const responsePromise = client.files.upload({ files: ['string'] });
     const rawResponse = await responsePromise.asResponse();
@@ -20,7 +20,7 @@ describe('resource files', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('upload: required and optional params', async () => {
     const response = await client.files.upload({ files: ['string'] });
   });
