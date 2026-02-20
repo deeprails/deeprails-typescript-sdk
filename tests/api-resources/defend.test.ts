@@ -8,7 +8,7 @@ const client = new DeepRails({
 });
 
 describe('resource defend', () => {
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('createWorkflow: only required params', async () => {
     const responsePromise = client.defend.createWorkflow({
       improvement_action: 'regen',
@@ -24,7 +24,7 @@ describe('resource defend', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('createWorkflow: required and optional params', async () => {
     const response = await client.defend.createWorkflow({
       improvement_action: 'regen',
@@ -40,7 +40,7 @@ describe('resource defend', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieveEvent: only required params', async () => {
     const responsePromise = client.defend.retrieveEvent('event_id', { workflow_id: 'workflow_id' });
     const rawResponse = await responsePromise.asResponse();
@@ -52,12 +52,12 @@ describe('resource defend', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieveEvent: required and optional params', async () => {
     const response = await client.defend.retrieveEvent('event_id', { workflow_id: 'workflow_id' });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieveWorkflow', async () => {
     const responsePromise = client.defend.retrieveWorkflow('workflow_id');
     const rawResponse = await responsePromise.asResponse();
@@ -69,7 +69,7 @@ describe('resource defend', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('retrieveWorkflow: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -77,7 +77,7 @@ describe('resource defend', () => {
     ).rejects.toThrow(DeepRails.NotFoundError);
   });
 
-  // Prism doesn't support text/event-stream responses
+  // Mock server doesn't support text/event-stream responses
   test.skip('submitAndStreamEvent: only required params', async () => {
     const responsePromise = client.defend.submitAndStreamEvent('workflow_id', {
       model_input: { foo: 'bar' },
@@ -94,7 +94,7 @@ describe('resource defend', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism doesn't support text/event-stream responses
+  // Mock server doesn't support text/event-stream responses
   test.skip('submitAndStreamEvent: required and optional params', async () => {
     const response = await client.defend.submitAndStreamEvent('workflow_id', {
       model_input: { foo: 'bar' },
@@ -106,7 +106,7 @@ describe('resource defend', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('submitEvent: only required params', async () => {
     const responsePromise = client.defend.submitEvent('workflow_id', {
       model_input: { user_prompt: 'user_prompt' },
@@ -123,7 +123,7 @@ describe('resource defend', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('submitEvent: required and optional params', async () => {
     const response = await client.defend.submitEvent('workflow_id', {
       model_input: {
@@ -139,7 +139,7 @@ describe('resource defend', () => {
     });
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('updateWorkflow', async () => {
     const responsePromise = client.defend.updateWorkflow('workflow_id');
     const rawResponse = await responsePromise.asResponse();
@@ -151,7 +151,7 @@ describe('resource defend', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Prism tests are disabled
+  // Mock server tests are disabled
   test.skip('updateWorkflow: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
