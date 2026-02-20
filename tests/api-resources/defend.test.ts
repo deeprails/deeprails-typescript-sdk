@@ -77,7 +77,7 @@ describe('resource defend', () => {
     ).rejects.toThrow(DeepRails.NotFoundError);
   });
 
-  // Mock server doesn't support text/event-stream responses
+  // Mock server tests are disabled
   test.skip('submitAndStreamEvent: only required params', async () => {
     const responsePromise = client.defend.submitAndStreamEvent('workflow_id', {
       model_input: { foo: 'bar' },
@@ -94,7 +94,7 @@ describe('resource defend', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  // Mock server doesn't support text/event-stream responses
+  // Mock server tests are disabled
   test.skip('submitAndStreamEvent: required and optional params', async () => {
     const response = await client.defend.submitAndStreamEvent('workflow_id', {
       model_input: { foo: 'bar' },
