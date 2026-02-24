@@ -60,7 +60,7 @@ $ yarn link deeprails
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link -—global deeprails
+$ pnpm link --global deeprails
 ```
 
 ## Running tests
