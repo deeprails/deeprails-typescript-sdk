@@ -83,7 +83,7 @@ describe('resource defend', () => {
       model_input: { foo: 'bar' },
       model_output: 'model_output',
       model_used: 'model_used',
-      run_mode: 'fast',
+      run_mode: 'super_fast',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -100,7 +100,7 @@ describe('resource defend', () => {
       model_input: { foo: 'bar' },
       model_output: 'model_output',
       model_used: 'model_used',
-      run_mode: 'fast',
+      run_mode: 'super_fast',
       stream: true,
       nametag: 'nametag',
     });
@@ -112,7 +112,7 @@ describe('resource defend', () => {
       model_input: { user_prompt: 'user_prompt' },
       model_output: 'model_output',
       model_used: 'model_used',
-      run_mode: 'precision_plus_codex',
+      run_mode: 'super_fast',
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -134,7 +134,7 @@ describe('resource defend', () => {
       },
       model_output: 'model_output',
       model_used: 'model_used',
-      run_mode: 'precision_plus_codex',
+      run_mode: 'super_fast',
       nametag: 'nametag',
     });
   });
