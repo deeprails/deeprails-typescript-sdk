@@ -207,8 +207,15 @@ export namespace MonitorDetailResponse {
     /**
      * Run mode for the evaluation. The run mode allows the user to optimize for speed,
      * accuracy, and cost by determining which models are used to evaluate the event.
+     * Note: `super_fast` do not support Web Search or File Search capabilities.
      */
-    run_mode: 'precision_plus' | 'precision' | 'smart' | 'economy';
+    run_mode:
+      | 'super_fast'
+      | 'fast'
+      | 'precision'
+      | 'precision_codex'
+      | 'precision_max'
+      | 'precision_max_codex';
 
     /**
      * The time the evaluation was created in UTC.
@@ -409,7 +416,13 @@ export interface MonitorEventDetailResponse {
   /**
    * The run mode used to evaluate the monitor event.
    */
-  run_mode?: 'precision_plus' | 'precision' | 'smart' | 'economy';
+  run_mode?:
+    | 'super_fast'
+    | 'fast'
+    | 'precision'
+    | 'precision_codex'
+    | 'precision_max'
+    | 'precision_max_codex';
 
   /**
    * Status of the monitor event's evaluation.
@@ -609,10 +622,19 @@ export interface MonitorSubmitEventParams {
   /**
    * Run mode for the monitor event. The run mode allows the user to optimize for
    * speed, accuracy, and cost by determining which models are used to evaluate the
-   * event. Available run modes include `precision_plus_codex`, `precision_plus`,
-   * `precision`, `smart`, and `economy`. Defaults to `smart`.
+   * event. Available run modes (fastest to most thorough): `super_fast`, `fast`,
+   * `precision`, `precision_codex`, `precision_max`, and `precision_max_codex`.
+   * Defaults to `fast`. Note: `super_fast` does not support Web Search or File
+   * Search — if your monitor has these capabilities enabled, use a different run
+   * mode or edit the monitor to disable them.
    */
-  run_mode?: 'precision_plus_codex' | 'precision_plus' | 'precision' | 'smart' | 'economy';
+  run_mode?:
+    | 'super_fast'
+    | 'fast'
+    | 'precision'
+    | 'precision_codex'
+    | 'precision_max'
+    | 'precision_max_codex';
 }
 
 export namespace MonitorSubmitEventParams {
