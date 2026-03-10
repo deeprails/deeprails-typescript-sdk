@@ -422,7 +422,7 @@ export interface WorkflowEventDetailResponse {
     | 'improvement_required'
     | null;
 
-  key_improvements: Array<unknown>;
+  key_improvements: Array<WorkflowEventDetailResponse.KeyImprovement>;
 
   /**
    * Status of the event.
@@ -505,6 +505,10 @@ export namespace WorkflowEventDetailResponse {
     progress?: number;
 
     run_mode?: string;
+  }
+
+  export interface KeyImprovement {
+    key_improvement?: Array<string>;
   }
 
   export interface Capability {
