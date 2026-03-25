@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.23.1 (2026-03-25)
+
+Full Changelog: [v1.23.0...v1.23.1](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.23.0...v1.23.1)
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([27404d6](https://github.com/deeprails/deeprails-typescript-sdk/commit/27404d69be5282fe7335b7675977e94815f9e37d))
+* **internal:** tweak CI branches ([4510e06](https://github.com/deeprails/deeprails-typescript-sdk/commit/4510e06b276ee7f165f2147d2014d2fac8f624d6))
+* **internal:** update gitignore ([c0eae77](https://github.com/deeprails/deeprails-typescript-sdk/commit/c0eae77dfb1a3f40a678efd497a76c82f6e2748d))
+
 ## 1.23.0 (2026-03-10)
 
 Full Changelog: [v1.22.0...v1.23.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.22.0...v1.23.0)
