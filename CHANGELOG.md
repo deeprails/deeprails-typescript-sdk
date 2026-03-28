@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.23.2 (2026-03-28)
+
+Full Changelog: [v1.23.1...v1.23.2](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.23.1...v1.23.2)
+
+### Chores
+
+* **internal:** codegen related update ([fad55b9](https://github.com/deeprails/deeprails-typescript-sdk/commit/fad55b94760eee75da8be2d23e51508a5a93767c))
+
 ## 1.23.1 (2026-03-25)
 
 Full Changelog: [v1.23.0...v1.23.1](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.23.0...v1.23.1)
