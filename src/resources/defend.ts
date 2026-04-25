@@ -12,33 +12,22 @@ export class Defend extends APIResource {
    * Use this endpoint to create a new guardrail workflow by specifying guardrail
    * thresholds, an improvement action, and optional extended capabilities.
    */
-  createWorkflow(
-    body: DefendCreateWorkflowParams,
-    options?: RequestOptions,
-  ): APIPromise<DefendCreateResponse> {
+  createWorkflow(body: DefendCreateWorkflowParams, options?: RequestOptions): APIPromise<DefendCreateResponse> {
     return this._client.post('/defend', { body, ...options });
   }
 
   /**
    * Use this endpoint to retrieve a specific event of a guardrail workflow
    */
-  retrieveEvent(
-    eventID: string,
-    params: DefendRetrieveEventParams,
-    options?: RequestOptions,
-  ): APIPromise<WorkflowEventDetailResponse> {
-    const { workflow_id } = params;
+  retrieveEvent(eventID: string, params: DefendRetrieveEventParams, options?: RequestOptions): APIPromise<WorkflowEventDetailResponse> {
+    const { workflow_id } = params
     return this._client.get(path`/defend/${workflow_id}/events/${eventID}`, options);
   }
 
   /**
    * Use this endpoint to retrieve the details for a specific defend workflow
    */
-  retrieveWorkflow(
-    workflowID: string,
-    query: DefendRetrieveWorkflowParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<DefendResponse> {
+  retrieveWorkflow(workflowID: string, query: DefendRetrieveWorkflowParams | null | undefined = {}, options?: RequestOptions): APIPromise<DefendResponse> {
     return this._client.get(path`/defend/${workflowID}`, { query, ...options });
   }
 
@@ -46,41 +35,23 @@ export class Defend extends APIResource {
    * Use this endpoint to submit a model input and output pair to a workflow for
    * evaluation with streaming responses.
    */
-  submitAndStreamEvent(
-    workflowID: string,
-    params: DefendSubmitAndStreamEventParams,
-    options?: RequestOptions,
-  ): APIPromise<Stream<DefendSubmitAndStreamEventResponse>> {
-    const { stream, ...body } = params;
-    return this._client.post(path`/defend/${workflowID}/events?stream=true`, {
-      query: { stream },
-      body,
-      ...options,
-      headers: buildHeaders([{ Accept: 'text/event-stream' }, options?.headers]),
-      stream: true,
-    }) as APIPromise<Stream<DefendSubmitAndStreamEventResponse>>;
+  submitAndStreamEvent(workflowID: string, params: DefendSubmitAndStreamEventParams, options?: RequestOptions): APIPromise<Stream<DefendSubmitAndStreamEventResponse>> {
+    const { stream, ...body } = params
+    return this._client.post(path`/defend/${workflowID}/events?stream=true`, { query: { stream }, body, ...options, headers: buildHeaders([{Accept: 'text/event-stream'}, options?.headers]), stream: true }) as APIPromise<Stream<DefendSubmitAndStreamEventResponse>>;
   }
 
   /**
    * Use this endpoint to submit a model input and output pair to a workflow for
    * evaluation
    */
-  submitEvent(
-    workflowID: string,
-    body: DefendSubmitEventParams,
-    options?: RequestOptions,
-  ): APIPromise<WorkflowEventResponse> {
+  submitEvent(workflowID: string, body: DefendSubmitEventParams, options?: RequestOptions): APIPromise<WorkflowEventResponse> {
     return this._client.post(path`/defend/${workflowID}/events`, { body, ...options });
   }
 
   /**
    * Use this endpoint to update an existing defend workflow if its details change.
    */
-  updateWorkflow(
-    workflowID: string,
-    body: DefendUpdateWorkflowParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<DefendUpdateResponse> {
+  updateWorkflow(workflowID: string, body: DefendUpdateWorkflowParams | null | undefined = {}, options?: RequestOptions): APIPromise<DefendUpdateResponse> {
     return this._client.put(path`/defend/${workflowID}`, { body, ...options });
   }
 }
@@ -213,11 +184,7 @@ export namespace DefendResponse {
      * `no_improvement_required` means that the first evaluation passed all its
      * metrics!
      */
-    improvement_tool_status?:
-      | 'improved'
-      | 'improvement_failed'
-      | 'no_improvement_required'
-      | 'improvement_required';
+    improvement_tool_status?: 'improved' | 'improvement_failed' | 'no_improvement_required' | 'improvement_required';
 
     /**
      * Status of the event.
@@ -276,11 +243,7 @@ export namespace DefendResponse {
        * `no_improvement_required` means that the first evaluation passed all its
        * metrics!
        */
-      improvement_tool_status?:
-        | 'improved'
-        | 'improvement_failed'
-        | 'no_improvement_required'
-        | 'improvement_required';
+      improvement_tool_status?: 'improved' | 'improvement_failed' | 'no_improvement_required' | 'improvement_required';
 
       /**
        * A list of key improvements made to the model_output to address the failures.
@@ -415,12 +378,7 @@ export interface WorkflowEventDetailResponse {
    * `no_improvement_required` means that the first evaluation passed all its
    * metrics!
    */
-  improvement_tool_status:
-    | 'improved'
-    | 'improvement_failed'
-    | 'no_improvement_required'
-    | 'improvement_required'
-    | null;
+  improvement_tool_status: 'improved' | 'improvement_failed' | 'no_improvement_required' | 'improvement_required' | null;
 
   key_improvements: Array<WorkflowEventDetailResponse.KeyImprovement>;
 
@@ -488,11 +446,7 @@ export namespace WorkflowEventDetailResponse {
 
     guardrail_metrics?: Array<string>;
 
-    improvement_tool_status?:
-      | 'improved'
-      | 'improvement_failed'
-      | 'no_improvement_required'
-      | 'improvement_required';
+    improvement_tool_status?: 'improved' | 'improvement_failed' | 'no_improvement_required' | 'improvement_required';
 
     key_improvements?: Array<string>;
 
@@ -555,7 +509,7 @@ export interface WorkflowEventResponse {
   workflow_id: string;
 }
 
-export type DefendSubmitAndStreamEventResponse = string;
+export type DefendSubmitAndStreamEventResponse = string
 
 export interface DefendCreateWorkflowParams {
   /**
@@ -843,6 +797,6 @@ export declare namespace Defend {
     type DefendRetrieveWorkflowParams as DefendRetrieveWorkflowParams,
     type DefendSubmitAndStreamEventParams as DefendSubmitAndStreamEventParams,
     type DefendSubmitEventParams as DefendSubmitEventParams,
-    type DefendUpdateWorkflowParams as DefendUpdateWorkflowParams,
+    type DefendUpdateWorkflowParams as DefendUpdateWorkflowParams
   };
 }

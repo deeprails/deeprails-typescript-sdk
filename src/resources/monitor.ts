@@ -33,11 +33,7 @@ export class Monitor extends APIResource {
    * );
    * ```
    */
-  retrieve(
-    monitorID: string,
-    query: MonitorRetrieveParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<MonitorDetailResponse> {
+  retrieve(monitorID: string, query: MonitorRetrieveParams | null | undefined = {}, options?: RequestOptions): APIPromise<MonitorDetailResponse> {
     return this._client.get(path`/monitor/${monitorID}`, { query, ...options });
   }
 
@@ -52,11 +48,7 @@ export class Monitor extends APIResource {
    * );
    * ```
    */
-  update(
-    monitorID: string,
-    body: MonitorUpdateParams | null | undefined = {},
-    options?: RequestOptions,
-  ): APIPromise<MonitorUpdateResponse> {
+  update(monitorID: string, body: MonitorUpdateParams | null | undefined = {}, options?: RequestOptions): APIPromise<MonitorUpdateResponse> {
     return this._client.put(path`/monitor/${monitorID}`, { body, ...options });
   }
 
@@ -71,12 +63,8 @@ export class Monitor extends APIResource {
    *   });
    * ```
    */
-  retrieveEvent(
-    eventID: string,
-    params: MonitorRetrieveEventParams,
-    options?: RequestOptions,
-  ): APIPromise<MonitorEventDetailResponse> {
-    const { monitor_id } = params;
+  retrieveEvent(eventID: string, params: MonitorRetrieveEventParams, options?: RequestOptions): APIPromise<MonitorEventDetailResponse> {
+    const { monitor_id } = params
     return this._client.get(path`/monitor/${monitor_id}/events/${eventID}`, options);
   }
 
@@ -93,11 +81,7 @@ export class Monitor extends APIResource {
    *   });
    * ```
    */
-  submitEvent(
-    monitorID: string,
-    body: MonitorSubmitEventParams,
-    options?: RequestOptions,
-  ): APIPromise<MonitorEventResponse> {
+  submitEvent(monitorID: string, body: MonitorSubmitEventParams, options?: RequestOptions): APIPromise<MonitorEventResponse> {
     return this._client.post(path`/monitor/${monitorID}/events`, { body, ...options });
   }
 }
@@ -209,13 +193,7 @@ export namespace MonitorDetailResponse {
      * accuracy, and cost by determining which models are used to evaluate the event.
      * Note: `super_fast` do not support Web Search or File Search capabilities.
      */
-    run_mode:
-      | 'super_fast'
-      | 'fast'
-      | 'precision'
-      | 'precision_codex'
-      | 'precision_max'
-      | 'precision_max_codex';
+    run_mode: 'super_fast' | 'fast' | 'precision' | 'precision_codex' | 'precision_max' | 'precision_max_codex';
 
     /**
      * The time the evaluation was created in UTC.
@@ -242,14 +220,7 @@ export namespace MonitorDetailResponse {
      * An array of guardrail metrics that the input and output pair will be evaluated
      * on.
      */
-    guardrail_metrics?: Array<
-      | 'correctness'
-      | 'completeness'
-      | 'instruction_adherence'
-      | 'context_adherence'
-      | 'ground_truth_adherence'
-      | 'comprehensive_safety'
-    >;
+    guardrail_metrics?: Array<'correctness' | 'completeness' | 'instruction_adherence' | 'context_adherence' | 'ground_truth_adherence' | 'comprehensive_safety'>;
 
     /**
      * An optional, user-defined tag for the evaluation.
@@ -416,13 +387,7 @@ export interface MonitorEventDetailResponse {
   /**
    * The run mode used to evaluate the monitor event.
    */
-  run_mode?:
-    | 'super_fast'
-    | 'fast'
-    | 'precision'
-    | 'precision_codex'
-    | 'precision_max'
-    | 'precision_max_codex';
+  run_mode?: 'super_fast' | 'fast' | 'precision' | 'precision_codex' | 'precision_max' | 'precision_max_codex';
 
   /**
    * Status of the monitor event's evaluation.
@@ -503,14 +468,7 @@ export interface MonitorCreateParams {
    * `completeness`, `instruction_adherence`, `context_adherence`,
    * `ground_truth_adherence`, and/or `comprehensive_safety`.
    */
-  guardrail_metrics: Array<
-    | 'correctness'
-    | 'completeness'
-    | 'instruction_adherence'
-    | 'context_adherence'
-    | 'ground_truth_adherence'
-    | 'comprehensive_safety'
-  >;
+  guardrail_metrics: Array<'correctness' | 'completeness' | 'instruction_adherence' | 'context_adherence' | 'ground_truth_adherence' | 'comprehensive_safety'>;
 
   /**
    * Name of the new monitor.
@@ -568,14 +526,7 @@ export interface MonitorUpdateParams {
    * An array of the new guardrail metrics that model input and output pairs will be
    * evaluated on.
    */
-  guardrail_metrics?: Array<
-    | 'correctness'
-    | 'completeness'
-    | 'instruction_adherence'
-    | 'context_adherence'
-    | 'ground_truth_adherence'
-    | 'comprehensive_safety'
-  >;
+  guardrail_metrics?: Array<'correctness' | 'completeness' | 'instruction_adherence' | 'context_adherence' | 'ground_truth_adherence' | 'comprehensive_safety'>;
 
   /**
    * New name of the monitor.
@@ -628,13 +579,7 @@ export interface MonitorSubmitEventParams {
    * Search — if your monitor has these capabilities enabled, use a different run
    * mode or edit the monitor to disable them.
    */
-  run_mode?:
-    | 'super_fast'
-    | 'fast'
-    | 'precision'
-    | 'precision_codex'
-    | 'precision_max'
-    | 'precision_max_codex';
+  run_mode?: 'super_fast' | 'fast' | 'precision' | 'precision_codex' | 'precision_max' | 'precision_max_codex';
 }
 
 export namespace MonitorSubmitEventParams {
@@ -695,6 +640,6 @@ export declare namespace Monitor {
     type MonitorRetrieveParams as MonitorRetrieveParams,
     type MonitorUpdateParams as MonitorUpdateParams,
     type MonitorRetrieveEventParams as MonitorRetrieveEventParams,
-    type MonitorSubmitEventParams as MonitorSubmitEventParams,
+    type MonitorSubmitEventParams as MonitorSubmitEventParams
   };
 }
