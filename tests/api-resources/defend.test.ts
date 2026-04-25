@@ -2,19 +2,16 @@
 
 import DeepRails from 'deeprails';
 
-const client = new DeepRails({
-  apiKey: 'My API Key',
-  baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
-});
+const client = new DeepRails({ apiKey: 'My API Key', baseURL: process.env["TEST_API_BASE_URL"] ?? 'http://127.0.0.1:4010' });
 
 describe('resource defend', () => {
   // Mock server tests are disabled
   test.skip('createWorkflow: only required params', async () => {
     const responsePromise = client.defend.createWorkflow({
-      improvement_action: 'regen',
-      name: 'name',
-      threshold_type: 'automatic',
-    });
+    improvement_action: 'regen',
+    name: 'name',
+    threshold_type: 'automatic',
+  });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -27,17 +24,17 @@ describe('resource defend', () => {
   // Mock server tests are disabled
   test.skip('createWorkflow: required and optional params', async () => {
     const response = await client.defend.createWorkflow({
-      improvement_action: 'regen',
-      name: 'name',
-      threshold_type: 'automatic',
-      automatic_hallucination_tolerance_levels: { foo: 'low' },
-      context_awareness: true,
-      custom_hallucination_threshold_values: { foo: 0 },
-      description: 'description',
-      file_search: ['string'],
-      max_improvement_attempts: 0,
-      web_search: true,
-    });
+    improvement_action: 'regen',
+    name: 'name',
+    threshold_type: 'automatic',
+    automatic_hallucination_tolerance_levels: { foo: 'low' },
+    context_awareness: true,
+    custom_hallucination_threshold_values: { foo: 0 },
+    description: 'description',
+    file_search: ['string'],
+    max_improvement_attempts: 0,
+    web_search: true,
+  });
   });
 
   // Mock server tests are disabled
@@ -72,19 +69,19 @@ describe('resource defend', () => {
   // Mock server tests are disabled
   test.skip('retrieveWorkflow: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.defend.retrieveWorkflow('workflow_id', { limit: 0 }, { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(DeepRails.NotFoundError);
+    await expect(client.defend.retrieveWorkflow('workflow_id', { limit: 0 }, { path: '/_stainless_unknown_path' }))
+      .rejects
+      .toThrow(DeepRails.NotFoundError);
   });
 
   // Mock server tests are disabled
   test.skip('submitAndStreamEvent: only required params', async () => {
     const responsePromise = client.defend.submitAndStreamEvent('workflow_id', {
-      model_input: { foo: 'bar' },
-      model_output: 'model_output',
-      model_used: 'model_used',
-      run_mode: 'super_fast',
-    });
+    model_input: { foo: 'bar' },
+    model_output: 'model_output',
+    model_used: 'model_used',
+    run_mode: 'super_fast',
+  });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -97,23 +94,23 @@ describe('resource defend', () => {
   // Mock server tests are disabled
   test.skip('submitAndStreamEvent: required and optional params', async () => {
     const response = await client.defend.submitAndStreamEvent('workflow_id', {
-      model_input: { foo: 'bar' },
-      model_output: 'model_output',
-      model_used: 'model_used',
-      run_mode: 'super_fast',
-      stream: true,
-      nametag: 'nametag',
-    });
+    model_input: { foo: 'bar' },
+    model_output: 'model_output',
+    model_used: 'model_used',
+    run_mode: 'super_fast',
+    stream: true,
+    nametag: 'nametag',
+  });
   });
 
   // Mock server tests are disabled
   test.skip('submitEvent: only required params', async () => {
     const responsePromise = client.defend.submitEvent('workflow_id', {
-      model_input: { user_prompt: 'user_prompt' },
-      model_output: 'model_output',
-      model_used: 'model_used',
-      run_mode: 'super_fast',
-    });
+    model_input: { user_prompt: 'user_prompt' },
+    model_output: 'model_output',
+    model_used: 'model_used',
+    run_mode: 'super_fast',
+  });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -126,17 +123,17 @@ describe('resource defend', () => {
   // Mock server tests are disabled
   test.skip('submitEvent: required and optional params', async () => {
     const response = await client.defend.submitEvent('workflow_id', {
-      model_input: {
-        user_prompt: 'user_prompt',
-        context: [{ content: 'content', role: 'user' }],
-        ground_truth: 'ground_truth',
-        system_prompt: 'system_prompt',
-      },
-      model_output: 'model_output',
-      model_used: 'model_used',
-      run_mode: 'super_fast',
-      nametag: 'nametag',
-    });
+    model_input: {
+    user_prompt: 'user_prompt',
+    context: [{ content: 'content', role: 'user' }],
+    ground_truth: 'ground_truth',
+    system_prompt: 'system_prompt',
+  },
+    model_output: 'model_output',
+    model_used: 'model_used',
+    run_mode: 'super_fast',
+    nametag: 'nametag',
+  });
   });
 
   // Mock server tests are disabled
@@ -154,23 +151,19 @@ describe('resource defend', () => {
   // Mock server tests are disabled
   test.skip('updateWorkflow: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.defend.updateWorkflow(
-        'workflow_id',
-        {
-          automatic_hallucination_tolerance_levels: { foo: 'low' },
-          context_awareness: true,
-          custom_hallucination_threshold_values: { foo: 0 },
-          description: 'description',
-          file_search: ['string'],
-          improvement_action: 'regen',
-          max_improvement_attempts: 0,
-          name: 'name',
-          threshold_type: 'automatic',
-          web_search: true,
-        },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(DeepRails.NotFoundError);
+    await expect(client.defend.updateWorkflow('workflow_id', {
+    automatic_hallucination_tolerance_levels: { foo: 'low' },
+    context_awareness: true,
+    custom_hallucination_threshold_values: { foo: 0 },
+    description: 'description',
+    file_search: ['string'],
+    improvement_action: 'regen',
+    max_improvement_attempts: 0,
+    name: 'name',
+    threshold_type: 'automatic',
+    web_search: true,
+  }, { path: '/_stainless_unknown_path' }))
+      .rejects
+      .toThrow(DeepRails.NotFoundError);
   });
 });
