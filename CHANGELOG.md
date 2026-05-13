@@ -1,5 +1,25 @@
 # Changelog
 
+## 1.24.0 (2026-05-13)
+
+Full Changelog: [v1.23.1...v1.24.0](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.23.1...v1.24.0)
+
+### Features
+
+* support setting headers via env ([fcc3818](https://github.com/deeprails/deeprails-typescript-sdk/commit/fcc38189cbc67bd3a6b7a46eef8551a9df4633ba))
+
+
+### Chores
+
+* **format:** run eslint and prettier separately ([39dd43e](https://github.com/deeprails/deeprails-typescript-sdk/commit/39dd43ed27455a7275e257d0d96030fde4ebfb65))
+* **formatter:** run prettier and eslint separately ([700725d](https://github.com/deeprails/deeprails-typescript-sdk/commit/700725dfd677313c81c3e2b4ac7849982970ddea))
+* **internal:** codegen related update ([5556f95](https://github.com/deeprails/deeprails-typescript-sdk/commit/5556f95a6bed44b55f2c252577d85f0090d6a323))
+* **internal:** codegen related update ([f8d524a](https://github.com/deeprails/deeprails-typescript-sdk/commit/f8d524a3773faeb77dbc45991da302f84ff264b4))
+* **internal:** codegen related update ([c8e5775](https://github.com/deeprails/deeprails-typescript-sdk/commit/c8e5775a66f4320244cf638403c31da2f8c5ecce))
+* **internal:** codegen related update ([fad55b9](https://github.com/deeprails/deeprails-typescript-sdk/commit/fad55b94760eee75da8be2d23e51508a5a93767c))
+* **internal:** more robust bootstrap script ([c23d19c](https://github.com/deeprails/deeprails-typescript-sdk/commit/c23d19c71e12b651e3d30a004ad50dd5c5010576))
+* redact api-key headers in debug logs ([321e940](https://github.com/deeprails/deeprails-typescript-sdk/commit/321e940db895fc621d8f8227ddd44d4210942f2e))
+
 ## 1.23.1 (2026-03-25)
 
 Full Changelog: [v1.23.0...v1.23.1](https://github.com/deeprails/deeprails-typescript-sdk/compare/v1.23.0...v1.23.1)
